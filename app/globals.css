@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --subcolor: #EBEBEB;
+  --subforecolor: #555555;
+  --line: #B2B1B1;
+  --shadow: 0 0 10px rgba(151, 151, 151, 0.329);
+  --teleparent: #313131b8;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #151515;
+    --foreground: #ededed;
+    --subcolor: #1E1E1E;
+    --subforecolor: #c6c6c6;
+    --line: #3e3e3ec1;
+    --shadow: 0 0 10px rgba(0, 0, 0, 0.318);
+    --teleparent: #606060a0;
+  }
+}
+
+*{
+  font-family: "Poppins", sans-serif;
+}
+
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: var(--foreground);
+}

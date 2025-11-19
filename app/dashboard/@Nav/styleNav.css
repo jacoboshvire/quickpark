@@ -1,0 +1,136 @@
+.navBar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1300px;
+    margin-top: 2%;
+}
+
+.logo_searchBar{
+    /* width: 100%; */
+    display: flex;
+    align-items: center;
+}
+
+.logoDesign{
+    color: var(--foreground);
+    display: flex;
+    align-items: center;
+    margin-right: 3%;
+}
+
+.logoDesign svg{
+    fill: var(--foreground);
+    margin-right: 14px;
+}
+
+.logoDesign h1{
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.searchBar{
+    stroke: var(--foreground);
+}
+
+.searchBar .searchFrom{
+    position: relative;
+    width: 481px;
+    display: flex;
+    align-items: center;
+
+}
+
+.searchBar .searchFrom label{
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    margin-left: 2%;
+}
+
+.searchBar .searchFrom label svg{
+    margin-right: 10px;
+}
+
+.searchBar .searchFrom label p{
+    color: var(--subforecolor);
+}
+
+.searchBar .searchFrom input{
+    background-color: var(--subcolor);
+    width: 100%;
+    padding: 2%;
+    border-radius: 10px;
+    padding-left: 10%;
+}
+
+.otherActivity{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 45%;
+}
+
+.sellSpace svg{
+    stroke: var(--foreground);
+}
+
+.sellSpace{
+    height: 5.5vh;
+    background-color: var(--subcolor);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    border-radius: 10px;
+}
+
+.sellLink{
+    display: flex;
+    align-items: center;
+    
+}
+
+.sellLink p{
+    width: 100%;
+    display: flex;
+}
+
+.sellLink svg{
+    margin-right: 15px;
+}
+
+.notificaton {
+    height: 5.5vh;
+    width: 5.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--subcolor);
+    border-radius: 10px;
+    margin-left: 5%;
+}
+
+.notificaton svg{
+    stroke: var(--foreground);
+}
+
+.profile{
+    margin-left: 5%;
+}
+
+.profile img{
+    width: 5vh;
+    height: 5vh;
+    border-radius: 10px;
+}
+
