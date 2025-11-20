@@ -23,7 +23,7 @@ export default function layout({
 }) {
     // const searchParams = useSearchParams()
     
-    const id = searchParams.get('id')
+    // const id = searchParams.get('id')
 
      let Test = [
     {
