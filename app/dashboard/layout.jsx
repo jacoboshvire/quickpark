@@ -21,7 +21,7 @@ import {
 export default function layout({
  Price, Nav, Distance, Time, Seller
 }) {
-    const searchParams = useSearchParams()
+    // const searchParams = useSearchParams()
     
     const id = searchParams.get('id')
 
