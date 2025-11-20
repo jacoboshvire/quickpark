@@ -262,7 +262,7 @@ export default function layout({
                                             <p>{Tests.user.username}</p>
                                         </div>
                                     </div>
-                                    <Link className="PostBtn" href={`?id=${Tests.id}`} onClick={popUp}>
+                                    <Link className="PostBtn" href={`?id=${Tests.id}`} >
                                         <p>book now</p>
                                     </Link>
                                     
