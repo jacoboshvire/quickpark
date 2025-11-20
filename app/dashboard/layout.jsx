@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Profile1 from "./../Image/Group6.png"
 import profile2 from './../Image/Group6.png'
-import {useSearchParams} from 'next/navigation'
+// import {useSearchParams} from 'next/navigation'
 import { clearPreviewData } from 'next/dist/server/api-utils'
 import { useTheme } from 'next-themes'
 import {
@@ -143,11 +143,11 @@ export default function layout({
         } 
     },[setLats, setLog])
 
-    let [pop, setPop] = useState(false)
+    // let [pop, setPop] = useState(false)
 
-    const popUp = () =>{
-        setPop(true)
-    }
+    // const popUp = () =>{
+    //     setPop(true)
+    // }
 
     // const watchId = navigator.geolocation.watchPosition(success, errorCallback)
   return (
@@ -208,11 +208,11 @@ export default function layout({
             </nav>
             </div>
         </div>
-        {
+        {/* {
         pop && <div>
             query: {Test[id].location}
         </div> || id != ''
-        }
+        } */}
 
         <div className="mainBody">
             <div className="sellerSpace">
