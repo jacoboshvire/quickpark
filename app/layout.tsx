@@ -13,7 +13,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Quickpark",
-  description: "getting your packing made easy.",
+  description: "getting your packing space made easy.",
 };
 
 export default function RootLayout({
