@@ -92,6 +92,7 @@
     transform: scale(0);
     transform-origin: center;
     z-index: 4;
+    overflow: hidden;
 }
 
 @keyframes dropdown {
@@ -148,11 +149,27 @@
 	}
 }
 
-.dropDown .list div:nth-child(even){
+.dropDown .list .divcat{
+    transition: 1s;
+}
+
+.dropDown .list .divcat:nth-child(even){
     margin: 10% 0;
     padding: 10% 0;
     border-bottom: 1px solid var(--line);
     border-top: 1px solid var(--line);
+}
+
+.dropDown .list .divcat:hover{
+    background-color: var(--line);
+    padding: 10% 10%;
+    margin: 10% 0;
+    border-radius: 5px;
+}
+
+.dropDown .list .divcat:nth-child(odd):hover{
+    padding: 10% 10%;
+    margin: 10% 0;
 }
 
 .mainBody{

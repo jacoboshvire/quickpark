@@ -71,19 +71,19 @@ export default function page() {
   return (
     <div className='dropDown'>
       <div className="list">
-        <div>
+        <div className='divcat'>
             All
         </div>
         {
           Test.map((test)=>{
             return(
-                <div key={test.id}>
+                <div key={test.id} className='divcat'>
                   {test.user.username}
                 </div>
             )
           }).slice(0,3)
         }
-        <div>
+        <div className='divcat'>
             View all
         </div>
       </div>

@@ -1,24 +1,27 @@
+"use client"
 import React from 'react'
 import './../style.css'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function Price() {
+   const router = useRouter()
   return (
     <div className='dropDown'>
       <div className="list">
-        <div >
+        <div className='divcat' onClick={() => router.push('?price=all')}>
             All
         </div>
-        <div>
+        <div className='divcat' onClick={() => router.push('?price=5£-25£')}>
           5£ - 25£
         </div>
-        <div>
+        <div className='divcat' onClick={() => router.push('?price=25£-50£')}>
           25£ - 50£
         </div>
-        <div>
+        <div className='divcat' onClick={() => router.push('?price=50£-100£')}>
           50£ - 100£
         </div>
-        <div>
+        <div className='divcat' onClick={() => router.push('?price=200£-5000£')}>
           200£ - 5000£
         </div>
       </div>

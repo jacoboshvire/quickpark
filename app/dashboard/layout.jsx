@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Profile1 from "./../Image/Group6.png"
 import profile2 from './../Image/Group6.png'
-// import {useSearchParams} from 'next/navigation'
+import { usePathname, useSearchParams} from 'next/navigation'
 import { clearPreviewData } from 'next/dist/server/api-utils'
 import { useTheme } from 'next-themes'
 import {
@@ -21,14 +21,15 @@ import {
 export default function layout({
  Price, Nav, Distance, Time, Seller
 }) {
-    // const searchParams = useSearchParams()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
     
-    // const id = searchParams.get('id')
+    const prices = searchParams.get('price')
 
      let Test = [
     {
     location : "Kiln House, Spark st, Stoke-on-trent",
-    price: "5",
+    price: [5],
     postlat: 53.0854,
     postlog: -2.4339,
     id: 1,
@@ -39,7 +40,7 @@ export default function layout({
 
     },{
     location : "Holiday Inn London - Camden Lock by IHG",
-    price: "10",
+    price: [10],
     postlat: 53.0111,
     postlog: -2.1506,
     id: 2,
@@ -49,7 +50,7 @@ export default function layout({
     }   
     },{
     location : "Holiday Inn London - Camden Lock by IHG",
-    price: "10",
+    price: [10],
     postlat: 52.994337,
     postlog: -2.18983,
     id: 3,
@@ -59,7 +60,7 @@ export default function layout({
     }   
     },{
     location : "Holiday Inn London - Camden Lock by IHG",
-    price: "10",
+    price: [10],
     postlat: 53.0111,
     postlog: -2.1506,
     id: 4,
@@ -69,7 +70,7 @@ export default function layout({
     }   
     },{
     location : "Holiday Inn London - Camden Lock by IHG",
-    price: "10",
+    price: [10],
     postlat: 53.0111,
     postlog: -2.1506,
     id: 5,
@@ -79,7 +80,7 @@ export default function layout({
     }   
     },{
     location : "Holiday Inn London - Camden Lock by IHG",
-    price: "10",
+    price: [60],
     postlat: 53.0111,
     postlog: -2.1506,
     id: 6,
@@ -88,6 +89,14 @@ export default function layout({
         image: profile2
     }   
     }]
+
+    function isBigEnough(value) {
+        return value <= 25;
+    }
+
+    // if(Test.price.filter(isBigEnough)){
+
+    // }
     
     const {themes, setThemes} = useTheme()
     let [togglebtn, setTogglebtn] = useState(false)
@@ -225,6 +234,8 @@ export default function layout({
                 {/* sellers spaces */}
                 <div className="sellers">
                     {
+                        
+                        prices !== "25£-50£" ?
                         Test.map((Tests)=>{
                             return(
                                 <div className="post" key={Tests.id}>
@@ -267,8 +278,53 @@ export default function layout({
                                     </Link>
                                     
                                 </div>
-                            )
-                            
+                            )    
+                        }) :
+                        Test.map((Tests)=>{
+                            if(Tests.price.includes([10])){
+                            return(
+                                <div className="post" key={Tests.id}>
+                                    <div className="PostMap">
+                                        <APIProvider apiKey='AIzaSyBHhvmsIAVbkqEelJxx5iB_K3OEVpuciwk'>
+                                            <div className="postmaps">
+                                                <Map className='mainMap' zoom={14} defaultCenter={{lat: Tests.postlat, lng: Tests.postlog}} mapId="3d1b9607105bf1d610120232">
+                                                    <AdvancedMarker position={{lat: Tests.postlat, lng: Tests.postlog}}>
+                                                        <Pin / >
+                                                    </AdvancedMarker>
+                                                </Map>
+                                            </div>
+                                        </APIProvider> 
+                                    </div>
+                                    <div className="postlocation">
+                                        <h2>
+                                            {Tests.location}
+                                        </h2>
+                                        <div className="priceL">
+                                            <p>
+                                            Price
+                                            </p>
+                                            <p>  
+                                                £{Tests.price}
+                                            </p>
+                                        </div>
+                                        <div className="postProfile">
+                                            <Image 
+                                            src={Tests.user.image}
+                                            alt={Tests.user.username}
+                                            height={"35"}
+                                            width={"35"}
+                                            />
+
+                                            <p>{Tests.user.username}</p>
+                                        </div>
+                                    </div>
+                                    <Link className="PostBtn" href={`?id=${Tests.id}`} >
+                                        <p>book now</p>
+                                    </Link>
+                                    
+                                </div>
+                            )  
+                            }
                         })
                     }
                 </div>
