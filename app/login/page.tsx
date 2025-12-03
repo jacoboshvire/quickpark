@@ -71,7 +71,7 @@ export default function LoginForm() {
                   21 18.5523 21 18V6C21 5.72386 20.8881 5.47386 20.7071 5.29289M3.29289 5.29289L10.5858 12.5857C11.3668 13.3668 12.6332 13.3668 13.4142 12.5857L20.7071 5.29289" 
                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <input id="email" name="email" placeholder="Email" className={ state?.errors?.email && "errorcls" }/>
+                <input id="email" name="email" placeholder="Jamemark@***.com" className={ state?.errors?.email && "errorcls" }/>
               </div>
             </div>
             {state?.errors?.email && (
@@ -94,7 +94,7 @@ export default function LoginForm() {
                   id="password"
                   name="password"
                   type={typebtn ? "password" : "text"}
-                  placeholder="Password"
+                  placeholder="********"
                   className={ state?.errors?.password && "errorcls"}
                 />
                 <div className="changeTypeBtn" onClick={toggleTypeBtn}>
