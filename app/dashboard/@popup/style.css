@@ -1,0 +1,28 @@
+.error{
+    padding: 20px;
+    background-color: var(--subcolor);
+    border-radius: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+    color: #EA4335;
+    width: fit-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    display: flex;
+}
+
+.cancelBtn{
+    width: 24px;
+    height: 24px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.cancelBtn svg path{
+    stroke: var(--foreground);
+}

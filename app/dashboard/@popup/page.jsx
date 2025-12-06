@@ -12,6 +12,7 @@ import Profile1 from "../../Image/Group6.png"
 import profile2 from '../../Image/Group6.png'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import "./style.css"
 
 export default function popup() {
     const pathname = usePathname()
@@ -32,6 +33,7 @@ export default function popup() {
     const id = searchParams.get('id')
 
     const [post, setPost] = useState(null);
+    const [error, setError] = useState(null);
 
         //setting up geolocation
     const [lats, setLats] = useState(null);
@@ -81,7 +83,8 @@ export default function popup() {
             return setPost(data);
             
           } catch (err) {
-            console.error(err);
+            // console.error(err);
+            return setError("Post has expired or does not exist");
           }
         };
     
@@ -96,6 +99,11 @@ export default function popup() {
         post.lat, post.long
       );
     }
+
+    // Remove error message
+    const removeError = () => {
+        setError(null);
+    };
   return (
     <div>
         
@@ -201,12 +209,26 @@ export default function popup() {
                 </div>
             </div>
             ) : (
-            post && pathname === "/dashboard?id=" && 
+            post && pathname === "/dashboard?id=" && id === null ? (
+                <div className="error">
+                    <p>seller post has expired or does not exist</p>
+                    <div className="cancelBtn" onClick={() => router.push('/dashboard')}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 6L6 18M6 6L18 18" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+            ) : error ? (
             <div className="error">
-                <p>seller post has expired or does not exist</p>
+                <p>{error}</p>
+                    <Link href={"/dashboard"} className="cancelBtn" onClick={removeError}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 6L6 18M6 6L18 18" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </Link>
             </div>
-        
-        )} 
+            ) : (null))
+            } 
     </div>
   )
 }
