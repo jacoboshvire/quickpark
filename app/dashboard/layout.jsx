@@ -218,7 +218,7 @@ const [post, setPost] = useState(null);
             </nav>
             </div>
         </div>
-        <Suspense loading={<div className="loading">loading seller post...</div>}>
+        <Suspense fallback={<div className="loading">Loading seller post...</div>}>
             {post && pathname === "/dashboard" && id ? (
             <div className='postpage'>
                 <div className="insidepostcard">
