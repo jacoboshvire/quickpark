@@ -283,6 +283,15 @@
     color: var(--background);
     background-color: var(--foreground);
     border-radius: 5px;
+    transform-origin: center;
+    transition: transform 300ms cubic-bezier(0.61, 1, 0.88, 1);
+    text-transform: capitalize;
+}
+
+.PostBtn:hover{
+    transform: rotate(-4deg);
+    background-color: var(--line);
+    color: var(--foreground);
 }
 
 .yourLocation{
@@ -344,6 +353,8 @@
     justify-content: center;
     border-radius: 50px;
     position: relative;
+    overflow: hidden;
+    border: 6px solid var(--background);
 }
 
 .sellerMapBtn span{
@@ -354,8 +365,262 @@
     position: absolute;
     bottom: -100%;
     padding: 2px;
+    overflow: hidden;
 }
 
 .sellerMapBtn img{
     border-radius: 50px;
+}
+
+.noPost{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10%;
+    color: var(--foreground);
+}
+
+.noPost svg{
+    fill: var(--foreground);
+    height: 100px;
+    width: 100px;
+}
+
+.noPost svg path{
+    animation: svganimate 2s ease-in-out infinite forwards;
+    transform-origin: center;
+}
+
+@keyframes svganimate {
+    0%{
+        opacity: 0.4;
+        transform: rotate(0);
+    }
+
+    50%{
+        opacity: 0.7;
+        transform: rotate(90deg);
+    }
+
+    100%{
+        opacity: 0.4;
+        transform: rotate(0);
+    }
+}
+
+.reloadpage{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top:20px;
+    padding:10px 20px;
+    width: fit-content;
+    background-color: var(--subcolor);
+    border-radius: 5px;
+}
+
+.reloadpage svg{
+    stroke: var(--foreground);
+    margin-right: 10px;
+    transform-origin: center;
+    transition: .5s cubic-bezier(0.61, 1, 0.88, 1);
+}
+
+.reloadpage:hover svg{
+    transform: rotate(45deg);
+    stroke-width: 2px;
+}
+
+.reloadpag:hover p{
+    font-weight: 600;
+}
+
+.postpage{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--transparentBG);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .5s;
+    animation: postpage 1s ease-in-out .5s forwards;
+    z-index: 100;
+    opacity: 0;
+}
+
+@keyframes postpage {
+    0%{
+        opacity: 0;
+    }
+
+    100%{
+        opacity: 1;
+    }
+}
+
+.postpage .insidepostcard{
+    width: 60%;
+    display: flex;
+    align-items: flex-start;
+    /* background-color: aliceblue; */
+    justify-content: center;
+}
+
+.postpage  .closeBtn{
+    padding: 20px;
+    background-color: var(--subcolor);
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 20px;
+    width: fit-content;
+    animation: dropdown 1s 1s ease-in-out forwards;
+    transform-origin: center;
+    transition: 500ms;
+}
+
+.postpage  .closeBtn:hover{
+    background-color: var(--line);
+    transform: rotate(4deg);
+}
+
+.postpage  .closeBtn svg{
+    stroke: var(--foreground);
+    transform-origin: center;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+}
+
+.postpage .closeBtn:hover svg{
+    transform: rotate(45deg);
+    /* stroke: var(--background); */
+}
+
+.postpage .postCard{
+    width: 100%;
+    border-radius: 10px;
+    background-color: var(--subcolor);
+    padding: 20px;
+    display: flex;
+    animation: dropdown 1s ease-in-out forwards;
+}
+
+.postmapcards{
+    width: 50vh;
+    height: 70vh;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.mainMap{
+    width: 100%;
+    height: 100%;
+    /* background-color: antiquewhite; */
+}
+.postCard .postDetails{
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+}
+.postCard .postDetails h2{
+    font-weight: 900;
+    font-size: 25px;
+    text-transform: capitalize;
+}
+
+.distanceInfo{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.distanceInfo svg{
+    stroke: var(--foreground);
+    margin-right: 10px;
+}
+
+.postcardPrice{
+    display: flex;
+}
+
+.postcardPrice p:nth-child(1){
+    border-right: 1px solid var(--line);
+    padding-right: 20px;
+    margin-right: 10px;
+}
+
+.postcardPrice p:nth-child(2){
+    font-weight: 600;
+    margin-left: 10px;
+    padding-right: 20px;
+}
+
+.profileInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    /* background-color: antiquewhite; */
+}
+
+.contactBtn svg{
+    stroke: var(--foreground);
+    width: 25px;
+    height: 25px;
+}
+
+.postcardProfile{
+    display: flex;
+    align-items: center;
+}
+
+.postcardProfile img{
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.bookBtn{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.bookBtn a{
+    width: 100%;
+    padding: 15px;
+    background-color: var(--foreground);
+    color: var(--background);
+    border-radius: 5px;
+    text-align: center;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+    transform-origin: center;
+    text-transform: capitalize;
+}
+
+.bookBtn a:hover{
+    background-color: var(--line);
+    color: var(--foreground);
+    transform: scale(1.01) rotate(1deg);
+}
+
+.postImage{
+    width: 100%;
+    height: 200px;
+    margin-top: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: var(--line);
+    display: flex;
+    align-self: center;
+}
+
+.postImage img{
+    height: auto;
+    object-fit: cover;
 }

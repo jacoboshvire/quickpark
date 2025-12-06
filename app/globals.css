@@ -10,6 +10,7 @@
   --line: #B2B1B1;
   --shadow: 0 0 10px rgba(151, 151, 151, 0.329);
   --teleparent: #313131b8;
+  --transparentBG: #ffffff4b;
 }
 
 @theme inline {
@@ -28,6 +29,7 @@
     --line: #3e3e3ec1;
     --shadow: 0 0 10px rgba(0, 0, 0, 0.318);
     --teleparent: #606060a0;
+    --transparentBG: #00000068;
   }
 }
 

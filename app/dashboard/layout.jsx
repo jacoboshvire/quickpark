@@ -1,10 +1,11 @@
 "use client"
-import {useEffect, useState, useRef} from 'react'
+import {useEffect, useState, useRef, use, Suspense} from 'react'
 import "./style.css"
 import Image from 'next/image'
 import Link from 'next/link'
 import Profile1 from "./../Image/Group6.png"
 import profile2 from './../Image/Group6.png'
+import { useRouter } from 'next/navigation';
 import { usePathname, useSearchParams} from 'next/navigation'
 import { clearPreviewData } from 'next/dist/server/api-utils'
 import { useTheme } from 'next-themes'
@@ -15,6 +16,7 @@ import {
     Pin,
     InfoWindow
 } from '@vis.gl/react-google-maps'
+import { set } from 'zod'
 
 
 
@@ -23,72 +25,48 @@ export default function layout({
 }) {
     const pathname = usePathname()
     const searchParams = useSearchParams()
+    const router = useRouter();
+
+    // ⭐ ADDED — Helpers for Distance
+    function toRad(value) {
+    return (value * Math.PI) / 180;
+    }
+    function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // km
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+
+        const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) ** 2;
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+    }
     
     const prices = searchParams.get('price')
+    const id = searchParams.get('id')
 
-     let Test = [
-    {
-    location : "Kiln House, Spark st, Stoke-on-trent",
-    price: [5],
-    postlat: 53.0854,
-    postlog: -2.4339,
-    id: 1,
-    user: {
-        username : "sarah_lovemoney",
-        image: Profile1
-    }
+    let sellerUrl = "https://quickpark-backend.vercel.app/api/sellerpost"
+  
+      async function sellerApi() {
+          let res = await fetch(sellerUrl)
+          let data = await res.json()
+          console.log(data)
+          return data
+      }
 
-    },{
-    location : "Holiday Inn London - Camden Lock by IHG",
-    price: [10],
-    postlat: 53.0111,
-    postlog: -2.1506,
-    id: 2,
-    user:{
-        username: "jane_cheap",
-        image: profile2
-    }   
-    },{
-    location : "Holiday Inn London - Camden Lock by IHG",
-    price: [10],
-    postlat: 52.994337,
-    postlog: -2.18983,
-    id: 3,
-    user:{
-        username: "jane_cheap",
-        image: profile2
-    }   
-    },{
-    location : "Holiday Inn London - Camden Lock by IHG",
-    price: [10],
-    postlat: 53.0111,
-    postlog: -2.1506,
-    id: 4,
-    user:{
-        username: "jane_cheap",
-        image: profile2
-    }   
-    },{
-    location : "Holiday Inn London - Camden Lock by IHG",
-    price: [10],
-    postlat: 53.0111,
-    postlog: -2.1506,
-    id: 5,
-    user:{
-        username: "jane_cheap",
-        image: profile2
-    }   
-    },{
-    location : "Holiday Inn London - Camden Lock by IHG",
-    price: [60],
-    postlat: 53.0111,
-    postlog: -2.1506,
-    id: 6,
-    user:{
-        username: "jane_cheap",
-        image: profile2
-    }   
-    }]
+    let [seller, setSeller] = useState([])
+    useEffect(() =>{
+    sellerApi().then((data) => {
+          setSeller(data.Seller)
+          console.log(data)
+        }).catch(e=>{
+          console.log(e)
+        })
+    }, [setSeller])
 
     function isBigEnough(value) {
         return value <= 25;
@@ -152,13 +130,36 @@ export default function layout({
         } 
     },[setLats, setLog])
 
-    // let [pop, setPop] = useState(false)
+const [post, setPost] = useState(null);
+// function SellerCardModal({ id }) {
 
-    // const popUp = () =>{
-    //     setPop(true)
-    // }
+  useEffect(() => {
+    if (!id) return;
 
-    // const watchId = navigator.geolocation.watchPosition(success, errorCallback)
+    const fetchSeller = async () => {
+      try {
+        const res = await fetch(`https://quickpark-backend.vercel.app/api/sellerpost/${id}`, { cache: "no-store" });
+        const data = await res.json();
+        console.log("post 1 seller",data)
+        return setPost(data);
+        
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchSeller();
+  }, [id]);
+
+    // ⭐ ADDED — Compute Distance Safely
+    let distanceKm = null;
+    if (lats && log && post?.lat && post?.long) {
+      distanceKm = getDistance(
+        lats, log,
+        post.lat, post.long
+      );
+    }
+    
   return (
     <div className="Dashboard">
         {Nav}
@@ -217,33 +218,128 @@ export default function layout({
             </nav>
             </div>
         </div>
-        {/* {
-        pop && <div>
-            query: {Test[id].location}
-        </div> || id != ''
-        } */}
+        <Suspense loading={<div className="loading">loading seller post...</div>}>
+            {post && pathname === "/dashboard" && id ? (
+            <div className='postpage'>
+                <div className="insidepostcard">
+                    <div className="closeBtn" onClick={() => router.push('/dashboard')}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 6L6 18M6 6L18 18" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </div>
+                    <div className="postCard">
+                        <div className="postcardMap">
+                            <APIProvider apiKey='AIzaSyBHhvmsIAVbkqEelJxx5iB_K3OEVpuciwk'>
+                                <div className="postmapcards">
+                                    <Map className='mainMap' defaultZoom={14} defaultCenter={{lat: post.lat, lng: post.long}} mapId="3d1b9607105bf1d610120232">
+                                        <AdvancedMarker position={{lat: post.lat, lng: post.long}}>
+                                            <Pin / >
+                                        </AdvancedMarker>
+                                    </Map>
+                                </div>
+                            </APIProvider> 
+                        </div>
+                        <div className="postDetails">
+                            <h2>
+                                {post.locations}
+                            </h2>
+                            {/* ⭐ ADDED — Show Distance */}
+                            {distanceKm && (
+                            <p className="distanceInfo">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 14C13.6569 14 15 12.6569 15 11C15 9.34315 13.6569 8 12 8C10.3431 8 9 9.34315 9 11C9 12.6569 10.3431 14 12 14Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M12 21C16.4183 19 20 15.4183 20 11C20 6.58172 16.4183 3 12 3C7.58172 3 4 6.58172 4 11C4 15.4183 7.58172 19 12 21Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+
+                                {distanceKm.toFixed(2)} km from you
+                            </p>
+                            )}
+
+                            <div className="postcardTime">
+                                <p>
+                                    Available from: <b>{post.timeNeeded}</b>
+                                </p>
+                            </div>
+                            <div className="postcardPrice">
+                                <p>Price</p>
+                                <p>£{post.price}</p>
+                            </div>
+                            <div className="profileInfo">
+                                <div className="postcardProfile">
+                                    <Image 
+                                    src={Profile1}
+                                    alt={"seller profile"}
+                                    height={"40"}
+                                    width={"40"}
+                                    />
+
+                                    <p>{post.accountname}</p>
+                                </div>
+                                <div className="contactBtn">
+                                    <a href={`tel:${post.phonenumber}`}>
+                                        <svg  viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19.375 14.375H19.3875M14.375 14.375H14.3875M9.375 14.375H9.3875M19.125 23.8751L26.25 26.2501L23.875 19.1251C23.875 19.1251 25 17.5 25 14.375C25 8.50697 20.243 3.75 14.375 3.75C8.50697 3.75 3.75 8.50697 3.75 14.375C3.75 20.243 8.50697 25 14.375 25C17.6059 25 19.125 23.8751 19.125 23.8751Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="postImage">
+                                <Image 
+                                src={post.image ? post.image : profile2}
+                                alt={"seller post image"}
+                                height={post.imagewidth ? post.imageheight : "300"}
+                                width={post.imageheight ? post.imagewidth : "400"}
+                                /> 
+                            </div>
+                            <div className="bookBtn">
+                                <Link className="book" href={`#`} >
+                                    <p>book now</p>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ) : (
+            post && pathname === "/dashboard?id=" && 
+            <div className="error">
+                <p>seller post has expired or does not exist</p>
+            </div>
+            )}
+        </Suspense>
 
         <div className="mainBody">
             <div className="sellerSpace">
                 {/* numebers of seller space */}
                 <div className="numOfPost">
                     <p>
-                        <b>"{Test.length}"</b> Car park available for grabs
+                        <b>"{seller.length}"</b> Car park available for grabs
                     </p>
                 </div>
                 {/* sellers spaces */}
                 <div className="sellers">
+                    <div className="reloadpage" onClick={() => window.location.reload()}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 15L10 19L14 23"/>
+                            <path d="M18.0622 8.5C18.7138 9.62862 19.0374 10.9167 18.9966 12.2193C18.9557 13.5219 18.5521 14.7872 17.8311 15.8728C17.11 16.9584 16.1003 17.8212 14.9155 18.364C13.7307 18.9067 12.4179 19.108 11.1249 18.9451" stroke="white" strokeLinecap="round"/>
+                            <path d="M10 9L14 5L10 1"/>
+                            <path d="M5.93782 15.5C5.27676 14.355 4.95347 13.0462 5.0054 11.7251C5.05733 10.404 5.48234 9.12457 6.23124 8.03498C6.98013 6.9454 8.02229 6.09019 9.23708 5.56834C10.4519 5.04649 11.7896 4.87934 13.0955 5.08625" strokeLinecap="round"/>
+                         </svg>
+                         <p>
+                            reload page
+                         </p>
+                    </div>
                     {
-                        
-                        prices !== "25£-50£" ?
-                        Test.map((Tests)=>{
+                        seller.length !== 0 ?
+                  
+                        seller.map((Tests)=>{
                             return(
-                                <div className="post" key={Tests.id}>
+                                <div className="post" key={Tests._id}>
                                     <div className="PostMap">
                                         <APIProvider apiKey='AIzaSyBHhvmsIAVbkqEelJxx5iB_K3OEVpuciwk'>
                                             <div className="postmaps">
-                                                <Map className='mainMap' zoom={14} defaultCenter={{lat: Tests.postlat, lng: Tests.postlog}} mapId="3d1b9607105bf1d610120232">
-                                                    <AdvancedMarker position={{lat: Tests.postlat, lng: Tests.postlog}}>
+                                                <Map className='mainMap' zoom={14} defaultCenter={{lat: Tests.lat, lng: Tests.long}} mapId="3d1b9607105bf1d610120232">
+                                                    <AdvancedMarker position={{lat: Tests.lat, lng: Tests.long}}>
                                                         <Pin / >
                                                     </AdvancedMarker>
                                                 </Map>
@@ -252,7 +348,7 @@ export default function layout({
                                     </div>
                                     <div className="postlocation">
                                         <h2>
-                                            {Tests.location}
+                                            {Tests.locations}
                                         </h2>
                                         <div className="priceL">
                                             <p>
@@ -264,73 +360,35 @@ export default function layout({
                                         </div>
                                         <div className="postProfile">
                                             <Image 
-                                            src={Tests.user.image}
-                                            alt={Tests.user.username}
+                                            src={Profile1}
+                                            alt={"seller profile"}
                                             height={"35"}
                                             width={"35"}
                                             />
 
-                                            <p>{Tests.user.username}</p>
+                                            <p>{Tests.accountname}</p>
                                         </div>
                                     </div>
-                                    <Link className="PostBtn" href={`?id=${Tests.id}`} >
+                                    <Link className="PostBtn" href={`?id=${Tests._id}`} >
                                         <p>book now</p>
                                     </Link>
                                     
                                 </div>
                             )    
-                        }) :
-                        Test.map((Tests)=>{
-                            if(Tests.price.includes([10])){
-                            return(
-                                <div className="post" key={Tests.id}>
-                                    <div className="PostMap">
-                                        <APIProvider apiKey='AIzaSyBHhvmsIAVbkqEelJxx5iB_K3OEVpuciwk'>
-                                            <div className="postmaps">
-                                                <Map className='mainMap' zoom={14} defaultCenter={{lat: Tests.postlat, lng: Tests.postlog}} mapId="3d1b9607105bf1d610120232">
-                                                    <AdvancedMarker position={{lat: Tests.postlat, lng: Tests.postlog}}>
-                                                        <Pin / >
-                                                    </AdvancedMarker>
-                                                </Map>
-                                            </div>
-                                        </APIProvider> 
-                                    </div>
-                                    <div className="postlocation">
-                                        <h2>
-                                            {Tests.location}
-                                        </h2>
-                                        <div className="priceL">
-                                            <p>
-                                            Price
-                                            </p>
-                                            <p>  
-                                                £{Tests.price}
-                                            </p>
-                                        </div>
-                                        <div className="postProfile">
-                                            <Image 
-                                            src={Tests.user.image}
-                                            alt={Tests.user.username}
-                                            height={"35"}
-                                            width={"35"}
-                                            />
-
-                                            <p>{Tests.user.username}</p>
-                                        </div>
-                                    </div>
-                                    <Link className="PostBtn" href={`?id=${Tests.id}`} >
-                                        <p>book now</p>
-                                    </Link>
-                                    
-                                </div>
-                            )  
-                            }
                         })
+                        :
+                        <div className='noPost'>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.0283 1.75H10.9714V10.9717H1.75V13.0288H10.9714V22.25H13.0283V13.0288H22.25V10.9717H13.0283V1.75Z" />
+                                <path opacity="0.4" d="M19.9747 5.47934L18.5203 4.0249L11.9996 10.5456L5.47902 4.02507L4.02441 5.47968L10.545 12.0002L4.02459 18.5206L5.47902 19.975L11.9994 13.4547L18.5201 19.9754L19.9747 18.5208L13.454 12.0001L19.9747 5.47934Z" />
+                            </svg>
+                            <p>No seller available yet</p>
+                        </div>
                     }
                 </div>
             </div>
             <div className="map">
-                <APIProvider apiKey={process.env.GOOGLE_KEY}>
+                <APIProvider apiKey='AIzaSyBHhvmsIAVbkqEelJxx5iB_K3OEVpuciwk'>
                     <div className="maps" >
                         { lats ?
                         <Map defaultZoom={15} defaultCenter={{lat: lats, lng:log} } 
@@ -340,17 +398,20 @@ export default function layout({
                                     <span className='dotLocation'></span>
                                 </div> 
                             </AdvancedMarker>
-                             {Test.map((locations) => (
+                             {seller.map((locations) => (
                                 <AdvancedMarker
-                                key={locations.id}
-                                position={{lat:locations.postlat , lng:locations.postlog}} >
+                                key={locations._id}
+                                position={{lat:locations.lat , lng:locations.long}} >
                                 <div className='sellerMapBtn'>
-                                    <Image
-                                        src={locations.user.image}
-                                        alt={locations.user.username}
+                                    <Link href={`?id=${locations._id}`}>
+                                         <Image
+                                        src={locations.image}
+                                        alt={locations.accountname}
                                         height={"40"}
                                         width={"40"}
                                     />
+                                    </Link>
+                                   
                                     <span></span>
                                 </div>
                                 </AdvancedMarker>
@@ -367,11 +428,3 @@ export default function layout({
     </div>
   )
 }
-
-const test = ({ points }) => {
-    return (
-    <>
-     
-    </>
-  );
-};
