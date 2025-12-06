@@ -624,3 +624,36 @@
     height: auto;
     object-fit: cover;
 }
+
+.shareLink{
+    margin-left: 20px;
+    cursor: pointer;
+    background-color: var(--line);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.shareLink svg{
+    fill: var(--foreground);
+    width: 25px;
+    height: 25px;
+}
+
+.shareLink:hover svg{
+    animation: shareicon 2s ease-in-out forwards;
+    transform-origin: center; 
+}
+
+@keyframes shareicon {
+    0%{
+        transform: scale(1);
+    }
+
+    50%{
+        transform: scale(1.2);
+    }
+
+    100%{
+        transform: scale(1);
+    }
+}

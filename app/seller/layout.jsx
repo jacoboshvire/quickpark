@@ -69,6 +69,51 @@ export default function seller({
               setErr(true)
           })
       },)
+
+    const [locations, setLocationvalue] = useState("");
+    const [postalcode, setPostalcode] = useState("");
+    const [phonenumber, setPhonenumber] = useState("");
+    const [price, setPrice] = useState("");
+    const [image, setImage] = useState("");
+    const [sortcode, setSortcode] = useState("");
+    const [accountnumber, setAccountnumber] = useState("");
+    const [duration, setDuration] = useState("");
+    const [timeNeeded, setTimeNeeded] = useState("");
+    const [accountname, setAccountname] = useState(""); 
+    const [errMsg, setErrMsg] = useState("");
+
+    async function handleSubmit(e) {
+    e.preventDefault();
+    try{
+        
+        const response = await fetch("https://quickpark-backend.vercel.app/api/sellerpost", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            locations,
+            postalcode,
+            phonenumber,
+            price,
+            image,
+            sortcode,
+            accountnumber,
+            duration,
+            timeNeeded,
+            accountname,
+    
+          }),
+        });
+    
+        const data = await response.json();
+        console.log("Server response:", data);
+    } catch (e) {
+        console.log("Error submitting form:", e);
+        setErrMsg(e.message);
+    }
+  }
+
   return (
     <>
     {Nav}
@@ -81,10 +126,14 @@ export default function seller({
              Seller page
             </p>
         </Link>
-
+        {errMsg &&
+        <div className="err">
+            {errMsg}
+        </div>
+        }
         {/* Form for seller */}
         <div className="sellerForm">
-            <form action="#">
+            <form  onSubmit={handleSubmit}>
                 <div className="emailInput">
                     <label htmlFor="email">
                         <p>Location</p>
@@ -96,7 +145,7 @@ export default function seller({
                             <path d="M12 21C16.4183 19 20 15.4183 20 11C20 6.58172 16.4183 3 12 3C7.58172 3 4 6.58172 4 11C4 15.4183 7.58172 19 12 21Z"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
 
-                        <input id="email" name="email" placeholder="Location" type='text' defaultValue={ useLocal ? (mapData ? mapData : "") : ""}/>
+                        <input id="email" name="email" placeholder="Location" type='text' defaultValue={ useLocal ? (mapData ? mapData : "") : ""} onChange={e => {}}/>
                     </div>
                     <div className={!useLocal ? "useLocation" : "useLocation locationActive"} onClick={useLocation}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,6 +218,28 @@ export default function seller({
                         </label>
                         <div className="insideInput">
                             <input id="email" name="email" placeholder="65123***" type='number'/>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div className="PostalOther">
+                    <div className="emailInput postalCode">
+                        <label htmlFor="email">
+                            <p>duration</p>
+                            <br/>
+                        </label>
+                        <div className="insideInput">
+                            <input id="email" name="postalCode" placeholder="5" type='number' />
+                        </div>
+                    </div>
+                    <div className="emailInput postalCode">
+                        <label htmlFor="email">
+                            <p>when are you ready</p>
+                            <br/>
+                        </label>
+                        <div className="insideInput">
+                            <input id="email" name="email" placeholder="5 min" type='number'/>
                         </div>
                     </div>
                 </div>

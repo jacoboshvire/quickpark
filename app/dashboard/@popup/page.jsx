@@ -18,6 +18,17 @@ export default function popup() {
     const searchParams = useSearchParams()
     const router = useRouter()
 
+
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = async () => {
+        await navigator.clipboard.writeText(`https://quickparks.vercel.app/${pathname}?${searchParams.toString()}`);
+        setCopied(true);
+
+        // Hide the message after 2 seconds
+        setTimeout(() => setCopied(false), 2000);
+    };
+
     const id = searchParams.get('id')
 
     const [post, setPost] = useState(null);
@@ -87,6 +98,7 @@ export default function popup() {
     }
   return (
     <div>
+        
         {post && pathname === "/dashboard" && id ? (
             <div className='postpage'>
                 <div className="insidepostcard">
@@ -165,6 +177,35 @@ export default function popup() {
                                 <Link className="book" href={`#`} >
                                     <p>book now</p>
                                 </Link>
+                                <div onClick={handleCopy} className="shareLink">
+                                    {copied ? 
+                                    // <div className="copyicon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g id="Iconly/Regular/Outline/Tick Square">
+                                            <g id="Tick Square">
+                                            <path id="Fill 1" fillRule="evenodd" clipRule="evenodd" d="M7.665 3.5C5.135 3.5 3.5 5.233 3.5 7.916V16.084C3.5 18.767 5.135 20.5 7.665 20.5H16.333C18.864 20.5 20.5 18.767 20.5 16.084V7.916C20.5 5.233 18.864 3.5 16.334 3.5H7.665ZM16.333 22H7.665C4.276 22 2 19.622 2 16.084V7.916C2 4.378 4.276 2 7.665 2H16.334C19.723 2 22 4.378 22 7.916V16.084C22 19.622 19.723 22 16.333 22Z" />
+                                            <path id="Fill 3" fillRule="evenodd" clipRule="evenodd" d="M10.8134 15.1229C10.6224 15.1229 10.4294 15.0499 10.2834 14.9029L7.90945 12.5299C7.61645 12.2369 7.61645 11.7629 7.90945 11.4699C8.20245 11.1769 8.67645 11.1769 8.96945 11.4699L10.8134 13.3119L15.0294 9.09695C15.3224 8.80395 15.7964 8.80395 16.0894 9.09695C16.3824 9.38995 16.3824 9.86395 16.0894 10.1569L11.3434 14.9029C11.1974 15.0499 11.0054 15.1229 10.8134 15.1229Z"/>
+                                            </g>
+                                            </g>
+                                        </svg>
+                                    // </div> 
+                                    : 
+                                    // <div className="sharelink">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g id="Iconly/Regular/Outline/Send">
+                                            <g id="Send">
+                                            <mask id="mask0_33437_4693" maskUnits="userSpaceOnUse" x="2" y="3" width="20" height="20">
+                                            <path id="Clip 2" fillRule="evenodd" clipRule="evenodd" d="M2 3.00037H21.499V22.4994H2V3.00037Z" fill="white"/>
+                                            </mask>
+                                            <g mask="url(#mask0_33437_4693)">
+                                            <path id="Fill 1" fillRule="evenodd" clipRule="evenodd" d="M10.8049 14.8178L14.4619 20.7508C14.6219 21.0108 14.8719 21.0078 14.9729 20.9938C15.0739 20.9798 15.3169 20.9178 15.4049 20.6228L19.9779 5.17777C20.0579 4.90477 19.9109 4.71877 19.8449 4.65277C19.7809 4.58677 19.5979 4.44577 19.3329 4.52077L3.87695 9.04677C3.58394 9.13277 3.51994 9.37877 3.50594 9.47977C3.49194 9.58277 3.48794 9.83777 3.74695 10.0008L9.74794 13.7538L15.0499 8.39577C15.3409 8.10177 15.8159 8.09877 16.1109 8.38977C16.4059 8.68077 16.4079 9.15677 16.1169 9.45077L10.8049 14.8178ZM14.8949 22.4998C14.1989 22.4998 13.5609 22.1458 13.1849 21.5378L9.30794 15.2468L2.95194 11.2718C2.26694 10.8428 1.90894 10.0788 2.01994 9.27577C2.12994 8.47277 2.68094 7.83477 3.45494 7.60777L18.9109 3.08177C19.6219 2.87377 20.3839 3.07077 20.9079 3.59277C21.4319 4.11977 21.6269 4.88977 21.4149 5.60377L16.8419 21.0478C16.6129 21.8248 15.9729 22.3738 15.1719 22.4808C15.0779 22.4928 14.9869 22.4998 14.8949 22.4998Z"/>
+                                            </g>
+                                            </g>
+                                            </g>
+                                        </svg>
+                                    // </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
