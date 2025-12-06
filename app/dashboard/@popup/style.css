@@ -14,12 +14,14 @@
     box-shadow: var(--shadow);
     z-index: 1000;
     display: flex;
-    animation: dropdown 1s ease-in-out forwards;
+    animation: dropdowns 1s ease-in-out forwards;
+    transform-origin: center;
 }
 
-@keyframes dropdown {
+@keyframes dropdowns {
     0% {
 		transform: scale(0.9);
+        transform: translate(-50%, -50%);
 	}
 
 	4% {
@@ -27,15 +29,15 @@
 	}
 
 	8% {
-		transform: scale(0.9);
+		transform: scale(0.9)translate(-50%, -50%);
 	}
 
 	18% {
-		transform: scale(0.91);
+		transform: scale(0.91)translate(-50%, -50%);
 	}
 
 	20% {
-		transform: scale(0.9);
+		transform: scale(0.9)translate(-50%, -50%);
 	}
 
 	0% {
@@ -43,15 +45,15 @@
 	}
 
 	16% {
-		transform: scale(0.32);
+		transform: scale(0.32)translate(-50%, -50%);
 	}
 
 	28% {
-		transform: scale(0.913);
+		transform: scale(0.913)translate(-50%, -50%);
 	}
 
 	44% {
-		transform: scale(0.95);
+		transform: scale(0.95)translate(-50%, -50%);
 	}
 
 	59% {
@@ -59,15 +61,16 @@
 	}
 
 	73% {
-		transform: scale(0.91);
+		transform: scale(0.91)translate(-50%, -50%);
 	}
 
 	88% {
-		transform: scale(1);
+		transform: scale(1)translate(-50%, -50%);
 	}
 
 	100% {
 		transform: scale(1);
+        transform: translate(-50%, -50%);
 	}
 }
 
