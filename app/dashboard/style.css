@@ -634,7 +634,7 @@
 }
 
 .shareLink svg{
-    fill: var(--foreground);
+    stroke: var(--foreground);
     width: 25px;
     height: 25px;
 }
