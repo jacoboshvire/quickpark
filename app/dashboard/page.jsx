@@ -1,7 +1,8 @@
+import Layout from './layout'
 export default function dashboard() {
   return (
-    <div className="dropDown">
-        null
-    </div>
+    <Suspense fallback={<div>Loading dashboard…</div>}>
+      <Layout />
+    </Suspense>
   )
 }
