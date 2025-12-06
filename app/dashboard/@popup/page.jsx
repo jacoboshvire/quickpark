@@ -111,7 +111,7 @@ export default function popup() {
                             <h2>
                                 {post.locations}
                             </h2>
-                            {/* ⭐ ADDED — Show Distance */}
+                            {/*Show Distance */}
                             {distanceKm && (
                             <p className="distanceInfo">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -145,8 +145,10 @@ export default function popup() {
                                 </div>
                                 <div className="contactBtn">
                                     <a href={`tel:${post.phonenumber}`}>
-                                        <svg  viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.375 14.375H19.3875M14.375 14.375H14.3875M9.375 14.375H9.3875M19.125 23.8751L26.25 26.2501L23.875 19.1251C23.875 19.1251 25 17.5 25 14.375C25 8.50697 20.243 3.75 14.375 3.75C8.50697 3.75 3.75 8.50697 3.75 14.375C3.75 20.243 8.50697 25 14.375 25C17.6059 25 19.125 23.8751 19.125 23.8751Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14.353 2.5C18.054 2.911 20.978 5.831 21.393 9.532"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M14.353 6.043C16.124 6.387 17.508 7.772 17.853 9.543" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M11.0315 12.4724C15.0205 16.4604 15.9254 11.8467 18.4653 14.3848C20.9138 16.8328 22.3222 17.3232 19.2188 20.4247C18.8302 20.737 16.3613 24.4943 7.68447 15.8197C-0.993406 7.144 2.76157 4.67244 3.07394 4.28395C6.18377 1.17385 6.66682 2.58938 9.11539 5.03733C11.6541 7.5765 7.04254 8.48441 11.0315 12.4724Z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                         </svg>
                                     </a>
                                 </div>
