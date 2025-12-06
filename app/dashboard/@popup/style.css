@@ -79,6 +79,12 @@
     height: 24px;
     margin-left: 10px;
     cursor: pointer;
+    transform-origin: center;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+}
+
+.cancelBtn svg:hover {
+    transform: rotate(45deg);
 }
 
 .cancelBtn svg path{
