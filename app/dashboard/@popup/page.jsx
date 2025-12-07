@@ -80,6 +80,7 @@ export default function popup() {
             const res = await fetch(`https://quickpark-backend.vercel.app/api/sellerpost/${id}`, { cache: "no-store" });
             const data = await res.json();
             console.log("post 1 seller",data)
+            console.log(data.user)
             return setPost(data);
             
           } catch (err) {
@@ -99,14 +100,13 @@ export default function popup() {
         post.lat, post.long
       );
     }
-
+    
     // Remove error message
     const removeError = () => {
         setError(null);
     };
   return (
     <div>
-        
         {post && pathname === "/dashboard" && id ? (
             <div className='postpage'>
                 <div className="insidepostcard">
@@ -154,14 +154,16 @@ export default function popup() {
                             </div>
                             <div className="profileInfo">
                                 <div className="postcardProfile">
-                                    <Image 
-                                    src={Profile1}
-                                    alt={"seller profile"}
-                                    height={"40"}
-                                    width={"40"}
-                                    />
+                                    <div className="avatar">
+                                        <Image 
+                                        src={post?.user?.avatar || "https://res.cloudinary.com/dr0yyqvj6/image/upload/v1765055574/avatar_l6mc3s.png"}
+                                        alt={"seller profile"}
+                                        height={"30"}
+                                        width={"30"}
+                                        />
+                                    </div>
 
-                                    <p>{post.accountname}</p>
+                                    <p>{post?.user?.fullname&&(post.user.fullname.length > 20 ? post.user.fullname.substring(0, 10) + "..." : post.user.fullname) || "unknown user"}</p>
                                 </div>
                                 <div className="contactBtn">
                                     <a href={`tel:${post.phonenumber}`}>

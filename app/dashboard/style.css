@@ -269,13 +269,20 @@
     display: flex;
     align-items: center;
     margin-top: 5%;
+    text-transform: capitalize;
 }
 
 .postlocation .postProfile img{
+    width: 100%;
+    height: auto;
+}
+
+.postlocation .postProfile .avatar{
     width: 35px;
     height: 35px;
     border-radius: 5px;
     margin-right: 10px;
+    overflow: hidden;
 }
 
 .PostBtn{
@@ -576,13 +583,24 @@
 .postcardProfile{
     display: flex;
     align-items: center;
+    overflow: hidden;
+
 }
 
 .postcardProfile img{
+    width: 100%;
+    height: auto;
+}
+
+.postcardProfile .avatar{
+    overflow: hidden;
     width: 40px;
     height: 40px;
     border-radius: 5px;
     margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .bookBtn{

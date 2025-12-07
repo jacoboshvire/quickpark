@@ -210,14 +210,16 @@ export default function layout({
                                             </p>
                                         </div>
                                         <div className="postProfile">
-                                            <Image 
-                                            src={Profile1}
-                                            alt={"seller profile"}
-                                            height={"35"}
-                                            width={"35"}
-                                            />
+                                            <div className="avatar">
+                                                <Image 
+                                                src={Tests.user.avatar}
+                                                alt={"seller profile"}
+                                                height={1000}
+                                                width={1000}
+                                                />
+                                            </div>
 
-                                            <p>{Tests.accountname}</p>
+                                            <p>{Tests.user.fullname.substring(0, 20)}</p>
                                         </div>
                                     </div>
                                     <Link className="PostBtn" href={`?id=${Tests._id}`} >
@@ -256,8 +258,8 @@ export default function layout({
                                 <div className='sellerMapBtn'>
                                     <Link href={`?id=${locations._id}`}>
                                          <Image
-                                        src={locations.image}
-                                        alt={locations.accountname}
+                                        src={locations.user.avatar}
+                                        alt={locations.user.fullname}
                                         height={"40"}
                                         width={"40"}
                                     />
