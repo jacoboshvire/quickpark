@@ -1,7 +1,5 @@
 "use client"
-import React from 'react'
 import './../style.css'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 export default function Price() {
@@ -9,19 +7,19 @@ export default function Price() {
   return (
     <div className='dropDown'>
       <div className="list">
-        <div className='divcat' onClick={() => router.push('?price=all')}>
+        <div className='divcat' onClick={() => router.push('/dashboard')}>
             All
         </div>
-        <div className='divcat' onClick={() => router.push('?price=5£-25£')}>
+        <div className='divcat' onClick={() => router.push('?price=5-25')}>
           5£ - 25£
         </div>
-        <div className='divcat' onClick={() => router.push('?price=25£-50£')}>
+        <div className='divcat' onClick={() => router.push('?price=25-50')}>
           25£ - 50£
         </div>
-        <div className='divcat' onClick={() => router.push('?price=50£-100£')}>
+        <div className='divcat' onClick={() => router.push('?price=50-100')}>
           50£ - 100£
         </div>
-        <div className='divcat' onClick={() => router.push('?price=200£-5000£')}>
+        <div className='divcat' onClick={() => router.push('?price=200-5000')}>
           200£ - 5000£
         </div>
       </div>

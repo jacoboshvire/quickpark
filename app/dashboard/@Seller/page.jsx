@@ -1,73 +1,29 @@
-import React from 'react'
+"use client"
+import {useEffect, useState} from 'react'
 import './../style.css'
 import Image from 'next/image'
 import Profile1 from "./../../Image/Group6.png"
 import profile2 from './../../Image/Group6.png'
 
 export default function page() {
-  let Test = [
-    {
-    location : "Kiln House, Spark st, Stoke-on-trent",
-    price: "5",
-    postlat: 53.0854,
-    postlog: -2.4339,
-    id: 1,
-    user: {
-        username : "sarah_lovemoney",
-        image: Profile1
-    }
+  let sellerUrl = "https://quickpark-backend.vercel.app/api/sellerpost"
 
-    },{
-    location : "Holiday Inn London - Camden Lock by IHG",
-    price: "10",
-    postlat: 53.0111,
-    postlog: -2.1506,
-    id: 2,
-    user:{
-        username: "jane_cheap",
-        image: profile2
-    }   
-    },{
-    location : "Holiday Inn London - Camden Lock by IHG",
-    price: "10",
-    postlat: 53.0111,
-    postlog: -2.1506,
-    id: 3,
-    user:{
-        username: "jane_cheap",
-        image: profile2
-    }   
-    },{
-    location : "Holiday Inn London - Camden Lock by IHG",
-    price: "10",
-    postlat: 53.0111,
-    postlog: -2.1506,
-    id: 4,
-    user:{
-        username: "jane_cheap",
-        image: profile2
-    }   
-    },{
-    location : "Holiday Inn London - Camden Lock by IHG",
-    price: "10",
-    postlat: 53.0111,
-    postlog: -2.1506,
-    id: 5,
-    user:{
-        username: "jane_cheap",
-        image: profile2
-    }   
-    },{
-    location : "Holiday Inn London - Camden Lock by IHG",
-    price: "10",
-    postlat: 53.0111,
-    postlog: -2.1506,
-    id: 2,
-    user:{
-        username: "jane_cheap",
-        image: profile2
-    }   
-    }]
+    async function sellerApi() {
+        let res = await fetch(sellerUrl)
+        let data = await res.json()
+        console.log(data)
+        return data
+    }
+    let [seller, setSeller] = useState([])
+    useEffect(() =>{
+    sellerApi().then((data) => {
+          setSeller(data.Seller)
+          console.log(data)
+        }).catch(e=>{
+          console.log(e)
+        })
+    }, [setSeller])
+
   return (
     <div className='dropDown'>
       <div className="list">
@@ -75,10 +31,10 @@ export default function page() {
             All
         </div>
         {
-          Test.map((test)=>{
+          seller.map((test)=>{
             return(
-                <div key={test.id} className='divcat'>
-                  {test.user.username}
+                <div key={test._id} className='divcat'>
+                  {test.user.fullname}
                 </div>
             )
           }).slice(0,3)
