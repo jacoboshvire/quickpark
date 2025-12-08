@@ -229,7 +229,26 @@ export default function page() {
                         </Map>
                         :
                         <Map zoom={7} defaultCenter={{lat: 55.3781, lng: -3.4360}} 
-                        className='realMap'  mapId={"3d1b9607105bf1d610120232"}></Map>
+                        className='realMap'  mapId={"3d1b9607105bf1d610120232"}>
+                             {seller.map((locations) => (
+                                <AdvancedMarker
+                                key={locations._id}
+                                position={{lat:locations.lat , lng:locations.long}} >
+                                <div className='sellerMapBtn'>
+                                    <Link href={`?id=${locations._id}`}>
+                                         <Image
+                                        src={locations.user.avatar}
+                                        alt={locations.user.fullname}
+                                        height={"40"}
+                                        width={"40"}
+                                    />
+                                    </Link>
+                                   
+                                    <span></span>
+                                </div>
+                                </AdvancedMarker>
+                            ))}                          
+                        </Map>
                         }
                     </div>
                 </APIProvider>
