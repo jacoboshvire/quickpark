@@ -127,7 +127,7 @@ export default function seller({
       formData.append("image", imageFile); // REQUIRED FOR MULTER
 
       const response = await fetch(
-        "http://localhost:8080/api/sellerpost",
+        "https://quickpark-backend.vercel.app/api/sellerpost",
         {
           method: "POST",
           headers: {
