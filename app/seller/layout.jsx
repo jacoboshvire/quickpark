@@ -3,6 +3,8 @@ import {useEffect, useState, useRef} from 'react'
 import Link from 'next/link'
 import "./../profile/styleP.css"
 import "./style.css"
+import { useFormStatus } from "react-dom";
+
 import { includes, regex } from 'zod'
 
 export default function seller({
@@ -41,20 +43,23 @@ export default function seller({
       let googleUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${log}&key=${apiKey}`
      
   
-      async function googleApi() {
+    async function googleApi() {
           let res = await fetch(googleUrl)
           let data = await res.json()
           return data
-      }
-      useEffect(() =>{
+    }
+    useEffect(() =>{
       googleApi().then((data) => {
               let dataMap = data.results[0].formatted_address
             //   console.log(data.results[0].address_components)
               setMapDate(data.results[0].formatted_address)
               let portalData =  data.results[0].address_components
-            //   portalData.map((portal)=>{
-                let postReg = new RegExp(/^\bpostal-code\b$/)
-                // console.log(includes())
+                portalData.forEach(component => {
+                    if (component.types.includes("postal_code")) {
+                        setOtherData(component.long_name);
+                    }
+                });
+
               if(portalData.types.test(postReg)){
                     console.log("postal code")
                     console.log(portalData)
@@ -68,49 +73,91 @@ export default function seller({
           }).catch(e=>{
               setErr(true)
           })
-      },)
+    },)
 
-    const [locations, setLocationvalue] = useState("");
-    const [postalcode, setPostalcode] = useState("");
-    const [phonenumber, setPhonenumber] = useState("");
-    const [price, setPrice] = useState("");
-    const [image, setImage] = useState("");
-    const [sortcode, setSortcode] = useState("");
-    const [accountnumber, setAccountnumber] = useState("");
-    const [duration, setDuration] = useState("");
-    const [timeNeeded, setTimeNeeded] = useState("");
-    const [accountname, setAccountname] = useState(""); 
-    const [errMsg, setErrMsg] = useState("");
+    const [token, setToken] = useState("");    
 
-    async function handleSubmit(e) {
+    useEffect(() => {
+        if (typeof document !== "undefined") {
+        const cookieToken = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("token="))
+            ?.split("=")[1];
+
+        setToken(cookieToken || "");
+        }
+    }, []);
+
+    
+
+  // FORM STATE
+  const [locations, setLocationValue] = useState("");
+  const [postalcode, setPostalcode] = useState("");
+  const [phonenumber, setPhonenumber] = useState("");
+  const [price, setPrice] = useState("");
+  const [sortcode, setSortcode] = useState("");
+  const [accountnumber, setAccountnumber] = useState("");
+  const [duration, setDuration] = useState("");
+  const [timeNeeded, setTimeNeeded] = useState("");
+  const [accountname, setAccountname] = useState("");
+  const [imageFile, setImageFile] = useState();
+
+  const [errMsg, setErrMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
+  async function handleSubmit(e) {
     e.preventDefault();
-    try{
-        
-        const response = await fetch("https://quickpark-backend.vercel.app/api/sellerpost", {
+
+    if (!token) {
+      setErrMsg("Not logged in!");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("locations", locations);
+      formData.append("postalcode", postalcode);
+      formData.append("phonenumber", phonenumber);
+      formData.append("price", price);
+      formData.append("sortcode", sortcode);
+      formData.append("accountnumber", accountnumber);
+      formData.append("duration", duration);
+      formData.append("timeNeeded", timeNeeded);
+      formData.append("accountname", accountname);
+      formData.append("image", imageFile); // REQUIRED FOR MULTER
+
+      const response = await fetch(
+        "http://localhost:8080/api/sellerpost",
+        {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            locations,
-            postalcode,
-            phonenumber,
-            price,
-            image,
-            sortcode,
-            accountnumber,
-            duration,
-            timeNeeded,
-            accountname,
-    
-          }),
-        });
-    
-        const data = await response.json();
-        console.log("Server response:", data);
-    } catch (e) {
-        console.log("Error submitting form:", e);
-        setErrMsg(e.message);
+          body: formData,
+        }
+      );
+
+      const text = await response.text();
+      console.log("Raw Response:", text);
+
+      // Attempt JSON
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        setErrMsg("Invalid server response");
+        return;
+      }
+
+      if (!response.ok) {
+        setErrMsg(data.error || "Something went wrong");
+        return;
+      }
+
+      setSuccessMsg("Seller post created!");
+    } catch (err) {
+      console.error("Submit error:", err);
+      setErrMsg(err.message);
     }
   }
 
@@ -129,11 +176,12 @@ export default function seller({
         {errMsg &&
         <div className="err">
             {errMsg}
+            {successMsg}
         </div>
         }
         {/* Form for seller */}
         <div className="sellerForm">
-            <form  onSubmit={handleSubmit}>
+            <form  onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="emailInput">
                     <label htmlFor="email">
                         <p>Location</p>
@@ -144,8 +192,14 @@ export default function seller({
                             <path d="M12 14C13.6569 14 15 12.6569 15 11C15 9.34315 13.6569 8 12 8C10.3431 8 9 9.34315 9 11C9 12.6569 10.3431 14 12 14Z"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                             <path d="M12 21C16.4183 19 20 15.4183 20 11C20 6.58172 16.4183 3 12 3C7.58172 3 4 6.58172 4 11C4 15.4183 7.58172 19 12 21Z"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-
-                        <input id="email" name="email" placeholder="Location" type='text' defaultValue={ useLocal ? (mapData ? mapData : "") : ""} onChange={e => {}}/>
+                        <input
+                        id="email"
+                        name="location"
+                        placeholder="Location"
+                        type="text"
+                        defaultValue={ useLocal ? (mapData ? mapData : "") : ""}
+                        onChange={(e) => setLocationValue(e.target.value)}
+                        />
                     </div>
                     <div className={!useLocal ? "useLocation" : "useLocation locationActive"} onClick={useLocation}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -164,7 +218,14 @@ export default function seller({
                             <br/>
                         </label>
                         <div className="insideInput">
-                            <input id="email" name="postalCode" placeholder="SW1A 5**" type='text' defaultValue={ useLocal ? (otherData ? otherData : "") : ""}/>
+                            <input
+                                id="email"
+                                name="postalCode"
+                                placeholder="SW1A 5**"
+                                type="text"
+                                defaultValue={ useLocal ? (otherData ? otherData : "") : ""}
+                                onChange={(e) => setPostalcode(e.target.value)}
+                            />
                         </div>
                     </div>
                     <div className="emailInput postalCode">
@@ -173,7 +234,14 @@ export default function seller({
                             <br/>
                         </label>
                         <div className="insideInput">
-                            <input id="email" name="email" placeholder="07123***" type='number'/>
+                            <input
+                                id="email"
+                                name="phone"
+                                placeholder="07123***"
+                                type="tel"
+                                value={phonenumber}
+                                onChange={(e) => setPhonenumber(e.target.value)}
+                            />
                         </div>
                     </div>
                 </div>
@@ -186,7 +254,14 @@ export default function seller({
                             <br/>
                         </label>
                         <div className="insideInput">
-                            <input id="email" name="postalCode" placeholder="£50" type='text' defaultValue={"£"}/>
+                            <input
+                                id="email"
+                                name="price"
+                                placeholder="50"
+                                type="number"
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
+                            />
                         </div>
                     </div>
                     <div className="emailInput postalCode">
@@ -195,7 +270,15 @@ export default function seller({
                             <p>upload an image of the packing space</p>
                         </label>
                         <div className="insideInput file">
-                            <input id="file" name="imgOfLocation" placeholder="number" type='file'/>
+                            <input
+                                id="file"
+                                name="image"
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) =>
+                                setImageFile(e.target.files?.[0] || null)
+                                }
+                            />
                         </div>
                     </div>
                 </div>
@@ -208,7 +291,14 @@ export default function seller({
                             <br/>
                         </label>
                         <div className="insideInput">
-                            <input id="email" name="postalCode" placeholder="21 - ** - **" type='number' />
+                            <input
+                                id="email"
+                                name="sortcode"
+                                placeholder="21****"
+                                type="number"
+                                value={sortcode}
+                                onChange={(e) => setSortcode(e.target.value)}
+                            />
                         </div>
                     </div>
                     <div className="emailInput postalCode">
@@ -217,7 +307,14 @@ export default function seller({
                             <br/>
                         </label>
                         <div className="insideInput">
-                            <input id="email" name="email" placeholder="65123***" type='number'/>
+                             <input
+                                id="email"
+                                name="accountnumber"
+                                placeholder="65123***"
+                                type="number"
+                                value={accountnumber}
+                                onChange={(e) => setAccountnumber(e.target.value)}
+                            />
                         </div>
                     </div>
                 </div>
@@ -230,7 +327,14 @@ export default function seller({
                             <br/>
                         </label>
                         <div className="insideInput">
-                            <input id="email" name="postalCode" placeholder="5" type='number' />
+                            <input
+                                id="email"
+                                name="duration"
+                                placeholder="5"
+                                type="number"
+                                value={duration}
+                                onChange={(e) => setDuration(e.target.value)}
+                            />
                         </div>
                     </div>
                     <div className="emailInput postalCode">
@@ -239,7 +343,14 @@ export default function seller({
                             <br/>
                         </label>
                         <div className="insideInput">
-                            <input id="email" name="email" placeholder="5 min" type='number'/>
+                            <input
+                                id="email"
+                                name="timeNeeded"
+                                placeholder="5 mins"
+                                type="text"
+                                value={timeNeeded}
+                                onChange={(e) => setTimeNeeded(e.target.value)}
+                            />
                         </div>
                     </div>
                 </div>
@@ -251,8 +362,15 @@ export default function seller({
                         <br/>
                     </label>
                     <div className="insideInput">
-                        <input id="email" name="email" placeholder="Jacob theG.O.A.T" type='text'/>
-                        </div>
+                        <input
+                            id="email"
+                            name="accountname"
+                            placeholder="Jacob theG.O.A.T"
+                            type="text"
+                            value={accountname}
+                            onChange={(e) => setAccountname(e.target.value)}
+                        />
+                    </div>
                 </div>
                 <br />
                 <button type="submit">

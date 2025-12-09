@@ -1,5 +1,7 @@
 "use client"
 import {useEffect, useState, useRef} from 'react'
+import { useRouter } from 'next/navigation'
+import { usePathname, useSearchParams} from 'next/navigation';
 import "./styleNav.css"
 import "./../../globals.css"
 //this are for next js link and navigation
@@ -13,7 +15,12 @@ function page() {
       const [log, setLog] = useState(null);
       let [mapData, setMapDate] = useState("");
       let [err, setErr] = useState(false)
-  
+      const router = useRouter()
+      const pathname = usePathname()
+      const searchParams = useSearchParams()   
+
+      const searchQuery = searchParams.get("search")?.toLowerCase() || "";
+      const [searchText, setSearchText] = useState(searchQuery);
       useEffect(()=>{
           if(!navigator.geolocation){
               console.log("null")
@@ -28,6 +35,21 @@ function page() {
               )
           } 
       },[setLat, setLog])
+
+    function handleSearchChange(e) {
+      const value = e.target.value;
+      setSearchText(value);
+
+      const url = new URL(window.location.href);
+
+      if (value.trim() === "") {
+          url.searchParams.delete("search");
+      } else {
+          url.searchParams.set("search", value);
+      }
+
+      router.replace(url.toString()); // ← triggers re-render
+    }
   
       let apiKey = 'AIzaSyBHhvmsIAVbkqEelJxx5iB_K3OEVpuciwk'
       let googleUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${log}&key=${apiKey}`
@@ -47,6 +69,39 @@ function page() {
               setErr(true)
           })
       })
+
+    function getCookie(name) {
+      return document.cookie
+        .split("; ")
+        .find(row => row.startsWith(name + "="))
+        ?.split("=")[1];
+    }
+
+    let userApi = async () => {
+      const token = getCookie("token"); // read JWT manually
+
+      let res = await fetch("https://quickpark-backend.vercel.app/api/user/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      return data;
+    };
+
+    let [userData, setUserData] = useState({});
+
+    useEffect(() => {
+      userApi()
+        .then(data => {
+          setUserData(data);
+          console.log("USER:", data);
+        })
+        .catch(err => console.log(err));
+    }, []);
+
+
   return (
     <div className="navBar">
         <nav>
@@ -66,7 +121,7 @@ function page() {
             </div>
 
             <div className="searchBar">
-              <form id="searchFrom" className='searchFrom'> 
+              <form id="searchFrom" className='searchFrom' onChange={handleSearchChange}> 
                 <label htmlFor="search">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 20L15.8033 15.8033M18 10.5C18 6.35786 14.6421 3 10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18C14.6421 18 18 14.6421 18 10.5Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -74,7 +129,7 @@ function page() {
 
                   {/* <p>search for location here...</p> */}
                 </label>
-                <input type="search" name="search" id="seach" placeholder={mapData ? mapData: "search for location here..."}/>
+                <input type="search" name="search" id="seach" placeholder={mapData ? mapData: "search for location here..."} defaultValue={mapData ? mapData: "search for location here..."}/>
               </form>
             </div>
           </div>
@@ -95,10 +150,10 @@ function page() {
               </svg>
             </div>
             <Link className="profile" href={"/profile"}>
-              <Image src={Profile}
+              <Image src={userData.avatar ? userData.avatar : Profile}
                 alt='profile'
-                height={"5vh"}
-                width={"5vh"}
+                height={"50"}
+                width={"50"}
               />
             </Link>
           </div>

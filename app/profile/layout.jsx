@@ -1,25 +1,11 @@
 "use client"
-import {useState} from 'react'
+import {useState, useTransition, useEffect} from 'react'
 import { useFormStatus } from "react-dom";
 import { logout } from "./../login/actions";
 import Link from 'next/link'
 import Image from 'next/image'
-// import router from 'next/router'
 import Profile from "./../Image/Group6.png"
 import "./styleP.css"
-
-//test data
-let userTest = {
-    username : "russ_toomuchmoney",
-    fullname : "Russ Twoass",
-    email : "ruseIneedMoney@gmail.com",
-    profile : Profile
-} 
-
-// const finalSlashIndex = router.asPath.lastIndexOf('/')
-// const previousPath = router.asPath.slice(0, finalSlashIndex)
-
-// const { pending } = useFormStatus();
 
 
 export default function 
@@ -37,6 +23,38 @@ export default function
     const changevalue = () =>{
         setChngVa(false)
     }
+
+    const [pending, startTransition] = useTransition();
+    function getCookie(name) {
+          return document.cookie
+            .split("; ")
+            .find(row => row.startsWith(name + "="))
+            ?.split("=")[1];
+    }
+    
+        let userApi = async () => {
+          const token = getCookie("token"); // read JWT manually
+    
+          let res = await fetch("https://quickpark-backend.vercel.app/api/user/me", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+    
+          const data = await res.json();
+          return data;
+        };
+    
+        let [userData, setUserData] = useState({});
+    
+        useEffect(() => {
+          userApi()
+            .then(data => {
+              setUserData(data);
+              console.log("USER:", data);
+            })
+            .catch(err => console.log(err));
+        }, []);
   return (
 
     <div className='mainProfile'>
@@ -46,25 +64,29 @@ export default function
                 <path d="M5.16669 15.5L25.8334 15.5M5.16669 15.5L12.9167 7.75M5.16669 15.5L12.9167 23.25" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <p>
-              {userTest.username}
+              {userData.username ? userData.username : "Profile"}
             </p>
         </Link>
         <div className="mainselectionProfile">
             <form action="#">
                 <div className="changeImg">
-                    <span>
-                        <svg width="25" height="25" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M41.6666 31.25V37.5C41.6666 39.8012 39.8012 41.6667 37.5 41.6667H12.5C10.1988 41.6667 8.33331 39.8012 8.33331 37.5L8.33331 31.25M16.6666 22.9167L25 31.25M25 31.25L33.3333 22.9167M25 31.25V6.25" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        <p>
-                            Change Profile
-                        </p>
-                    </span>
-                    <Image src={userTest.profile}
-                        alt='profiles'
-                        height={"150"}
-                        width={"150"}
-                    />
+                    
+                    <label htmlFor="upload" className='imageUpload'>
+                        <span>
+                            <svg width="25" height="25" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M41.6666 31.25V37.5C41.6666 39.8012 39.8012 41.6667 37.5 41.6667H12.5C10.1988 41.6667 8.33331 39.8012 8.33331 37.5L8.33331 31.25M16.6666 22.9167L25 31.25M25 31.25L33.3333 22.9167M25 31.25V6.25" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            <p>
+                                Change Profile
+                            </p>
+                        </span>
+                        <Image src={userData.avatar ? userData.avatar : Profile}
+                            alt='profiles'
+                            height={"150"}
+                            width={"150"}
+                        />
+                    </label>
+                    <input type="file" id="upload" name="avatar" accept="image/*" />
                 </div>
                 <div className="inputLogout">
                     <div className="inputForm">
@@ -77,7 +99,7 @@ export default function
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M15.8571 12C15.8571 14.1302 14.1302 15.8571 12 15.8571C9.86976 15.8571 8.14286 14.1302 8.14286 12C8.14286 9.86972 9.86976 8.14282 12 8.14282C14.1302 8.14282 15.8571 9.86972 15.8571 12ZM15.8571 12L15.8571 13.2857C15.8571 14.7059 17.0084 15.8571 18.4286 15.8571C19.3408 15.8571 20.1422 15.3821 20.5986 14.6658C20.8528 14.2671 21 13.7936 21 13.2857V12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C13.9122 21 15.6851 20.4037 17.1429 19.3868" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
-                                <input id="email" name="email" placeholder="username" type='text' defaultValue={userTest.username}/>
+                                <input id="email" name="username" placeholder="username" type='text' defaultValue={userData.username}/>
                             </div>
                         </div>
                         <br />
@@ -92,7 +114,7 @@ export default function
                                 <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
 
-                            <input id="email" name="email" placeholder="fullname" type='text' defaultValue={userTest.fullname}/>
+                            <input id="email" name="fullname" placeholder="fullname" type='text' defaultValue={userData.fullname}/>
                             </div>
                             <br />
                             <div className="emailInput">
@@ -107,7 +129,7 @@ export default function
                                 21 18.5523 21 18V6C21 5.72386 20.8881 5.47386 20.7071 5.29289M3.29289 5.29289L10.5858 12.5857C11.3668 13.3668 12.6332 13.3668 13.4142 12.5857L20.7071 5.29289" 
                                 strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
-                                <input id="email" name="email" placeholder="Email" defaultValue={userTest.email}/>
+                                <input id="email" name="email" placeholder="Email" defaultValue={userData.email}/>
                             </div>
                             </div>
                             <br />
@@ -155,7 +177,7 @@ export default function
                     <div className="logoutBtn">
                         <div className='btnlog' onClick={() => logout()}>
                             <p>
-                                Logout 
+                                {pending ? "Logging out..." : "Logout"}
                             </p> 
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M15 4H18C19.1046 4 20 4.89543 20 6L20 18C20 19.1046 19.1046 20 18 20H15M11 16L15 12M15 12L11 8M15 12H3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

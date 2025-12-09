@@ -2,11 +2,9 @@
 import {useEffect, useState} from 'react'
 import './../style.css'
 import Image from 'next/image'
-import Profile1 from "./../../Image/Group6.png"
-import profile2 from './../../Image/Group6.png'
 
 export default function page() {
-  let sellerUrl = "https://quickpark-backend.vercel.app/api/sellerpost"
+  let sellerUrl = "https://quickpark-backend.vercel.app/api/user"
 
     async function sellerApi() {
         let res = await fetch(sellerUrl)
@@ -17,7 +15,7 @@ export default function page() {
     let [seller, setSeller] = useState([])
     useEffect(() =>{
     sellerApi().then((data) => {
-          setSeller(data.Seller)
+          setSeller(data)
           console.log(data)
         }).catch(e=>{
           console.log(e)
@@ -34,7 +32,7 @@ export default function page() {
           seller.map((test)=>{
             return(
                 <div key={test._id} className='divcat'>
-                  {test.user.fullname}
+                  {test.fullname.length > 11 ? test.fullname.slice(0,11) + "..." : test.fullname}
                 </div>
             )
           }).slice(0,3)

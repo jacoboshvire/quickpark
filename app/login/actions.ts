@@ -1,21 +1,12 @@
 "use server";
 
 import { z } from "zod";
-import { createSession, deleteSession } from "../lib/session";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-const testUser = {
-  id: "1",
-  email: "jacoshevire@gmail.com",
-  password: "12345678",
-};
-
 const loginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }).trim(),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" })
-    .trim(),
+  email: z.string().email().trim(),
+  password: z.string().min(8).trim(),
 });
 
 export async function login(prevState: any, formData: FormData) {
@@ -29,27 +20,41 @@ export async function login(prevState: any, formData: FormData) {
 
   const { email, password } = result.data;
 
-  //checking if the email/password valid 
-  if (email !== testUser.email) {
+  // 1️⃣ CALL BACKEND LOGIN API
+  const res = await fetch(
+    "https://quickpark-backend.vercel.app/api/user/login",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    }
+  );
+
+  const data = await res.json();
+
+  // 2️⃣ SHOW ERRORS IN UI
+  if (!res.ok) {
     return {
       errors: {
-        email: ["Invalid email"],
+        email: [data.message || "Invalid login"],
       },
     };
-  } else if (password !== testUser.password){
-    return {
-        errors: {
-            password: ["invalid password"]
-        }
-    }
   }
 
-  await createSession(testUser.id);
+  // 3️⃣ STORE JWT TOKEN IN COOKIE
+  (await cookies()).set("token", data.token, {
+    httpOnly: false,
+    secure: false,
+    sameSite: "strict",
+    path: "/",
+    maxAge: 7 * 24 * 60 * 60,
+  });
 
-  redirect("/");
+  // 4️⃣ REDIRECT AFTER LOGIN
+  redirect("/dashboard");
 }
 
 export async function logout() {
-  await deleteSession();
+  (await cookies()).delete("token");
   redirect("/login");
 }

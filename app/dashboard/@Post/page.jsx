@@ -24,6 +24,7 @@ export default function page() {
     const distance = searchParams.get("distance"); // example "2000"
     const time = searchParams.get("time"); // example "morning"
     const sellerName = searchParams.get("seller"); // example "jacob"
+    const searchQuery = searchParams.get("search"); // example "london"
 
     // USER LOCATION FOR DISTANCE FILTER
     const [lants, setLants] = useState(null);
@@ -92,6 +93,20 @@ export default function page() {
             const d = calculateDistance(lants, long, item.lat, item.long);
             if (d > Number(distance)) return false;
         }
+
+
+        // 5️ REGEX LOCATION SEARCH 
+        if (searchQuery) {
+            // escape regex special characters
+            const safe = searchQuery.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+            const regex = new RegExp(safe, "i"); // i = ignore case
+
+            if (!regex.test(item.locations)) {
+                return false;
+            }
+        }
+
 
         return true; // passes all filters
     });

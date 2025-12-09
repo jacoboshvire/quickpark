@@ -24,9 +24,9 @@ export function LoginForm() {
           placeholder="Password"
         />
       </div>
-      {state?.errors?.password && (
+      {/* {state?.errors?.password && (
         <p className="text-red-500">{state.errors.password}</p>
-      )}
+      )} */}
       <SubmitButton />
     </form>
   );

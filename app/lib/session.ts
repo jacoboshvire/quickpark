@@ -1,47 +1,89 @@
-import "server-only";
-import { SignJWT, jwtVerify } from "jose";
+"use server";
+
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-const secretKey = process.env.SESSION_SECRET;
-const encodedKey = new TextEncoder().encode(secretKey);
+/* ------------------ TYPES ------------------ */
 
-export async function createSession(userId: string) {
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  const session = await encrypt({ userId, expiresAt });
+export interface BackendUser {
+  _id: string;
+  fullname: string;
+  email: string;
+}
 
- (await cookies()).set("session", session, {
+export interface BackendMeResponse extends BackendUser {}
+
+/* ------------------ STORE BACKEND JWT ------------------ */
+
+export async function createSession(token: string): Promise<void> {
+  (await cookies()).set("token", token, {
     httpOnly: true,
     secure: true,
-    expires: expiresAt,
+    sameSite: "strict",
+    path: "/",
+    maxAge: 7 * 24 * 60 * 60, // 7 days
   });
 }
 
-export async function deleteSession() {
-  (await cookies()).delete("session");
+/* ------------------ DELETE SESSION ------------------ */
+
+export async function deleteSession(): Promise<void> {
+  (await cookies()).delete("token");
 }
 
-type SessionPayload = {
-  userId: string;
-  expiresAt: Date;
-};
+/* ------------------ GET RAW TOKEN ------------------ */
 
-export async function encrypt(payload: SessionPayload) {
-  return new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime("7d")
-    .sign(encodedKey);
+export async function getToken(): Promise<string | null> {
+  return (await cookies()).get("token")?.value ?? null;
 }
 
-export async function decrypt(session: string | undefined = "") {
+/* ------------------ FETCH CURRENT USER FROM BACKEND ------------------ */
+
+export async function getCurrentUser(): Promise<BackendMeResponse | null> {
+  const token = await getToken();
+  if (!token) return null;
+
+  const res = await fetch(
+    "https://quickpark-backend.vercel.app/api/user/me",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) return null;
+
+  return (await res.json()) as BackendMeResponse;
+}
+
+/* ------------------ PROTECT ROUTES ------------------ */
+
+export async function requireAuth(): Promise<BackendMeResponse> {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+  return user;
+}
+
+export async function getCurrentUsers(): Promise<BackendUser | null> {
+  const token = (await cookies()).get("token")?.value;
+
+  if (!token) return null;
+
   try {
-    const { payload } = await jwtVerify(session, encodedKey, {
-      algorithms: ["HS256"],
+    const res = await fetch("https://quickpark-backend.vercel.app/api/user/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
     });
-    return payload;
-    console.log("logged in")
+
+    if (!res.ok) return null;
+
+    return res.json() as Promise<BackendUser>;
   } catch (error) {
-    console.log("Failed to verify session");
-    console.log("logged out")
+    console.error("Error fetching /me:", error);
+    return null;
   }
 }

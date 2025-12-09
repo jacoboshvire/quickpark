@@ -39,21 +39,22 @@
     width: 70%;
 }
 
-.mainselectionProfile .changeImg img{
+.mainselectionProfile .changeImg .imageUpload img{
     width: 100%;
-    height: 100%;
+    height: auto;
 }
 
 .mainselectionProfile .changeImg{
     position: relative;
-    width: 20%;
-    height: 20%;
+    width: 200px;
+    height: 200px;
     overflow: hidden;
     border-radius: 10px;
     margin-right: 2%;
+    cursor: pointer;
 }
 
-.mainselectionProfile span {
+.mainselectionProfile .changeImg span {
     position: absolute;
     display: flex;
     width: 100%;
@@ -63,6 +64,15 @@
     background-color: var(--teleparent);
     flex-direction: column;
     color: var(--background);
+    pointer-events: none;
+}
+
+.mainselectionProfile .changeImg label{
+    cursor: pointer;
+}
+
+.mainselectionProfile input[type="file"]{
+    display: none;  
 }
 
 .mainselectionProfile span svg{
