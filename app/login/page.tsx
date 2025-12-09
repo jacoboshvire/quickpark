@@ -95,7 +95,7 @@ export default function LoginForm() {
                   name="password"
                   type={typebtn ? "password" : "text"}
                   placeholder="********"
-                  className={ state?.errors?.password && "errorcls"}
+                  // className={ state?.errors?.password && "errorcls"}
                 />
                 <div className="changeTypeBtn" onClick={toggleTypeBtn}>
                   {
@@ -114,9 +114,9 @@ export default function LoginForm() {
 
               </div>
             </div>
-            {state?.errors?.password && (
+            {/* {state?.errors?.password && (
               <p className="error">{state.errors.password}</p>
-            )}
+            )} */}
             <SubmitButton />
           </form>
           <div className="createAcc">
