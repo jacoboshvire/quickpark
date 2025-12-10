@@ -4,10 +4,12 @@ import Link from 'next/link'
 import "./../profile/styleP.css"
 import "./style.css"
 import { useFormStatus } from "react-dom";
+import { useRouter } from 'next/navigation'
 
 export default function seller({
     Nav
 }) {
+    const router = useRouter()
       //setting up geolocation
       const [lat, setLat] = useState(null);
       const [log, setLog] = useState(null);
@@ -125,7 +127,7 @@ export default function seller({
       formData.append("image", imageFile); 
 
       const response = await fetch(
-        "http://localhost:8080/api/sellerpost",
+        "https://quickpark-backend.vercel.app/api/sellerpost",
         {
           method: "POST",
           headers: {
@@ -153,10 +155,10 @@ export default function seller({
         return;
       }
 
-      setSuccessMsg("Seller post created!");
+      setSuccessMsg(data.message || "Successfully submitted!");
     } catch (err) {
       console.error("Submit error:", err);
-      setErrMsg(err.message);
+      setErrMsg("Something went wrong" );
     }
   }
 
@@ -372,7 +374,7 @@ export default function seller({
                     </div>
                 </div>
                 <br />
-                <button type="submit">
+                <button type="submit" onClick={()=>router.push(`/dashboard`)}>
                     <p>
                         Let's go
                     </p>

@@ -2,20 +2,26 @@
 
 import { useActionState , useState} from "react";
 import { useFormStatus } from "react-dom";
-import { login } from "./actions";
+import { signup } from "./actions";
 import Wave from "./../Image/Wave.png"
 import Image from "next/image";
 //this are for next js link and navigation
 import Link from 'next/link';
-import "./login.css"
-import { error } from "console";
+import "./../login/login.css";
+import "./style.css";
 
-export default function LoginForm() {
-  const [state, loginAction] = useActionState(login, undefined);
+export default function signFrom() {
+  const [state, signupAction] = useActionState(signup, undefined);
   let [typebtn, setTypebtn] = useState(true);
 
   const toggleTypeBtn = () =>{
     setTypebtn((typebtn) => (!typebtn))
+  }
+
+let [typebtn2, setTypebtn2] = useState(true);
+
+  const toggleTypeBtn2 = () =>{
+    setTypebtn2((typebtn2) => (!typebtn2))
   }
 
   return (
@@ -41,24 +47,36 @@ export default function LoginForm() {
           <div className="welcome">
             <div className="mainHeading">
               <h1 className="title">
-                Welcome Back
+                Create an account
               </h1>
-              <Image 
-              alt="wave"
-              src={Wave}
-              height={"50"}
-              width={"50"}
-              />
             </div>
             <div className="detiledWelcome">
               <p>
-                Welcome back! Let’s get you parked in no time
+                One more step, and stress is history
               </p>
             </div>
           </div>
         </div>
         <div className="formDiv">
-          <form action={loginAction} className="form">
+          <form action={signupAction} className="form">
+            <div className="emailInput">
+              <label htmlFor="email">
+                <p>Fullname</p>
+                <br/>
+              </label>
+              <div className="insideInput">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="emailsvg">
+                <path d="M16 15H8C5.79086 15 4 16.7909 4 19V21H20V19C20 16.7909 18.2091 15 16 15Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+
+                <input id="email" name="fullname" placeholder="Jame mark" className={ state?.errors?.fullname && "errorcls" }/>
+              </div>
+            </div>
+            {state?.errors?.fullname && (
+              <p className="error">{state.errors.fullname}</p>
+            )}
+            <br />
             <div className="emailInput">
               <label htmlFor="email">
                 <p>Email</p>
@@ -75,9 +93,21 @@ export default function LoginForm() {
               </div>
             </div>
             {state?.errors?.email && (
-              <p className="error">{state.errors.email}</p>
+                <p className="error">{state.errors.email}</p>
             )}
-
+            <br />
+            <div className="emailInput">
+              <label htmlFor="email">
+                <p>username</p>
+                <br/>
+              </label>
+              <div className="insideInput">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="emailsvg">
+                <path d="M15.8571 12C15.8571 14.1302 14.1302 15.8571 12 15.8571C9.86976 15.8571 8.14286 14.1302 8.14286 12C8.14286 9.86972 9.86976 8.14282 12 8.14282C14.1302 8.14282 15.8571 9.86972 15.8571 12ZM15.8571 12L15.8571 13.2857C15.8571 14.7059 17.0084 15.8571 18.4286 15.8571C19.3408 15.8571 20.1422 15.3821 20.5986 14.6658C20.8528 14.2671 21 13.7936 21 13.2857V12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C13.9122 21 15.6851 20.4037 17.1429 19.3868" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <input id="email" name="username" placeholder="Jamemark@***.com" className={ state?.errors?.email && "errorcls" }/>
+              </div>
+            </div>
             <div className="passwordInput">
               <label htmlFor="password">
                 <br/>
@@ -114,6 +144,46 @@ export default function LoginForm() {
 
               </div>
             </div>
+            {state?.errors?.password && (
+                <p className="error">{state.errors.password}</p>
+            )}
+            <div className="passwordInput">
+              <label htmlFor="password">
+                <br/>
+                <p>
+                  confirm Password
+                </p>
+                <br/>
+              </label>
+              <div className="insideInput">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="passwordIcon">
+                  <path d="M15.5 9.5L11 14L9.5 12.5M12 3L4 7C4 12.1932 6.78428 19.5098 12 21C17.2157 19.5098 20 12.1932 20 7L12 3Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <input
+                  id="password"
+                  name="confirmPassword"
+                  type={typebtn ? "password" : "text"}
+                  placeholder="********"
+                  // className={ state?.errors?.password && "errorcls"}
+                />
+                <div className="changeTypeBtn" onClick={toggleTypeBtn2}>
+                  {
+                    typebtn2 ? 
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="hidePass">
+                    <path d="M20 14.8335C21.3082 13.3317 22 12 22 12C22 12 18.3636 5 12 5C11.6588 5 11.3254 5.02013 11 5.05822C10.6578 5.09828 10.3244 5.15822 10 5.23552M12 9C12.3506 9 12.6872 9.06015 13 9.17071C13.8524 9.47199 14.528 10.1476 14.8293 11C14.9398 11.3128 15 11.6494 15 12M3 3L21 21M12 15C11.6494 15 11.3128 14.9398 11 14.8293C10.1476 14.528 9.47198 13.8524 9.1707 13C9.11386 12.8392 9.07034 12.6721 9.04147 12.5M4.14701 9C3.83877 9.34451 3.56234 9.68241 3.31864 10C2.45286 11.1282 2 12 2 12C2 12 5.63636 19 12 19C12.3412 19 12.6746 18.9799 13 18.9418" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg> :
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"  className="hidePass"> 
+                    <path d="M12 5C5.63636 5 2 12 2 12C2 12 5.63636 19 12 19C18.3636 19 22 12 22 12C22 12 18.3636 5 12 5Z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+
+                  }
+                  
+                </div>
+
+              </div>
+              {state?.errors?.confirmPassword && <p className="error">{state.errors.confirmPassword}</p>}
+            </div>
             {/* {state?.errors?.password && (
               <p className="error">{state.errors.password}</p>
             )} */}
@@ -121,7 +191,7 @@ export default function LoginForm() {
           </form>
           <div className="createAcc">
             <p>
-              you don’t have an account? click on <Link href={"/signup"}>Create account</Link>
+              you already have an account? click on  <Link href={"/login"}>Login</Link>
             </p>
           </div>
         </div>
@@ -129,7 +199,7 @@ export default function LoginForm() {
       <div className="secondcontainer">
         <div className="notetitle">
           <p>
-            Welcome back! You’re just a tap away from finding, reserving, and parking your car effortlessly
+            "Find, reserve, and park instantly stress-free parking made simple."
           </p>
         </div>
         <div className="animation">
@@ -158,7 +228,7 @@ function SubmitButton() {
   return (
     <button disabled={pending} type="submit">
       <p>
-        Login
+        Create Account
       </p>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M20 12L4 12M20 12L14 18M20 12L14 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

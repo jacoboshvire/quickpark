@@ -1,0 +1,20 @@
+.welcomeAndLogo .logos {
+    margin-bottom: 0;
+}
+
+.welcomeAndLogo .welcome .mainHeading{
+    display: flex;
+    align-items: center;
+    margin-bottom: 1%;
+}
+
+.firstcontainer{
+    transform: scale(.8);
+    /* background-color: antiquewhite; */
+    width: 50%;
+    margin-right: 0;
+}
+
+.error{
+    margin-bottom: 0;
+}
