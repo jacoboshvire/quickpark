@@ -5,8 +5,6 @@ import "./../profile/styleP.css"
 import "./style.css"
 import { useFormStatus } from "react-dom";
 
-import { includes, regex } from 'zod'
-
 export default function seller({
     Nav
 }) {
@@ -124,10 +122,10 @@ export default function seller({
       formData.append("duration", duration);
       formData.append("timeNeeded", timeNeeded);
       formData.append("accountname", accountname);
-      formData.append("image", imageFile); // REQUIRED FOR MULTER
+      formData.append("image", imageFile); 
 
       const response = await fetch(
-        "https://quickpark-backend.vercel.app/api/sellerpost",
+        "http://localhost:8080/api/sellerpost",
         {
           method: "POST",
           headers: {
@@ -150,6 +148,7 @@ export default function seller({
       }
 
       if (!response.ok) {
+        console.log(data.error)
         setErrMsg(data.error || "Something went wrong");
         return;
       }
@@ -194,7 +193,7 @@ export default function seller({
                         </svg>
                         <input
                         id="email"
-                        name="location"
+                        name="locations"
                         placeholder="Location"
                         type="text"
                         defaultValue={ useLocal ? (mapData ? mapData : "") : ""}
@@ -220,7 +219,7 @@ export default function seller({
                         <div className="insideInput">
                             <input
                                 id="email"
-                                name="postalCode"
+                                name="postalcode"
                                 placeholder="SW1A 5**"
                                 type="text"
                                 defaultValue={ useLocal ? (otherData ? otherData : "") : ""}
@@ -236,7 +235,7 @@ export default function seller({
                         <div className="insideInput">
                             <input
                                 id="email"
-                                name="phone"
+                                name="phonenumber"
                                 placeholder="07123***"
                                 type="tel"
                                 value={phonenumber}
