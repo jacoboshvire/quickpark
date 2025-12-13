@@ -123,10 +123,10 @@ function page() {
               </svg>
             </div>
             <Link className="profile" id="addlinkStyle" href={"#"}>
-              <Image src={userData.avatar ? userData.avatar : Profile}
+              <Image src={userData.avatar ? userData.avatar : "https://res.cloudinary.com/dr0yyqvj6/image/upload/v1765055574/avatar_l6mc3s.png"}
                 alt={userData.username ? userData.username : "profile"}
-                height={50}
-                width={50}
+                height={150}
+                width={150}
               />
             </Link>
           </div>
