@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 // import { usePathname } from "next/navigation";
 
 const protectedRoutes = ["/dashboard", "/profile", "/seller"];
-const publicRoutes = ["/login", "/signin", "/"];
+const publicRoutes = ["/login", "/signup", "/"];
 const homeRoutes = ["/"];
 
 export async function middleware(req) {
@@ -42,5 +42,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/profile", "/seller", "/login", "/signin", "/"],
+  matcher: ["/dashboard", "/profile", "/seller", "/login", "/signup", "/"],
 };
