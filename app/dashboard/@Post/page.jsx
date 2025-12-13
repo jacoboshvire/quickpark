@@ -22,7 +22,7 @@ export default function page() {
     // Extract multiple filters
     const price = searchParams.get("price"); // example "5-25"
     const distance = searchParams.get("distance"); // example "2000"
-    const time = searchParams.get("time"); // example "morning"
+    const duration = searchParams.get("time"); // example "morning"
     const sellerName = searchParams.get("seller"); // example "jacob"
     const searchQuery = searchParams.get("search"); // example "london"
 
@@ -54,6 +54,10 @@ export default function page() {
     let minPrice = null;
     let maxPrice = null;
 
+    // TIME RANGE PARSE
+    let minDuration = null;
+    let maxDuration = null;
+
     if (price) {
         const [min, max] = price.split("-");
         minPrice = Number(min);
@@ -62,17 +66,17 @@ export default function page() {
 
     // MULTI-FILTER SYSTEM
     const filteredSellers = seller.filter((item) => {
-        // 1️⃣ PRICE RANGE FILTER
+        // 1️ PRICE RANGE FILTER
         if (price) {
             if (!(item.price >= minPrice && item.price <= maxPrice)) {
                 return false;
             }
         }
 
-        // 2️⃣ SELLER NAME FILTER
+        // 2️ SELLER NAME FILTER
         if (sellerName) {
             if (
-                !item.user?.fullname
+                !item.user?.username
                     ?.toLowerCase()
                     .includes(sellerName.toLowerCase())
             ) {
@@ -80,15 +84,14 @@ export default function page() {
             }
         }
 
-        // 3️⃣ TIME FILTER
-        if (time) {
-            const itemTime = item.timeNeeded?.toLowerCase();
-
-            if (time === "morning" && !itemTime?.includes("am")) return false;
-            if (time === "evening" && !itemTime?.includes("pm")) return false;
+        // 3️ TIME FILTER
+        if (duration) {
+            if (!(item.duration >= minDuration && item.duration <= maxDuration)) {
+                return false;
+            }
         }
 
-        // 4️⃣ DISTANCE FILTER
+        // 4️ DISTANCE FILTER
         if (distance && lants && long) {
             const d = calculateDistance(lants, long, item.lat, item.long);
             if (d > Number(distance)) return false;
@@ -136,7 +139,7 @@ export default function page() {
                 {/* numebers of seller space */}
                 <div className="numOfPost">
                     <p>
-                        <b>"{seller.length}"</b> Car park available for grabs
+                        <b>"{filteredSellers.length}"</b> Car park available for grabs
                     </p>
                 </div>
                 {/* sellers spaces */}
@@ -191,7 +194,7 @@ export default function page() {
                                                 />
                                             </div>
 
-                                            <p>{Tests.user.fullname.substring(0, 20)}</p>
+                                            <p>{Tests.user.username.substring(0, 20)}</p>
                                         </div>
                                     </div>
                                     <Link className="PostBtn" href={`?id=${Tests._id}`} >
@@ -211,7 +214,9 @@ export default function page() {
                         </div>
                     }
                 </div>
+                
             </div>
+            <div className="backdropShadow"></div>
             <div className="map">
                 <APIProvider apiKey='AIzaSyBHhvmsIAVbkqEelJxx5iB_K3OEVpuciwk'>
                     <div className="maps" >

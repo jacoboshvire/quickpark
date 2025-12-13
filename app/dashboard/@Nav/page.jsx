@@ -150,7 +150,7 @@ function page() {
               </svg>
             </div>
             <Link className="profile" href={"/profile"}>
-              <Image src={userData.avatar ? userData.avatar : Profile}
+              <Image src={userData.avatar ? userData.avatar : "https://res.cloudinary.com/dr0yyqvj6/image/upload/v1765055574/avatar_l6mc3s.png"}
                 alt='profile'
                 height={"50"}
                 width={"50"}

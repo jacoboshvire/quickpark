@@ -10,8 +10,8 @@ export default function Price() {
         <div className='divcat' onClick={() => router.push('/dashboard')}>
             All
         </div>
-        <div className='divcat' onClick={() => router.push('?price=5-25')}>
-          5£ - 25£
+        <div className='divcat' onClick={() => router.push('?price=1-25')}>
+          1£ - 25£
         </div>
         <div className='divcat' onClick={() => router.push('?price=25-50')}>
           25£ - 50£

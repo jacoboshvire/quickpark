@@ -187,6 +187,9 @@
     height: 70vh;
     overflow: hidden;
     overflow-y: scroll;
+    backdrop-filter: blur(10px);
+    position: relative;
+    /* background-color: aliceblue; */
 }
 
 .map{
@@ -674,4 +677,18 @@
     100%{
         transform: scale(1);
     }
+}
+
+.backdropShadow{
+    position: fixed;
+    bottom: 0;
+    left: -20px;
+    width: 105vh;
+    height: 5%;
+    backdrop-filter: blur(0);
+    filter: blur(5px);
+    z-index: 10;
+    background-color: var(--background);
+    transform: rotate(180deg);
+    margin-bottom: 1%;
 }

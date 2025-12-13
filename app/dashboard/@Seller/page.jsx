@@ -2,8 +2,10 @@
 import {useEffect, useState} from 'react'
 import './../style.css'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 export default function page() {
+  let router = useRouter()
   let sellerUrl = "https://quickpark-backend.vercel.app/api/user"
 
     async function sellerApi() {
@@ -25,13 +27,13 @@ export default function page() {
   return (
     <div className='dropDown'>
       <div className="list">
-        <div className='divcat'>
+        <div className='divcat' onClick={() => router.push('/dashboard')}>
             All
         </div>
         {
           seller.map((test)=>{
             return(
-                <div key={test._id} className='divcat'>
+                <div key={test._id} className='divcat' onClick={() => router.push(`/dashboard?seller=${test.username}`)}>
                   {test.fullname.length > 11 ? test.fullname.slice(0,11) + "..." : test.fullname}
                 </div>
             )

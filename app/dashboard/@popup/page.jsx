@@ -7,10 +7,9 @@ import {
     AdvancedMarker,
     Pin,
 } from '@vis.gl/react-google-maps';
-import Image from 'next/image'
-import Profile1 from "../../Image/Group6.png"
-import profile2 from '../../Image/Group6.png'
-import { useRouter } from 'next/navigation'
+import Image from 'next/image';
+import profile2 from '../../Image/Group6.png';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link'
 import "./style.css"
 

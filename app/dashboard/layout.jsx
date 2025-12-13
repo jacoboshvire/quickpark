@@ -7,7 +7,7 @@ import { useTheme } from 'next-themes'
 
 
 export default function layout({
- Price, Nav, Distance, Time, Seller, popup, Post
+ Price, Nav, Distance, Time, Seller, popup, Post, successMsg
 }) {
     
     const {themes, setThemes} = useTheme()
@@ -102,6 +102,9 @@ export default function layout({
             </nav>
             </div>
         </div>
+        <Suspense>
+            {successMsg}
+        </Suspense>
         <Suspense fallback={<div className="loading">Loading seller post...</div>}>
             {popup}
         </Suspense>
