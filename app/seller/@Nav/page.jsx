@@ -47,6 +47,36 @@ function page() {
               setErr(true)
           })
       })
+    function getCookie(name) {
+      return document.cookie
+        .split("; ")
+        .find(row => row.startsWith(name + "="))
+        ?.split("=")[1];
+    }
+
+    let userApi = async () => {
+      const token = getCookie("token"); // read JWT manually
+
+      let res = await fetch("https://quickpark-backend.vercel.app/api/user/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      return data;
+    };
+
+    let [userData, setUserData] = useState({});
+
+    useEffect(() => {
+      userApi()
+        .then(data => {
+          setUserData(data);
+          console.log("USER:", data);
+        })
+        .catch(err => console.log(err));
+    }, []);
   return (
     <div className="navBar">
         <nav>
@@ -95,10 +125,10 @@ function page() {
               </svg>
             </div>
             <Link className="profile" href={"/profile"}>
-              <Image src={Profile}
+              <Image src={userData.avatar ? userData.avatar : "https://res.cloudinary.com/dr0yyqvj6/image/upload/v1765055574/avatar_l6mc3s.png"}
                 alt='profile'
-                height={"5vh"}
-                width={"5vh"}
+                height={50}
+                width={50}
               />
             </Link>
           </div>

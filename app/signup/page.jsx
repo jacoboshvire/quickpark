@@ -3,14 +3,15 @@
 import { useActionState , useState} from "react";
 import { useFormStatus } from "react-dom";
 import { signup } from "./actions";
-import Wave from "./../Image/Wave.png"
 import Image from "next/image";
 //this are for next js link and navigation
 import Link from 'next/link';
 import "./../login/login.css";
 import "./style.css";
+import { useRouter } from 'next/navigation'
 
 export default function signFrom() {
+  const router = useRouter();
   const [state, signupAction] = useActionState(signup, undefined);
   let [typebtn, setTypebtn] = useState(true);
 
@@ -72,10 +73,10 @@ let [typebtn2, setTypebtn2] = useState(true);
 
                 <input id="email" name="fullname" placeholder="Jame mark" className={ state?.errors?.fullname && "errorcls" }/>
               </div>
-            </div>
             {state?.errors?.fullname && (
               <p className="error">{state.errors.fullname}</p>
             )}
+            </div>
             <br />
             <div className="emailInput">
               <label htmlFor="email">
@@ -91,10 +92,10 @@ let [typebtn2, setTypebtn2] = useState(true);
                 </svg>
                 <input id="email" name="email" placeholder="Jamemark@***.com" className={ state?.errors?.email && "errorcls" }/>
               </div>
-            </div>
             {state?.errors?.email && (
                 <p className="error">{state.errors.email}</p>
             )}
+            </div>
             <br />
             <div className="emailInput">
               <label htmlFor="email">
@@ -105,8 +106,11 @@ let [typebtn2, setTypebtn2] = useState(true);
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="emailsvg">
                 <path d="M15.8571 12C15.8571 14.1302 14.1302 15.8571 12 15.8571C9.86976 15.8571 8.14286 14.1302 8.14286 12C8.14286 9.86972 9.86976 8.14282 12 8.14282C14.1302 8.14282 15.8571 9.86972 15.8571 12ZM15.8571 12L15.8571 13.2857C15.8571 14.7059 17.0084 15.8571 18.4286 15.8571C19.3408 15.8571 20.1422 15.3821 20.5986 14.6658C20.8528 14.2671 21 13.7936 21 13.2857V12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C13.9122 21 15.6851 20.4037 17.1429 19.3868" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <input id="email" name="username" placeholder="Jamemark@***.com" className={ state?.errors?.email && "errorcls" }/>
+                <input id="email" name="username" placeholder="jame_wealthy" className={ state?.errors?.username && "errorcls" }/>
               </div>
+              {state?.errors?.username && (
+                <p className="error">{state.errors.username}</p>
+            )}
             </div>
             <div className="passwordInput">
               <label htmlFor="password">
@@ -143,10 +147,10 @@ let [typebtn2, setTypebtn2] = useState(true);
                 </div>
 
               </div>
-            </div>
             {state?.errors?.password && (
                 <p className="error">{state.errors.password}</p>
             )}
+            </div>
             <div className="passwordInput">
               <label htmlFor="password">
                 <br/>
@@ -164,7 +168,7 @@ let [typebtn2, setTypebtn2] = useState(true);
                   name="confirmPassword"
                   type={typebtn ? "password" : "text"}
                   placeholder="********"
-                  // className={ state?.errors?.password && "errorcls"}
+                  className={ state?.errors?.confirmPassword && "errorcls"}
                 />
                 <div className="changeTypeBtn" onClick={toggleTypeBtn2}>
                   {
@@ -184,9 +188,6 @@ let [typebtn2, setTypebtn2] = useState(true);
               </div>
               {state?.errors?.confirmPassword && <p className="error">{state.errors.confirmPassword}</p>}
             </div>
-            {/* {state?.errors?.password && (
-              <p className="error">{state.errors.password}</p>
-            )} */}
             <SubmitButton />
           </form>
           <div className="createAcc">
@@ -224,16 +225,26 @@ let [typebtn2, setTypebtn2] = useState(true);
 
 function SubmitButton() {
   const { pending } = useFormStatus();
-
+  const router = useRouter();
+  if (pending) {
+    return (
+      <button disabled={pending} type="submit" className="submitBtn loading">
+        <div className="loader">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" strokeWidth="4" strokeLinecap="round"/>
+            </svg>
+        </div>
+      </button>
+    );
+  }
   return (
-    <button disabled={pending} type="submit">
+    <button disabled={pending} type="submit" className="submitBtn">
       <p>
         Create Account
       </p>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M20 12L4 12M20 12L14 18M20 12L14 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
-
     </button>
   );
 }

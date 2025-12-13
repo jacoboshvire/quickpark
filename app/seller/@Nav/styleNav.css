@@ -128,11 +128,15 @@ nav{
 
 .profile{
     margin-left: 5%;
-}
-
-.profile img{
+    overflow: hidden;
     width: 5vh;
     height: 5vh;
     border-radius: 10px;
 }
+
+.profile img{
+    width: 100%;
+    height: auto;
+}
+
 

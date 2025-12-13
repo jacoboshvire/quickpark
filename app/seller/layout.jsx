@@ -176,8 +176,12 @@ export default function seller({
         </Link>
         {errMsg &&
         <div className="err">
-            {errMsg}
-            {successMsg}
+            <p>
+                {errMsg}
+            </p>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onclick={()=>setErrMsg("")}>
+                <path d="M18 6L6 18M6 6L18 18" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" stroke="white"/>
+            </svg>
         </div>
         }
         {/* Form for seller */}
@@ -374,11 +378,21 @@ export default function seller({
                     </div>
                 </div>
                 <br />
-                <button type="submit" onClick={()=>router.push(`/dashboard`)}>
+                {
+                    errMsg ? (
+                    <button type="submit" onClick={()=>router.push(`/dashboard?successMsg=true`)}>
                     <p>
                         Let's go
                     </p>
-                </button>
+                    </button>
+                    ) : (
+                    <button type="submit">
+                    <p>
+                        Let's go
+                    </p>
+                    </button>
+                    )
+                }
             </form>
         </div>
         <br />

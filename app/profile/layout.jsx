@@ -1,18 +1,27 @@
 "use client"
-import {useState, useTransition, useEffect} from 'react'
+import {useState, useTransition, useEffect, useActionState} from 'react'
 import { useFormStatus } from "react-dom";
 import { logout } from "./../login/actions";
 import Link from 'next/link'
 import Image from 'next/image'
 import Profile from "./../Image/Group6.png"
 import "./styleP.css"
+import { z } from "zod";
 
-
+/* ---------------- ZOD SCHEMA ---------------- */
+const profileSchema = z.object({
+    username: z.string().min(2, "Username too short").regex(/^\S+$/, "Username cannot contain spaces").optional(),
+    fullname: z.string().min(3, "Full name too short").optional(),
+    email: z.string().email("Invalid email").optional(),
+    password: z.string().min(6, "Password too short").optional().or(z.literal("")),
+    });
 export default function 
 ({
     Nav
 }) {
     let [typebtn, setTypebtn] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
 
     const toggleTypeBtn = () =>{
         setTypebtn((typebtn) => (!typebtn))
@@ -32,43 +41,128 @@ export default function
             ?.split("=")[1];
     }
     
-        let userApi = async () => {
-          const token = getCookie("token"); // read JWT manually
+    let userApi = async () => {
+        const token = getCookie("token"); // read JWT manually
     
-          let res = await fetch("https://quickpark-backend.vercel.app/api/user/me", {
+        let res = await fetch("https://quickpark-backend.vercel.app/api/user/me", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          });
+        });
     
-          const data = await res.json();
-          return data;
-        };
+        const data = await res.json();
+        return data;
+    };
     
-        let [userData, setUserData] = useState({});
+    let [userData, setUserData] = useState({});
     
-        useEffect(() => {
-          userApi()
+    useEffect(() => {
+        userApi()
             .then(data => {
               setUserData(data);
               console.log("USER:", data);
             })
             .catch(err => console.log(err));
-        }, []);
+    }, []);
+
+    // Wait for user data before rendering form
+    if (!userData) return <p className="loading">Loading profile...</p>;
+
+  /* -------- SUBMIT HANDLER -------- */
+    async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    // ---- extract text fields for validation ----
+    const values = {
+        username: formData.get("username")?.toString(),
+        fullname: formData.get("fullname")?.toString(),
+        email: formData.get("email")?.toString(),
+        password: formData.get("password")?.toString() || undefined,
+    };
+
+    // ---- Zod validation ----
+    const parsed = profileSchema.safeParse(values);
+    if (!parsed.success) {
+        setMessage("Validation failed" + JSON.stringify(parsed.error.flatten().fieldErrors));
+        setLoading(false);
+        return;
+    }
+
+    // ---- ensure validated text is sent ----
+    Object.entries(parsed.data).forEach(([key, value]) => {
+        if (value !== undefined) {
+        formData.set(key, value);
+        }
+    });
+
+    // ---- FILE CHECK (IMPORTANT) ----
+    const avatarFile = formData.get("avatar");
+    if (avatarFile instanceof File && avatarFile.size === 0) {
+        formData.delete("avatar"); // no file selected
+    }
+
+    try {
+        const res = await fetch(
+        `https://quickpark-backend.vercel.app/api/user/${userData._id}`,
+        {
+            method: "PUT",
+            body: formData, // ✅ FILE IS SENT HERE
+        }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+        setMessage(data.message || "Update failed");
+        } else {
+        setUserData(data.user);
+        setMessage("Profile updated successfully");
+        }
+    } catch (err) {
+        setMessage("Network error");
+
+    } finally {
+        setLoading(false);
+    }
+    }
+
+
   return (
 
     <div className='mainProfile'>
         {Nav}
+
         <Link className="backBtn" href={"/"}>
             <svg width="25" height="25" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5.16669 15.5L25.8334 15.5M5.16669 15.5L12.9167 7.75M5.16669 15.5L12.9167 23.25" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <p>
-              {userData.username ? userData.username : "Profile"}
+              {userData.username ? userData.username : "Profile name"}
             </p>
         </Link>
+        {
+        message && 
+        <div className={message !== "Profile updated successfully" ? "message errMessage" : "message showMessage"}>
+            <p>
+                {message}
+            </p>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=>setMessage("")}>
+                <path d="M18 6L6 18M6 6L18 18" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+        </div>
+        }
+        {
+        loading && 
+         <div className="loadingProfile"></div>
+        }
         <div className="mainselectionProfile">
-            <form action="#">
+            <form onSubmit={handleSubmit} >
+
                 <div className="changeImg">
                     
                     <label htmlFor="upload" className='imageUpload'>
@@ -80,14 +174,16 @@ export default function
                                 Change Profile
                             </p>
                         </span>
-                        <Image src={userData.avatar ? userData.avatar : Profile}
-                            alt='profiles'
+                        <Image src={userData.avatar ? userData.avatar : "https://res.cloudinary.com/dr0yyqvj6/image/upload/v1765055574/avatar_l6mc3s.png"}
+                            alt={userData.username ? userData.username : "profile"}
                             height={"150"}
                             width={"150"}
                         />
                     </label>
-                    <input type="file" id="upload" name="avatar" accept="image/*" />
+                    <input type="file" id="upload" name="avatar"  accept='image/*'/>
+
                 </div>
+
                 <div className="inputLogout">
                     <div className="inputForm">
                         <div className="emailInput">

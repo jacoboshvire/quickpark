@@ -136,8 +136,8 @@ nav{
 }
 
 .profile img{
-    width: 5vh;
-    height: 5vh;
+    width: 100%;
+    height: auto;
 }
 
 #addlinkStyle{
