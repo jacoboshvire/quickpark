@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "app/login/LoginFrom.tsx", "app/login/page.tsx", "app/dashboard/Nav/page.jsx", "app/dashboard/layout.jsx", "app/dashboard/@popup/default.jsx", "app/dashboard/@Sort/default.jsz"  ],
+, "app/login/LoginFrom.tsx", "app/login/page.tsx", "app/dashboard/Nav/page.jsx", "app/dashboard/layout.jsx", "app/dashboard/@popup/default.jsx", "app/dashboard/@Sort/default.jsz", "middleware.js", "app/login/actions.js"  ],
   "exclude": ["node_modules"]
 }

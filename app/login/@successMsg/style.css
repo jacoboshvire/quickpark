@@ -1,0 +1,60 @@
+.mainsuccess{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: var(--subcolor);
+    border-radius: 8px;
+    padding: 30px 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeInOut 4s forwards;
+}
+
+.mainsuccess .successMsg div{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size:30px;
+}
+
+.mainsuccess p{
+    font-size: 16px;
+    color: #1bb300;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    10% {
+        opacity: 0.9;
+        transform: translateY(-20px);
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mainsuccess svg{
+    stroke: var(--foreground);
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.mainsuccess svg:hover{
+    transform: rotate(45deg);
+    stroke-width: 2px;
+}
+

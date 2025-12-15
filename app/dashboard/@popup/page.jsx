@@ -128,7 +128,7 @@ export default function popup() {
                         </div>
                         <div className="postDetails">
                             <h2>
-                                {post.locations}
+                                {post.locations.slice(0,30)} {post.locations.length > 30 ? "..." : ""}
                             </h2>
                             {/*Show Distance */}
                             {distanceKm && (

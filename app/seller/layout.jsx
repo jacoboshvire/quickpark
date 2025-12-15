@@ -1,5 +1,5 @@
 "use client"
-import {useEffect, useState, useRef} from 'react'
+import {useState, useTransition, useEffect, useActionState} from 'react'
 import Link from 'next/link'
 import "./../profile/styleP.css"
 import "./style.css"
@@ -10,14 +10,17 @@ export default function seller({
     Nav
 }) {
     const router = useRouter()
-      //setting up geolocation
-      const [lat, setLat] = useState(null);
-      const [log, setLog] = useState(null);
-      let [useLocal, setUseLocal] = useState(false)
-      let [mapData, setMapDate] = useState("");
-      let [otherData, setOtherData] = useState("")
-      let [err, setErr] = useState(false)
+    //setting up geolocation
+    const [lat, setLat] = useState(null);
+    const [log, setLog] = useState(null);
+    let [useLocal, setUseLocal] = useState(false)
+    let [mapData, setMapDate] = useState("");
 
+    //other data
+    let [otherData, setOtherData] = useState("")
+    let [err, setErr] = useState("")
+    const [pending, startTransition] = useTransition();
+    const [loading, setLoading] = useState(false);
 
       //use location 
       const useLocation = () => {
@@ -104,9 +107,13 @@ export default function seller({
 
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const [removeError, setRemoveError] = useState(false);
+
+
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
 
     if (!token) {
       setErrMsg("Not logged in!");
@@ -151,14 +158,16 @@ export default function seller({
 
       if (!response.ok) {
         console.log(data.error)
-        setErrMsg(data.error || "Something went wrong");
+        setErrMsg(data.error || "You may need to complete the form, if applicable.");
         return;
       }
 
       setSuccessMsg(data.message || "Successfully submitted!");
     } catch (err) {
       console.error("Submit error:", err);
-      setErrMsg("Something went wrong" );
+      setErrMsg("something is wrong" );
+    }finally {
+        setLoading(false);
     }
   }
 
@@ -176,13 +185,34 @@ export default function seller({
         </Link>
         {errMsg &&
         <div className="err">
-            <p>
+            <p className='errorP'>
                 {errMsg}
             </p>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onclick={()=>setErrMsg("")}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=>setErrMsg("")}>
                 <path d="M18 6L6 18M6 6L18 18" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" stroke="white"/>
             </svg>
         </div>
+        }
+        {successMsg &&
+        <div className="err">
+            <p className='success'>
+                {successMsg}
+            </p>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=>setSuccessMsg("")}>
+                <path d="M18 6L6 18M6 6L18 18" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" stroke="white"/>
+            </svg>
+        </div>
+        }
+        {
+        loading && 
+         <div className="loadingProfile">
+            <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="25.5" cy="25.5" rx="23" ry="23" transform="rotate(-90 25.5 25.5)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 11 1 11"/>
+            </svg>
+            <p>
+                Updating Profile... this may take a while 🫣
+            </p>
+         </div>
         }
         {/* Form for seller */}
         <div className="sellerForm">
@@ -378,21 +408,11 @@ export default function seller({
                     </div>
                 </div>
                 <br />
-                {
-                    errMsg ? (
-                    <button type="submit" onClick={()=>router.push(`/dashboard?successMsg=true`)}>
-                    <p>
-                        Let's go
-                    </p>
-                    </button>
-                    ) : (
                     <button type="submit">
                     <p>
                         Let's go
                     </p>
                     </button>
-                    )
-                }
             </form>
         </div>
         <br />

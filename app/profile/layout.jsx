@@ -4,7 +4,6 @@ import { useFormStatus } from "react-dom";
 import { logout } from "./../login/actions";
 import Link from 'next/link'
 import Image from 'next/image'
-import Profile from "./../Image/Group6.png"
 import "./styleP.css"
 import { z } from "zod";
 
@@ -158,7 +157,14 @@ export default function
         }
         {
         loading && 
-         <div className="loadingProfile"></div>
+         <div className="loadingProfile">
+            <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="25.5" cy="25.5" rx="23" ry="23" transform="rotate(-90 25.5 25.5)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 11 1 11"/>
+            </svg>
+            <p>
+                Updating Profile... this may take a while 🫣
+            </p>
+         </div>
         }
         <div className="mainselectionProfile">
             <form onSubmit={handleSubmit} >

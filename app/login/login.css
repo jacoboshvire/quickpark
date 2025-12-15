@@ -211,3 +211,151 @@ button svg{
     }
 
 }
+
+@media (max-width: 1300px) {
+    .insidemain{
+        max-width: 900px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column-reverse;
+    }
+
+    .firstcontainer{
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 10% 0;
+        margin-right: 0;
+    }
+
+    .firstcontainer .welcomeAndLogo .logos{
+        margin-bottom: 2%;
+    }
+
+    .secondcontainer{
+        width: 100%;
+        height: 40vh;
+        margin: 5% 0 0 0;
+        display: flex;
+    }
+
+    .secondcontainer svg{
+        stroke: var(--background);
+        fill: var(--background);
+        width: 100%;
+    }
+
+    .secondcontainer svg line{
+        width: 200vh;
+    }
+    
+    .secondcontainer .animation{
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-self: center;
+        justify-content: center;
+        width: max-content;
+    }
+}
+
+@media (max-width:900px) {
+        .insidemain{
+        max-width: 700px;
+    }
+    .firstcontainer{
+        padding-bottom: 20px;
+        height: auto;
+        width: 100%;
+        margin-top: 10%;
+    }
+}
+
+@media (max-width:600px) {
+    .insidemain{
+        max-width: 400px;
+    }
+
+    .secondcontainer{
+        font-size: 15px;
+        height: 35vh;
+        margin: 10% 0 0 0;
+    }
+
+    .animation{
+        transform: scale(0.8);
+    }
+
+    .animation .car{
+        width: 50px;
+        bottom:6px;
+    }
+
+    .animation svg{
+        width: 100%;
+        height: auto;
+        align-self: center;
+    }
+
+    .firstcontainer{
+        padding-bottom: 20px;
+        height: auto;
+        width: 100%;
+        margin-top: 10%;
+    }
+
+    .formDiv .insideInput input{
+        width: 100%;
+        padding: 5%;
+        padding-left: 15%;
+        background-color: var(--subcolor);
+        border-radius: 10px;
+        outline: none;
+    }
+
+    .formDiv .insideInput .emailsvg{
+        left: 5%;
+    }
+
+    .formDiv .insideInput .passwordIcon{
+        left: 5%;
+    }
+
+    .formDiv .insideInput .hidePass{
+        left: 90%;
+    }
+
+    button{
+        padding: 3% 7%;
+    }
+}
+
+@media (max-width:420px) {
+    .insidemain{
+        padding: 0 20px;
+    }
+
+    .secondcontainer{
+        font-size: 15px;
+        height: 40vh;
+        margin: 10% 0 0 0;
+        /* gap: 10px; */
+    }
+
+    .firstcontainer .welcomeAndLogo .logos{
+        margin-bottom: 5%;
+    }
+
+    .firstcontainer .welcomeAndLogo {
+        margin-bottom: 8%;
+    }
+
+    .firstcontainer{
+        padding-bottom: 40px;
+    }
+
+
+}

@@ -57,13 +57,11 @@ export async function signup(prevState: any, formData: FormData) {
       };
     }
 
-    if (response.ok){
-      console.log("User registered successfully:", data);
-      // SUCCESS → redirect to login
-      // redirect("/login")
-    }
-  ;
-
+    // if (response.ok){
+    //   console.log("User registered successfully:", data);
+    //   // SUCCESS → redirect to login
+    // }
+    
   } catch (err: any) {
     return {
       errors: {
@@ -71,4 +69,5 @@ export async function signup(prevState: any, formData: FormData) {
       },
     };
   }
+  redirect("/login?successMsg=Congrats you are now part for the teams. Please log in and start parking");
 }

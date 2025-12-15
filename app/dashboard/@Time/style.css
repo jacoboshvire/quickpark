@@ -1,0 +1,13 @@
+.loaddivcat {
+     background-color: #f0f0f06f;
+     height: 20px;
+     width: 80px;
+     border-radius: 5px;
+     margin: 5px 10px;
+     animation: loadingAnim 1.5s infinite;
+ }
+    @keyframes loadingAnim {
+        0% { background-color: #f0f0f06d; }
+        50% { background-color: #e0e0e081; }
+        100% { background-color: #f0f0f04a; }
+    }

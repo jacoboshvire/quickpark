@@ -143,3 +143,71 @@ nav{
 #addlinkStyle{
     border: 2px solid var(--foreground);
 }
+
+.minnav{
+    display: flex;
+    width: 100%;
+    margin-top: 5%;
+    justify-content: space-between;
+}
+
+.minnav .sellerFilter a{
+    height: 5.5vh;
+    width: 5.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--subcolor);
+    border-radius: 10px;
+    margin-left: 5%;
+}
+
+.minnav .sellerFilter a svg{
+    stroke: var(--foreground);
+}
+
+@media (min-width: 900px) {
+    .minnav{
+        display: none;
+    }
+}
+
+@media (max-width: 1300px) {
+    nav{
+        max-width: 900px;
+    }
+}
+
+@media(max-width: 900px){
+    nav{
+        display: none;
+    }
+
+    .minnav{
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+    .minnav{
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .minnav .sellerFilter a{
+        height: 6.5vh;
+        width: 6.5vh;
+    }
+
+    .notificaton {
+        height: 6.5vh;
+        width: 6.5vh;
+    }
+
+    .profile{
+        width: 6.5vh;
+        height: 6.5vh;
+    }
+}

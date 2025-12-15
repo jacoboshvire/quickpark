@@ -194,3 +194,109 @@ button{
 .errMessage{
     color: #EA4335;
 }
+
+.loadingProfile{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: var(--subcolor);
+    border-radius: 8px;
+    padding: 30px 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.loadingProfile p{
+    font-size: 16px;
+    color: var(--foreground);
+}
+
+.loadingProfile svg{
+    stroke: var(--foreground);
+    width: 24px;
+    height: 24px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 1300px) {
+    .mainProfile{
+        max-width: 900px;
+    }
+}
+
+@media (max-width: 900px) {
+    .mainProfile{
+        max-width: 600px;
+        /* margin-top: ; */
+    }
+
+    .mainselectionProfile form{
+        flex-direction: column;
+        width: 100%;
+        margin-top: 3%;
+    }
+
+    .mainselectionProfile .inputLogout{
+        margin-left: 0;
+        padding: 0;
+        border-left: none;
+        width: 100%;
+        margin-top: 5%;
+    }
+
+    .backBtn{
+        padding: 5% 0;
+        margin-top: 5%;
+    }
+}
+
+@media (max-width: 600px) {
+    .mainProfile{
+        max-width: 400px;
+    }
+
+    .insideInput input{
+        padding: 5%;
+        padding-left: 15%;
+    }
+
+    .insideInput .passwordIcon{
+        position: absolute;
+        left: 5%;
+        stroke: var(--foreground);
+    }
+
+    .insideInput .hidePass{
+        position: absolute;
+        left: 89%;
+        align-self: center;
+        stroke: var(--foreground);
+        cursor: pointer;
+    }
+
+    .insideInput svg{
+        left: 5%;
+    }
+
+    button{
+        padding: 4% 5%;
+        width: 100%;
+        justify-content: center;
+    }
+
+}
+
+@media (max-width: 400px) {
+    .mainProfile{
+        padding: 0 20px;
+        padding-bottom: 5%;
+    }    
+}
