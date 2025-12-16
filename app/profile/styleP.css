@@ -1,7 +1,11 @@
+.profileLayout{
+    width: 100%;
+    justify-content: center;
+}
+
 .mainProfile{
     max-width: 1300px;
     width: 100%;
-    justify-self: center;
 }
 
 .backBtn{

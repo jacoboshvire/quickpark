@@ -1,8 +1,13 @@
+.sellerLayout{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .sellerMain{
     max-width: 1300px;
     width: 100%;
-    align-self: center;
-    justify-self: center;
 }
 
 .sellerForm{

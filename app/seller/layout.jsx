@@ -172,7 +172,7 @@ export default function seller({
   }
 
   return (
-    <>
+    <div className='sellerLayout'>
     {Nav}
     <div className='sellerMain'>
         <Link className="backBtn" href={"/"}>
@@ -417,6 +417,6 @@ export default function seller({
         </div>
         <br />
     </div>
-    </>
+    </div>
   )
 }
