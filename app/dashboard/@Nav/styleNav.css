@@ -126,9 +126,10 @@ nav{
 
 .profile{
     margin-left: 5%;
+    border-radius: 10px;
     overflow: hidden;
-    width: 5vh;
-    height: 5vh;
+    width: 5.5vh;
+    height: 5.5vh;
     border-radius: 10px;
 }
 
@@ -137,3 +138,182 @@ nav{
     height: auto;
 }
 
+
+.minnav{
+    display: flex;
+    width: 100%;
+    margin-top: 5%;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    /* position: fixed; */
+}
+
+.minnav .sellerFilter{
+    display: flex;
+    gap: 20px;
+    width: 50%;
+}
+
+.minnav .sellerFilter a{
+    height: 5.5vh;
+    width: 5.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--subcolor);
+    border-radius: 10px;
+}
+
+.minnav .filter{
+    height: 5.5vh;
+    width: 5.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--subcolor);
+    border-radius: 10px;  
+}
+
+.minnav .filter svg{
+    stroke: var(--foreground);
+}
+
+.minnav .sellerFilter a svg{
+    stroke: var(--foreground);
+}
+
+.minsearch{
+    width: 100%;
+    stroke: var(--foreground);
+}
+
+.minsearch .searchFrom{
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+}
+
+.minsearch .searchFrom label{
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    margin-left: 2%;
+}
+
+.minsearch .searchFrom label svg{
+    margin-right: 10px;
+}
+
+.minsearch .searchFrom label p{
+    color: var(--subforecolor);
+}
+
+.minsearch .searchFrom input{
+    background-color: var(--subcolor);
+    width: 100%;
+    padding: 2%;
+    border-radius: 10px;
+    padding-left: 10%;
+}
+
+.minnav .otherActivity{
+    gap: 10px;
+}
+
+@media (min-width: 900px) {
+    .minnav{
+        display: none;
+    }
+
+    .minsearch{
+        display: none;
+    }
+}
+
+@media (max-width: 1300px) {
+    nav{
+        max-width: 900px;
+    }
+    .searchBar .searchFrom{
+        width: 300px;
+    }
+
+    .searchBar .searchFrom input{
+        padding: 5%;
+        padding-left: 40px;
+    }
+
+    .searchBar .searchBar label{
+        margin-left: 5%;
+    }
+}
+
+@media(max-width: 900px){
+    nav{
+        display: none;
+    }
+
+    .minnav {
+        max-width: 600px;
+    }
+
+    .minsearch{
+        max-width: 600px;
+        margin: 4% 0;
+    }
+
+    .minsearch .searchFrom label{
+        margin-left: 5%;
+    }
+
+    .minsearch .searchFrom input{
+        padding: 5%;
+        padding-left: 15%;
+        font-size: 14px;
+    }
+
+}
+
+@media (max-width: 600px) {
+    .minnav {
+        max-width: 400px;
+    }
+
+    .minsearch{
+        max-width: 400px;
+    }
+
+
+}
+
+@media (max-width: 400px) {
+    .minsearch{
+        padding: 0 20px;
+    }
+
+    .minnav {
+        padding: 0 20px;
+    }
+
+    .minnav .sellerFilter a{
+        height: 6.5vh;
+        width: 6.5vh;
+    }
+
+    .minnav .filter{
+        height: 6.5vh;
+        width: 6.5vh;  
+    }
+
+    .notificaton {
+        height: 6.5vh;
+        width: 6.5vh;
+    }
+
+    .profile{
+        width: 6.5vh;
+        height: 6.5vh;
+    }
+}
