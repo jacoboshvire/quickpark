@@ -776,6 +776,9 @@
         height: 70vh;
         margin-top: 2%;
     }
+    .backdropShadow{
+        display: none;
+    }
 }
 
 @media (max-width: 900px) {
