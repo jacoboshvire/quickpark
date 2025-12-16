@@ -145,7 +145,7 @@ nav{
     margin-top: 5%;
     justify-content: space-between;
     margin-bottom: 20px;
-    /* position: fixed; */
+    justify-self: center;
 }
 
 .minnav .sellerFilter{
@@ -172,10 +172,22 @@ nav{
     justify-content: center;
     background-color: var(--subcolor);
     border-radius: 10px;  
+    transition: .3s;
 }
+
+.minnav .addOn{
+    background-color: var(--foreground);
+}
+
+
 
 .minnav .filter svg{
     stroke: var(--foreground);
+    transition: .3s;
+}
+
+.minnav .addOn svg{
+    stroke: var(--background);
 }
 
 .minnav .sellerFilter a svg{
@@ -185,6 +197,7 @@ nav{
 .minsearch{
     width: 100%;
     stroke: var(--foreground);
+    justify-self: center;
 }
 
 .minsearch .searchFrom{
@@ -192,7 +205,6 @@ nav{
     width: 100%;
     display: flex;
     align-items: center;
-
 }
 
 .minsearch .searchFrom label{
