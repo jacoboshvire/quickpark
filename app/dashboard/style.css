@@ -172,10 +172,16 @@
     margin: 10% 0;
 }
 
+.Postpage{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .mainBody{
     display: flex;
     max-width: 1300px;
-    justify-self: center;
+    /* justify-self: center; */
     justify-content: space-between;
     align-items: center;
     width: 100%;

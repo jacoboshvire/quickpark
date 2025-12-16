@@ -134,7 +134,8 @@ export default function page() {
         } 
     },[setLats, setLog])
   return (
-           <div className="mainBody">
+    <div className="Postpage">
+        <div className="mainBody">
             <div className="sellerSpace">
                 {/* numebers of seller space */}
                 <div className="numOfPost">
@@ -274,5 +275,6 @@ export default function page() {
                 </APIProvider>
             </div>
         </div>
+    </div>
   )
 }
