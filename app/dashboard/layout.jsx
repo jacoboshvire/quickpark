@@ -269,28 +269,28 @@ export default function layout({
                                 Filter
                             </h2>
                         </div>
-                        <div className="cart" onClick={funBtu}>
+                        <div className={ togglebtnmin ? "cart newCart" : "cart"} onClick={funBtu}>
                             <p>Price</p>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
-                            {togglebtnmin && Price}
+                            {togglebtnmin  && Price}
                         </div>
-                        <div className="cart" onClick={funBtu1}>
+                        <div className={ togglebtnmin1 ? "cart newCart" : "cart"} onClick={funBtu1}>
                             <p>Distance</p>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                             {togglebtnmin1 && Distance}
                         </div>
-                        <div className="cart" onClick={funBtu2}>
+                        <div className={ togglebtnmin2 ? "cart newCart" : "cart"} onClick={funBtu2}>
                             <p>Time</p>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                             {togglebtnmin2 && Time}
                         </div>
-                        <div className="cart" onClick={funBtu3}>
+                        <div className={ togglebtnmin3 ? "cart newCart" : "cart"} onClick={funBtu3}>
                             <p>Seller</p>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

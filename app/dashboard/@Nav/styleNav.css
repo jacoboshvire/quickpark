@@ -183,11 +183,14 @@ nav{
 
 .minnav .filter svg{
     stroke: var(--foreground);
+    transform-origin: center;
     transition: .3s;
 }
 
 .minnav .addOn svg{
     stroke: var(--background);
+    transform-origin: center;
+    transform: rotate(90deg);
 }
 
 .minnav .sellerFilter a svg{
