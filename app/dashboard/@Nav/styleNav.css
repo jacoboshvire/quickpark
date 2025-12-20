@@ -118,6 +118,21 @@ nav{
     background-color: var(--subcolor);
     border-radius: 10px;
     margin-left: 5%;
+    position: relative;
+}
+
+.notificaton .redColors{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: -3%;
+    right: -3%;
+    width: 20px;
+    height: 20px;
+    border-radius: 30px;
+    background-color: #EA4335;
+    font-size: 10px;
 }
 
 .notificaton svg{

@@ -1,0 +1,83 @@
+.NotificationsPage{
+    background-color: var(--transparentBG);
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    display: flex;
+    transition: 500ms;
+    justify-content: center;
+    align-items: center;
+}
+
+.insideNotification{
+    display: flex;
+    align-items:flex-start;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+  
+}
+
+.cancelNBtn{
+    background-color: var(--subcolor);
+    padding: 1%;
+    border-radius: 10px;
+    transition: 500ms;
+}
+
+.cancelNBtn:hover{
+    background-color: var(--line);
+    transform-origin: center;
+    transform: scale(1.1);
+}
+
+.cancelNBtn svg{
+    stroke: var(--foreground);
+    width: 5vh;
+    height: 5vh;
+    stroke-width: 1px;
+    transition: 500ms;
+    transform-origin: center;
+}
+
+.cancelNBtn:hover svg{
+    transform: rotate(45deg);
+}
+
+.mainNContainer{
+    width: 50%;
+    background-color: var(--subcolor);
+    padding: 3%;
+    border-radius: 10px;
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 50vh;
+}
+
+.mainNContainer h1{
+    font-weight: 900;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 3%;
+    margin-bottom: 3%;
+}
+
+.mainNContainer .notificationLenght{
+    margin: 4% 0;
+    padding-bottom: 4%;
+    border-bottom: 1px solid var(--line);
+}
+
+.mainNContainer h3{
+    font-weight: 700;
+}
+
+.notificationDate{
+    color: var(--line);
+}
+
+.notificationPost{
+    padding-bottom: 4%;
+    border-bottom: solid 1px var(--line);
+}

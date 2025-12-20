@@ -134,7 +134,7 @@ export default function seller({
       formData.append("image", imageFile); 
 
       const response = await fetch(
-        "https://quickpark-backend.vercel.app/api/sellerpost",
+        "http://localhost:8080/api/sellerpost",
         {
           method: "POST",
           headers: {

@@ -9,7 +9,7 @@ import "./@Nav/styleNav.css"
 
 
 export default function layout({
- Price, Nav, Distance, Time, Seller, popup, Post, successMsg
+ Price, Nav, Distance, Time, Seller, popup, Post, successMsg, Notifications
 }) {
 
     //setting up geolocation
@@ -97,6 +97,9 @@ export default function layout({
         })
         .catch(err => console.log(err));
     }, []);
+
+
+
     
     const {themes, setThemes} = useTheme()
     let [togglebtn, setTogglebtn] = useState(false)
@@ -301,7 +304,9 @@ export default function layout({
                 </div>
             }
         </div>
-   
+        <Suspense>
+          {Notifications}
+        </Suspense>
         <Suspense>
             {successMsg}
         </Suspense>
