@@ -76,10 +76,23 @@
 
 .notificationDate{
     color: var(--line);
+    transition: 500ms;
 }
 
 .notificationPost{
     padding: 4% 0;
     border-bottom: solid 1px var(--line);
     cursor: pointer;
+    transition: 500ms;
+}
+
+.notificationPost:hover{
+    border-radius: 10px;
+    background-color: var(--line);
+    padding: 4% 4%;
+    margin-top: 2%;
+}
+
+.notificationPost:hover .notificationDate{
+    color: var(--foreground);
 }

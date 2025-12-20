@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useSearchParams} from 'next/navigation';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import "./styleNotification.css"
@@ -15,43 +15,34 @@ export default function Page() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const observerRef = useRef(null);
+  const observedIds = useRef(new Set()); 
 
-
+  
   function getCookie(name) {
     return document.cookie
-      .split("; ")
-      .find((row) => row.startsWith(name + "="))
-      ?.split("=")[1];
+    .split("; ")
+    .find((row) => row.startsWith(name + "="))
+    ?.split("=")[1];
   }
-
+  
   useEffect(() => {
+    let intervalId;
     const fetchNotifications = async () => {
       try {
-        const token = getCookie("token");
-
-        if (!token) {
-          setError("Not authenticated");
-          return;
-        }
-
+        const token = getCookie("token")
         const res = await fetch(
           "https://quickpark-backend.vercel.app/api/notification",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+           {
+          headers: {
+          Authorization: `Bearer ${token}`,
+          }}
         );
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch notifications");
-        }
+        if (!res.ok) throw new Error("Fetch failed");
 
         const data = await res.json();
-
-        // THIS WAS THE MAIN BUG
-        console.log(data)
-        setNotifications(data);
+        setNotifications(data || []);
       } catch (err) {
         console.error(err);
         setError("Unable to load notifications");
@@ -60,10 +51,36 @@ export default function Page() {
       }
     };
 
+    // Initial load
     fetchNotifications();
+
+    // Auto refresh every 10 seconds
+    intervalId = setInterval(fetchNotifications, 10000);
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
   }, []);
 
+  const markAsRead = useCallback(async (id) => {
+    try {
+      const token = getCookie("token")
+      await fetch(
+        `https://quickpark-backend.vercel.app/api/notification/${id}/read`,
+        {
+          method: "PUT",
+          headers: {
+          Authorization: `Bearer ${token}`,
+          }
+        }
+      );
 
+      setNotifications((prev) =>
+        prev.map((n) => (n._id === id ? { ...n, read: true } : n))
+      );
+    } catch (err) {
+      console.error("Mark as read failed", err);
+    }
+  }, []);
 
   if (loading) return <p>Loading notifications...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
@@ -91,13 +108,13 @@ export default function Page() {
 
               <div className="notificationLenght">
                 <p>
-                  👀 You’ve <b>"{notifications.length}"</b> notification
+                  🔔 <b>{notifications.length}</b> new update{notifications.length !== 1 && "s"} waiting for you
                 </p>
               </div>
               <ul>
                 {notifications.map((n) => (
-                  <div className="notificationPost" key={n._id} onClick={()=>router.push(`/dashboard?id=${n.data.sellerId}`)}>
-                  <li>
+                  <div className="notificationPost" key={n._id}  onClick={()=>router.push(`/dashboard?id=${n.data.sellerId}`)} onMouseEnter={()=>markAsRead(n._id)}>
+                  <li >
                     <h3>{n.title}</h3>
                     <p className='notificationBody' >{n.body}</p>
                     <p className='notificationDate'>
