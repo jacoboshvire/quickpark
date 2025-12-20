@@ -119,6 +119,7 @@ nav{
     border-radius: 10px;
     margin-left: 5%;
     position: relative;
+    cursor: pointer;
 }
 
 .notificaton .redColors{

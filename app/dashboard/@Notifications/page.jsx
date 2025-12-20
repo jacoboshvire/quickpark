@@ -96,10 +96,10 @@ export default function Page() {
               </div>
               <ul>
                 {notifications.map((n) => (
-                  <div className="notificationPost" key={n._id}>
+                  <div className="notificationPost" key={n._id} onClick={()=>router.push(`/dashboard?id=${n.data.sellerId}`)}>
                   <li>
                     <h3>{n.title}</h3>
-                    <p className='notificationBody'>{n.body}</p>
+                    <p className='notificationBody' >{n.body}</p>
                     <p className='notificationDate'>
                       {new Date(n.createdAt).toLocaleString()}
                     </p>
