@@ -7,7 +7,6 @@ import "./../../globals.css"
 //this are for next js link and navigation
 import Link from 'next/link';
 import Image from 'next/image';
-import Profile from "./../../Image/Group6.png"
 
 function page() {
       //setting up geolocation
@@ -185,7 +184,7 @@ function page() {
                   unreadCount > 0 && 
                 <div className="redColors">
                   <p>
-                    {unreadCount}
+                    {unreadCount > 99 ? "+99" : unreadCount}
                   </p>
                 </div>   }
               </div> 

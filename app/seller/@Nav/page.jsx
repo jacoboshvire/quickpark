@@ -6,10 +6,11 @@ import "./../../globals.css"
 //this are for next js link and navigation
 import Link from 'next/link';
 import Image from 'next/image';
-import Profile from "./../../Image/Group6.png"
+import { useRouter } from 'next/navigation'
 
 function page() {
     let [err, setErr] = useState(false)
+    const router = useRouter()
     
     function getCookie(name) {
           return document.cookie
@@ -41,6 +42,39 @@ function page() {
     })
     .catch(err => console.log(err));
     }, []);
+      
+  let [unreadCount, setUnreadCount] = useState(0)
+  const token =
+  typeof window !== "undefined"
+    ? document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("token="))
+        ?.split("=")[1]
+    : null;
+
+
+  useEffect(() => {
+    if (!token) return;
+
+    const fetchUnreadCount = async () => {
+      try {
+        const res = await fetch(
+          "https://quickpark-backend.vercel.app/api/notification/unread-count",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (!res.ok) return;
+        const data = await res.json();
+        setUnreadCount(data.count || 0);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchUnreadCount();
+  }, [token]);
   return (
     <div className="navBar">
         <nav>
@@ -70,11 +104,18 @@ function page() {
               </p>
               </Link>
             </div>
-            <div className="notificaton">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 17V18C9 18.394 9.0776 18.7841 9.22836 19.1481C9.37913 19.512 9.6001 19.8427 9.87868 20.1213C10.1573 20.3999 10.488 20.6209 10.8519 20.7716C11.2159 20.9224 11.606 21 12 21C12.394 21 12.7841 20.9224 13.1481 20.7716C13.512 20.6209 13.8427 20.3999 14.1213 20.1213C14.3999 19.8427 14.6209 19.512 14.7716 19.1481C14.9224 18.7841 15 18.394 15 18V17M18 9C18 12 20 17 20 17H4C4 17 6 13 6 9C6 5.732 8.732 3 12 3C15.268 3 18 5.732 18 9Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
+              <div className="notificaton" onClick={()=>router.push("/dashboard?notification=true")}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 17V18C9 18.394 9.0776 18.7841 9.22836 19.1481C9.37913 19.512 9.6001 19.8427 9.87868 20.1213C10.1573 20.3999 10.488 20.6209 10.8519 20.7716C11.2159 20.9224 11.606 21 12 21C12.394 21 12.7841 20.9224 13.1481 20.7716C13.512 20.6209 13.8427 20.3999 14.1213 20.1213C14.3999 19.8427 14.6209 19.512 14.7716 19.1481C14.9224 18.7841 15 18.394 15 18V17M18 9C18 12 20 17 20 17H4C4 17 6 13 6 9C6 5.732 8.732 3 12 3C15.268 3 18 5.732 18 9Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                {
+                  unreadCount > 0 && 
+                <div className="redColors">
+                  <p>
+                    {unreadCount > 99 ? "+99" : unreadCount}
+                  </p>
+                </div>   }
+              </div> 
             <Link className="profile" id="addlinkStyle" href={"/profile"}>
               <Image src={userData.avatar ? userData.avatar : "https://res.cloudinary.com/dr0yyqvj6/image/upload/v1765055574/avatar_l6mc3s.png"}
                 alt={userData.username ? userData.username : "profile"}
@@ -95,11 +136,18 @@ function page() {
           </div>
 
           <div className="otherActivity">
-            <div className="notificaton">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 17V18C9 18.394 9.0776 18.7841 9.22836 19.1481C9.37913 19.512 9.6001 19.8427 9.87868 20.1213C10.1573 20.3999 10.488 20.6209 10.8519 20.7716C11.2159 20.9224 11.606 21 12 21C12.394 21 12.7841 20.9224 13.1481 20.7716C13.512 20.6209 13.8427 20.3999 14.1213 20.1213C14.3999 19.8427 14.6209 19.512 14.7716 19.1481C14.9224 18.7841 15 18.394 15 18V17M18 9C18 12 20 17 20 17H4C4 17 6 13 6 9C6 5.732 8.732 3 12 3C15.268 3 18 5.732 18 9Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
+              <div className="notificaton" onClick={()=>router.push("/dashboard?notification=true")}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 17V18C9 18.394 9.0776 18.7841 9.22836 19.1481C9.37913 19.512 9.6001 19.8427 9.87868 20.1213C10.1573 20.3999 10.488 20.6209 10.8519 20.7716C11.2159 20.9224 11.606 21 12 21C12.394 21 12.7841 20.9224 13.1481 20.7716C13.512 20.6209 13.8427 20.3999 14.1213 20.1213C14.3999 19.8427 14.6209 19.512 14.7716 19.1481C14.9224 18.7841 15 18.394 15 18V17M18 9C18 12 20 17 20 17H4C4 17 6 13 6 9C6 5.732 8.732 3 12 3C15.268 3 18 5.732 18 9Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                {
+                  unreadCount > 0 && 
+                <div className="redColors">
+                  <p>
+                    {unreadCount > 99 ? "+99" : unreadCount}
+                  </p>
+                </div>   }
+              </div> 
             <Link className="profile" id="addlinkStyle" href={"/profile"}>
               <Image src={userData.avatar ? userData.avatar : "https://res.cloudinary.com/dr0yyqvj6/image/upload/v1765055574/avatar_l6mc3s.png"}
                 alt={userData.username ? userData.username : "profile"}

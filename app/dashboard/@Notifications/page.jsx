@@ -108,17 +108,14 @@ export default function Page() {
       console.error("Mark as read failed", err);
     }
   }, []);
-
-  return (
-    <>
-    {
-      loading && pathname === "/dashboard" && notification ?
+  if (loading) {
       <div className="loadingNotification">
         loading
       </div> 
-      :
-      null
-    }
+  }
+
+  return (
+    <>
     {
       error &&  pathname === "/dashboard" && notification ?
       <div className="errNofication">

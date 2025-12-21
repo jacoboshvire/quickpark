@@ -796,6 +796,14 @@
     transform: rotate(180deg);
 }
 
+.newNotificaitonBtu{
+    background-color: var(--foreground);
+}
+
+.newNotificaitonBtu svg{
+    stroke: var(--background);
+}
+
 
 @media (min-width: 900px) {
     .minFilter{
