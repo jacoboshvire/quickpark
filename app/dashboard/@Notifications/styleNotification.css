@@ -120,7 +120,7 @@
     position: fixed;
     top: 2%;
     right: 2%;
-    padding: 5%;
+    padding: 2%;
     display: flex;
     align-items: center;
     gap: 40px;
@@ -131,6 +131,7 @@
     will-change: transform, opacity;
     animation: slideDown 400ms cubic-bezier(.2,.8,.2,1) forwards;
     text-transform: capitalize;
+    z-index: 2000;
 }
 @keyframes slideDown{
     from{
