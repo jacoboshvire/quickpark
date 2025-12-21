@@ -102,10 +102,18 @@
 
 .deleteNotification{
     cursor: pointer;
+    
 }
+
 
 .deleteNotification svg{
     stroke: var(--foreground);
+    transform-origin: center;
+    transition: 500ms;
+}
+
+.deleteNotification:hover svg{
+    transform: scale(1.1) rotate(45deg);
 }
 
 .message{
