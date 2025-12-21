@@ -132,6 +132,8 @@
     animation: slideDown 400ms cubic-bezier(.2,.8,.2,1) forwards;
     text-transform: capitalize;
     z-index: 2000;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35), 0 3px 8px rgba(0,0,0,0.2);
 }
 @keyframes slideDown{
     from{
