@@ -9,7 +9,7 @@ import { useRouter} from 'next/navigation'
 
 
 export default function layout({
- Price, Nav, Distance, Time, Seller, popup, Post, successMsg, Notifications
+ Price, Nav, Distance, Time, Seller, popup, Post, successMsg, Notifications, Booking
 }) {
 
     const router = useRouter()
@@ -346,6 +346,9 @@ export default function layout({
                 </div>
             }
         </div>
+        <Suspense>
+          {Booking}
+        </Suspense>
         <Suspense>
           {Notifications}
         </Suspense>

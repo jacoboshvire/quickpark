@@ -91,6 +91,42 @@ export default function popup() {
         fetchSeller();
     }, [id]);
 
+    function getCookie(name) {
+        return document.cookie
+            .split("; ")
+            .find(row => row.startsWith(name + "="))
+            ?.split("=")[1];
+    }
+
+    const bookParking = async (id) => {
+        try {
+            const token = getCookie("token");
+            const res = await fetch(
+            `https://quickpark-backend.vercel.app/api/boooking/book/${id}`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+            );
+
+            const data = await res.json();
+
+            if (!res.ok) {
+            alert(data.message);
+            return;
+            }
+
+            alert("Booking request sent!");
+            console.log("Booking:", data.booking);
+        } catch (err) {
+            console.error("Booking error:", err);
+            alert("Something went wrong");
+        }
+    };
+
+
     // ADDED — Compute Distance Safely
     let distanceKm = null;
     if (lats && log && post?.lat && post?.long) {
@@ -183,7 +219,7 @@ export default function popup() {
                                 /> 
                             </div>
                             <div className="bookBtn">
-                                <Link className="book" href={`#`} >
+                                <Link className="book" href={`#`} onClick={() => bookParking(id)}>
                                     <p>book now</p>
                                 </Link>
                                 <div onClick={handleCopy} className="shareLink">

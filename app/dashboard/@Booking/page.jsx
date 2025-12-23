@@ -1,0 +1,108 @@
+"use client"
+import { usePathname, useSearchParams, useRouter} from 'next/navigation';
+
+
+
+export default function page() {
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+    const router = useRouter()
+
+    const booking = searchParams.get("booking")
+    function getCookie(name) {
+        return document.cookie
+            .split("; ")
+            .find(row => row.startsWith(name + "="))
+            ?.split("=")[1];
+    }
+
+    const acceptBooking = async (booking) => {
+        try {
+            const token = getCookie("token");
+            const res = await fetch(
+            `https://quickpark-backend.vercel.app/api/booking/${booking}/accept`,
+            {
+                method: "PUT",
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                }
+            }
+            );
+
+            const data = await res.json();
+
+            if (!res.ok) {
+            alert(data.message);
+            return;
+            }
+
+            alert("Booking confirmed!");
+        } catch (err) {
+            console.error(err);
+            alert("Failed to accept booking");
+        }
+    };
+
+    const rejectBooking = async (booking) => {
+    try {
+        const token = getCookie("token");
+        const res = await fetch(
+        `https://quickpark-backend.vercel.app/api/booking/${booking}/reject`,
+        {
+            method: "PUT",
+            headers:{
+                Authorization: `Bearer ${token}`,
+            }
+        }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+        alert(data.message);
+        return;
+        }
+
+        alert("Booking rejected");
+    } catch (err) {
+        console.error(err);
+        alert("Failed to reject booking");
+    }
+    };
+
+
+  return (
+    <>
+    {
+        pathname === "/dashbroad" && {booking} ? (
+        <div className='bookingPage'>
+            <div className="bookingContainer">
+                <div className="bookingAccept" onClick={()=>{acceptBooking(booking)}}>
+                    <p>
+                        Accept
+                    </p>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="Iconly/Curved/Light/Ticket">
+                        <g id="Ticket">
+                        <path id="Stroke 1" d="M13.3593 3.6001V6.25535" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path id="Stroke 3" d="M13.3593 17.5439V19.7641" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path id="Stroke 6" d="M13.3593 14.544V9.25537" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path id="Stroke 7" fillRule="evenodd" clipRule="evenodd" d="M21.5 14.0504C18.8093 14.0504 18.8093 9.94867 21.5 9.94867C21.5 5.19622 21.5 3.5 12 3.5C2.5 3.5 2.5 5.19622 2.5 9.94867C5.19074 9.94867 5.19074 14.0504 2.5 14.0504C2.5 18.8038 2.5 20.5 12 20.5C21.5 20.5 21.5 18.8038 21.5 14.0504Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </g>
+                        </g>
+                    </svg>
+
+                </div>
+                <div className="bookingReject" onClick={() => rejectBooking(booking)}>
+                    <p>
+                        Reject
+                    </p>
+
+                </div>
+            </div>
+        </div>
+        ) : null
+    }
+    </>
+  )
+}

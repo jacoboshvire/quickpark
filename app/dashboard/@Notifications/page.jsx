@@ -61,6 +61,7 @@ export default function Page() {
     return () => clearInterval(intervalId);
   }, []);
 
+
     // ✅ Delete notification
   const deleteNotification = async (id) => {
     try {
@@ -161,24 +162,46 @@ export default function Page() {
                 </p>
               </div>
               <ul>
-                {notifications.map((n) => (
-                  <div className="notificationPost" key={n._id}  onClick={()=>router.push(`/dashboard?id=${n.data.sellerId}`)} onMouseEnter={()=>markAsRead(n._id)}>
-                    <li >
-                      <h3>{n.title}</h3>
-                      <p className='notificationBody' >{n.body}</p>
-                      <p className='notificationDate'>
-                        {new Date(n.createdAt).toLocaleString()}
-                      </p>
-                    </li>
-                    <div className="deleteNotification" onClick={(e) => {
-                          e.stopPropagation(); // prevent mark-as-read
-                          deleteNotification(n._id);
-                    }}>
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>                      
+                {notifications.map((n) => ( 
+                  <>
+                  {
+                    n.data.sellerId ? 
+                    <div className="notificationPost" key={n._id}  onClick={()=>router.push(`/dashboard?id=${n.data.sellerId}`)} onMouseEnter={()=>markAsRead(n._id)}>
+                      <li >
+                        <h3>{n.title}</h3>
+                        <p className='notificationBody' >{n.body}</p>
+                        <p className='notificationDate'>
+                          {new Date(n.createdAt).toLocaleString()}
+                        </p>
+                      </li>
+                      <div className="deleteNotification" onClick={(e) => {
+                            e.stopPropagation(); // prevent mark-as-read
+                            deleteNotification(n._id);
+                      }}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>                      
+                      </div>
+                    </div> : 
+                    <div className="notificationPost" key={n._id}  onClick={()=>router.push(`/dashboard?booking=${n.data.bookingId}`)} onMouseEnter={()=>markAsRead(n._id)}>
+                      <li >
+                        <h3>{n.title}</h3>
+                        <p className='notificationBody' >{n.body}</p>
+                        <p className='notificationDate'>
+                          {new Date(n.createdAt).toLocaleString()}
+                        </p>
+                      </li>
+                      <div className="deleteNotification" onClick={(e) => {
+                            e.stopPropagation(); // prevent mark-as-read
+                            deleteNotification(n._id);
+                      }}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>                      
+                      </div>
                     </div>
-                  </div>
+                  }
+                  </>
                 ))}
               </ul>
             </div>
