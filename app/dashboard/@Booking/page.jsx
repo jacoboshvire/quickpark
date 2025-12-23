@@ -74,7 +74,7 @@ export default function page() {
   return (
     <>
     {
-        booking && pathname === "/dashbroad" && booking ? (
+        booking && pathname === "/dashboard" && booking ? (
         <div className='bookingPage'>
             <div className="bookingContainer">
                 <div className="bookingAccept" onClick={()=>{acceptBooking(booking)}}>
