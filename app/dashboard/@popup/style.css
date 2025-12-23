@@ -91,3 +91,51 @@
     stroke: var(--foreground);
     transition: 500ms;
 }
+
+.cancelBooking{
+    padding: 2%;
+    border-radius: 10px;
+    background-color: var(--subcolor);
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+}
+
+.cancelBooking:hover{
+    background-color: var(--line);
+}
+
+.cancelBooking svg{
+    stroke: var(--foreground);
+    transform-origin: center;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+}
+
+.cancelBooking:hover svg{
+    transform: rotate(45deg);
+}
+
+.messageBooking{
+    background-color: var(--subcolor);
+    display: flex;
+    padding: 2%;
+    gap: 30px;
+    align-items: center;
+    position: absolute;
+    z-index: 2500;
+    top: 3%;
+    right: 3%;
+    border-radius: 10px;
+    transform: translateY(-20px);
+    opacity: 0;
+    will-change: transform, opacity;
+    animation: messageSlideDown 420ms cubic-bezier(0.075, 0.82, 0.165, 1) 50ms forwards;
+}
+@keyframes messageSlideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

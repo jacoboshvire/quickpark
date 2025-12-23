@@ -33,6 +33,7 @@ export default function popup() {
 
     const [post, setPost] = useState(null);
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState("")
 
         //setting up geolocation
     const [lats, setLats] = useState(null);
@@ -114,15 +115,15 @@ export default function popup() {
             const data = await res.json();
 
             if (!res.ok) {
-            alert(data.message);
+            setError(data.message);
             return;
             }
 
-            alert("Booking request sent!");
+            setSuccess("Booking request sent!");
             console.log("Booking:", data.booking);
         } catch (err) {
             console.error("Booking error:", err);
-            alert("Something went wrong");
+            setError("Something went wrong");
         }
     };
 
@@ -142,6 +143,19 @@ export default function popup() {
     };
   return (
     <div>
+        {
+            success && 
+             <div className="messageBooking">
+                <p>
+                    {success}
+                </p>
+                <div className="cancelBooking" onClick={()=>setMessage("")}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                </div>
+            </div>
+        }
         {post && pathname === "/dashboard" && id ? (
             <div className='postpage'>
                 <div className="insidepostcard">

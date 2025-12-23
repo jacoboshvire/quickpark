@@ -1,5 +1,6 @@
 "use client"
 import { usePathname, useSearchParams, useRouter} from 'next/navigation';
+import { useState } from 'react';
 import "./style.css"
 
 
@@ -7,7 +8,6 @@ export default function page() {
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const router = useRouter()
-
     const booking = searchParams.get("booking")
     function getCookie(name) {
         return document.cookie
@@ -16,11 +16,13 @@ export default function page() {
             ?.split("=")[1];
     }
 
+    const [message, setMessage] = useState("")
+
     const acceptBooking = async (booking) => {
         try {
             const token = getCookie("token");
             const res = await fetch(
-            `https://quickpark-backend.vercel.app/api/booking/${booking}/accept`,
+            `https://quickpark-backend.vercel.app/api/booking/booking/${booking}/accept`,
             {
                 method: "PUT",
                 headers:{
@@ -32,14 +34,14 @@ export default function page() {
             const data = await res.json();
 
             if (!res.ok) {
-            alert(data.message);
+            setMessage(data.message);
             return;
             }
 
-            alert("Booking confirmed!");
+            setMessage("Booking confirmed!");
         } catch (err) {
             console.error(err);
-            alert("Failed to accept booking");
+            setMessage("Failed to accept booking");
         }
     };
 
@@ -47,7 +49,7 @@ export default function page() {
     try {
         const token = getCookie("token");
         const res = await fetch(
-        `https://quickpark-backend.vercel.app/api/booking/${booking}/reject`,
+        `https://quickpark-backend.vercel.app/api/booking/booking/${booking}/reject`,
         {
             method: "PUT",
             headers:{
@@ -59,20 +61,33 @@ export default function page() {
         const data = await res.json();
 
         if (!res.ok) {
-        alert(data.message);
+        setMessage(data.message);
         return;
         }
 
-        alert("Booking rejected");
+        setMessage("Booking rejected");
     } catch (err) {
         console.error(err);
-        alert("Failed to reject booking");
+        setMessage("Failed to reject booking");
     }
     };
 
 
   return (
     <>
+    {
+        message &&
+        <div className="messageBooking">
+            <p>
+                {message}
+            </p>
+            <div className="cancelBooking" onClick={()=>setMessage("")}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            </div>
+        </div>
+    }
     {
         booking && pathname === "/dashboard" && booking ? (
         <div className='bookingPage'>
