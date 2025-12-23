@@ -102,7 +102,7 @@ export default function popup() {
         try {
             const token = getCookie("token");
             const res = await fetch(
-            `https://quickpark-backend.vercel.app/api/boooking/book/${id}`,
+            `https://quickpark-backend.vercel.app/api/booking/book/${id}`,
             {
                 method: "POST",
                 headers: {

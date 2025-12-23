@@ -1,0 +1,114 @@
+.bookingPage{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    top: 0;
+    background-color: var(--transparentBG);
+    gap: 30px;
+}
+
+.insideBookingPage{
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    justify-content: center;
+    width: 70%;
+}
+
+.bookingContainer{
+    background-color: var(--subcolor);
+    padding: 3% 4%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bookingContainer .bookingMessage h2{
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.bookingContainer .bookingPageBtu{
+    display: flex;
+    gap: 30px;
+}
+
+.bookingContainer .bookingPageBtu svg{
+    stroke: var(--foreground);
+}
+
+.bookingAccept{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+    cursor: pointer;
+}
+
+.bookingAccept:hover{
+    transform: scale(1.09);
+    background-color: var(--line);
+    border-radius: 10px;
+}
+
+.bookingAccept svg{
+    transform-origin: right center;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+}
+
+.bookingAccept:hover svg{
+    transform: rotate(45deg);
+}
+
+.bookingReject{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+    cursor: pointer;
+}
+
+.bookingReject:hover{
+    transform: scale(1.09);
+    background-color: var(--line);
+    border-radius: 10px;
+}
+
+.bookingReject svg{
+    transform-origin: center;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+}
+
+.bookingReject:hover svg{
+    transform: rotate(45deg);
+}
+
+.cancelBooking{
+    padding: 2%;
+    border-radius: 10px;
+    background-color: var(--subcolor);
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+}
+
+.cancelBooking:hover{
+    background-color: var(--line);
+}
+
+.cancelBooking svg{
+    stroke: var(--foreground);
+    transform-origin: center;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
+}
+
+.cancelBooking:hover svg{
+    transform: rotate(45deg);
+}
