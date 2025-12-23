@@ -2,7 +2,6 @@
 import { usePathname, useSearchParams} from 'next/navigation';
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import Image from 'next/image';
 import "./styleNotification.css"
 
 export default function Page() {
