@@ -163,7 +163,7 @@ export default function Page() {
               </div>
               <ul>
                 {notifications.map((n) => ( 
-                  <>
+                  <div key={n._id}>
                   {
                     n.data.sellerId ? 
                     <div className="notificationPost" key={n._id}  onClick={()=>router.push(`/dashboard?id=${n.data.sellerId}`)} onMouseEnter={()=>markAsRead(n._id)}>
@@ -201,7 +201,7 @@ export default function Page() {
                       </div>
                     </div>
                   }
-                  </>
+                  </div>
                 ))}
               </ul>
             </div>
