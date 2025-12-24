@@ -40,12 +40,12 @@ export default function page() {
 
     let [seller, setSeller] = useState([])
     useEffect(() =>{
-    sellerApi().then((data) => {
-          setSeller(data.Seller)
-          console.log(data)
+        sellerApi().then((data) => {
+            setSeller(data.Seller)
         }).catch(e=>{
-          console.log(e)
+            console.log(e)
         })
+        
     }, [setSeller])
     
     const {themes, setThemes} = useTheme()

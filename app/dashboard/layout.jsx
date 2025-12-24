@@ -177,8 +177,8 @@ export default function layout({
 
 
   useEffect(() => {
-    if (!token) return;
-
+    if (!token);
+    let intervalId
     const fetchUnreadCount = async () => {
       try {
         const res = await fetch(
@@ -197,6 +197,12 @@ export default function layout({
     };
 
     fetchUnreadCount();
+
+    // Auto refresh every 10 seconds
+    intervalId = setInterval(fetchUnreadCount, 10000);
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
   }, [token]);
     
   return (
