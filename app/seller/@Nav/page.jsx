@@ -54,7 +54,9 @@ function page() {
 
 
   useEffect(() => {
-    if (!token) return;
+    if (!token);
+
+    let intervalId
 
     const fetchUnreadCount = async () => {
       try {
@@ -74,7 +76,14 @@ function page() {
     };
 
     fetchUnreadCount();
+
+    // Auto refresh every 10 seconds
+    intervalId = setInterval(fetchUnreadCount, 10000);
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
   }, [token]);
+
   return (
     <div className="navBar">
         <nav>
