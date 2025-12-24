@@ -194,11 +194,11 @@ export default function Page() {
                         {
                           n.title == "New Booking Request"  &&
                           <p>
-                            booking Id : <b>QP{n.data.bookingId.slice(0, 7)}</b> 
+                            booking Id : <b>QP{n.data.bookingId.slice(3, 9)}</b> 
                           </p> 
                           || n.title =="Booking Confirmed ✅" &&
                           <p>
-                            Your booking Id : <b>QP{n.data.bookingId.slice(0, 7)}</b> 
+                            Your booking Id : <b>QP{n.data.bookingId.slice(3, 9)}</b> 
                           </p>
                         }
                         <p className='notificationDate'>
