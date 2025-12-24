@@ -165,7 +165,7 @@ export default function Page() {
                 {notifications.map((n) => ( 
                   <div key={n._id}>
                   {
-                    n.data.sellerId ? 
+                    n.data.sellerId  ? 
                     <div className="notificationPost" key={n._id}  onClick={()=>router.push(`/dashboard?id=${n.data.sellerId}`)} onMouseEnter={()=>markAsRead(n._id)}>
                       <li >
                         <h3>{n.title}</h3>
@@ -182,8 +182,12 @@ export default function Page() {
                           <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>                      
                       </div>
-                    </div> : 
-                    <div className="notificationPost" key={n._id}  onClick={()=>router.push(`/dashboard?booking=${n.data.bookingId}`)} onMouseEnter={()=>markAsRead(n._id)}>
+                    </div> :
+                    <div className="notificationPost" key={n._id}  onClick={ 
+                      n.title === "New Booking Request" ?
+                      ()=>router.push(`/dashboard?booking=${n.data.bookingId}`) : 
+                      null
+                      } onMouseEnter={()=>markAsRead(n._id)}>
                       <li >
                         <h3>{n.title}</h3>
                         <p className='notificationBody' >{n.body}</p>
