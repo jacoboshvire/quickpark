@@ -126,8 +126,6 @@ nav{
     background-color: var(--line);
 }
 
-
-
 .notificaton .redColors{
     position: absolute;
     display: flex;
@@ -178,7 +176,7 @@ nav{
     margin-top: 5%;
     justify-content: space-between;
     margin-bottom: 20px;
-    justify-self: center;
+    /* justify-self: center; */
 }
 
 .minnav .sellerFilter{
@@ -208,11 +206,17 @@ nav{
     transition: .3s;
 }
 
+.minNavSearch{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
 .minnav .addOn{
     background-color: var(--foreground);
 }
-
-
 
 .minnav .filter svg{
     stroke: var(--foreground);
@@ -233,7 +237,7 @@ nav{
 .minsearch{
     width: 100%;
     stroke: var(--foreground);
-    justify-self: center;
+    /* justify-self: center; */
 }
 
 .minsearch .searchFrom{

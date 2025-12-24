@@ -170,6 +170,11 @@
     }
 }
 
+.read{
+    padding: 4% 4%;
+    background-color: var(--line);
+}
+
 
 .message .closeMessage{
     cursor: pointer;
