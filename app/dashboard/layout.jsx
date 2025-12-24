@@ -166,7 +166,7 @@ export default function layout({
         setToggleFilter(toggleFilter => !toggleFilter)
     }
 
-      let [unreadCount, setUnreadCount] = useState(0)
+  let [unreadCount, setUnreadCount] = useState(0)
   const token =
   typeof window !== "undefined"
     ? document.cookie

@@ -175,6 +175,10 @@
     background-color: var(--line);
 }
 
+.read .notificationDate{
+    color: var(--foreground);
+}
+
 
 .message .closeMessage{
     cursor: pointer;

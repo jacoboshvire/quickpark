@@ -108,6 +108,38 @@ export default function Page() {
       console.error("Mark as read failed", err);
     }
   }, []);
+
+    let [unreadCount, setUnreadCount] = useState(0)
+    useEffect(() => {
+    const token = getCookie("token") ;
+    let intervalId
+    
+    const fetchUnreadCount = async () => {
+      try {
+        const res = await fetch(
+          "https://quickpark-backend.vercel.app/api/notification/unread-count",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (!res.ok) return;
+        const data = await res.json();
+        setUnreadCount(data.count || 0);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchUnreadCount();
+
+    // Auto refresh every 10 seconds
+    intervalId = setInterval(fetchUnreadCount, 10000);
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
   if (loading) {
       <div className="loadingNotification">
         loading
@@ -150,17 +182,20 @@ export default function Page() {
             </div>
             <div className="mainNContainer">
               <h1>
-                Notifications
+                {notifications.length > 0 && notifications.length} Notifications
               </h1>
               {notifications.length === 0 && (
                 <p>No notifications yet.</p>
               )}
-
-              <div className="notificationLenght">
-                <p>
-                  🔔 <b>{notifications.length}</b> new update{notifications.length !== 1 && "s"} waiting for you
-                </p>
-              </div>
+              
+              {
+                unreadCount > 0 &&
+                <div className="notificationLenght">
+                  <p>
+                    🔔 <b>{unreadCount}</b> new update{unreadCount !== 1 && "s"} waiting for you
+                  </p>
+                </div>
+              }
               <ul>
                 {notifications.map((n) => ( 
                   <div key={n._id}>
