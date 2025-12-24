@@ -44,7 +44,7 @@ export default function page() {
         {
           seller.slice(0,3).map((test)=>{
             return(
-                <div key={test._id} className='divcat' onClick={() => router.push(`/dashboard?seller=${test.username}`)}>
+                <div key={test.id} className='divcat' onClick={() => router.push(`/dashboard?seller=${test.username}`)}>
                   { test.username ? (test.username.length > 11 ? test.username.slice(0,11) + "..." : test.username) : "No Name"}
                 </div>
             )

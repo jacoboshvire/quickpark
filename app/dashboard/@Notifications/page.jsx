@@ -190,7 +190,17 @@ export default function Page() {
                       } onMouseEnter={()=>markAsRead(n._id)}>
                       <li >
                         <h3>{n.title}</h3>
-                        <p className='notificationBody' >{n.body}</p>
+                        <p className='notificationBody' >{n.body} </p>
+                        {
+                          n.title == "New Booking Request"  &&
+                          <p>
+                            booking Id : <b>QP{n.data.bookingId.slice(0, 7)}</b> 
+                          </p> 
+                          || n.title =="Booking Confirmed ✅" &&
+                          <p>
+                            Your booking Id : <b>QP{n.data.bookingId.slice(0, 7)}</b> 
+                          </p>
+                        }
                         <p className='notificationDate'>
                           {new Date(n.createdAt).toLocaleString()}
                         </p>
