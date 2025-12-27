@@ -33,6 +33,7 @@ export default function popup() {
 
     const [post, setPost] = useState(null);
     const [error, setError] = useState(null);
+    const [errorB, setErrorB] = useState("");
     const [success, setSuccess] = useState("")
 
         //setting up geolocation
@@ -115,15 +116,15 @@ export default function popup() {
             const data = await res.json();
 
             if (!res.ok) {
-            setError(data.message);
+            setErrorB(data.message);
             return;
             }
 
             setSuccess("Booking request sent!");
             console.log("Booking:", data.booking);
-        } catch (err) {
-            console.error("Booking error:", err);
-            setError("Something went wrong");
+        } catch (e) {
+            console.error("Booking error:", e);
+            setErrorB("Something went wrong");
         }
     };
 
@@ -150,6 +151,19 @@ export default function popup() {
                     {success}
                 </p>
                 <div className="cancelBooking" onClick={()=>setSuccess("")}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                </div>
+            </div>
+        }
+        {
+            errorB && 
+             <div className="messageBooking">
+                <p className='errorColor'>
+                    {errorB}
+                </p>
+                <div className="cancelBooking" onClick={()=>setErrorB("")}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
