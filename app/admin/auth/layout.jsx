@@ -56,7 +56,7 @@ export default function Layoutlogin({
             </div>
             <div className="detiledWelcome">
               <p>
-                Welcome back! Let’s get you parked in no time
+               Please input your details below to login
               </p>
             </div>
           </div>
@@ -123,11 +123,6 @@ export default function Layoutlogin({
             )} */}
             <SubmitButton />
           </form>
-          <div className="createAcc">
-            <p>
-              you don’t have an account? click on <Link href={"/signup"}>Create account</Link>
-            </p>
-          </div>
         </div>
       </div>
       <div className="secondcontainer">
