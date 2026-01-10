@@ -245,3 +245,9 @@ button:hover svg{
 .userLength div p:nth-child(2){
     font-weight: 700;
 }
+
+@media (max-width:1300px) {
+    .adminPage{
+        display: none;
+    }
+}
