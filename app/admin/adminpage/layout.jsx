@@ -51,8 +51,13 @@ export default function SendNotificationLayout({
             <Dashboard/>
         </Suspense>
         <div className="container">
-            {sendnotification && sendnotification}
-            {seeuser && seeuser}
+            <Suspense >
+                {sendnotification && sendnotification}
+            </Suspense>
+            <Suspense >
+                {seeuser && seeuser}
+            </Suspense>
+            
         </div>
       </div>
     </div>
