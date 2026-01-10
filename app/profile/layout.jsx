@@ -42,7 +42,7 @@ export default function
     
     let userApi = async () => {
         const token = getCookie("token"); // read JWT manually
-        let res = await fetch("http://localhost:8080/api/user/me", {
+        let res = await fetch("https://quickpark-backend.vercel.app/api/user/me", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

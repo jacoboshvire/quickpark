@@ -1,47 +1,65 @@
 import { NextResponse } from "next/server";
-// import { usePathname } from "next/navigation";
 
-const protectedRoutes = ["/dashboard", "/profile", "/seller", ] ;
-const publicRoutes = ["/login", "/signup", "/"];
-const homeRoutes = ["/"];
+const protectedRoutes = ["/dashboard", "/profile", "/seller"];
+const adminRoutes = ["/admin/adminpage"];
+const publicRoutes = ["/login", "/signup", "/admin/auth"];
 
 export async function middleware(req) {
   const token = req.cookies.get("token")?.value;
-  const path = req.nextUrl.pathname;
+  const url = req.nextUrl.clone();
+  const path = url.pathname;
 
-  const isProtected = protectedRoutes.includes(path);
-  const isPublic = publicRoutes.includes(path);
-  const isHome = homeRoutes.includes(path);
-
-  let isValid = false;
   let user = null;
+  let isValid = false;
 
+  // 🔐 Validate token
   if (token) {
     try {
-      const check = await fetch("https://quickpark-backend.vercel.app/api/user/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      isValid = check.ok;
-      user = await check.json();
-    } catch (e) {
-      console.error("Error validating token:", e);
+      const res = await fetch(
+        "https://quickpark-backend.vercel.app/api/user/me",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (res.ok) {
+        user = await res.json();
+        isValid = true;
+      }
+    } catch {
       isValid = false;
     }
   }
-  if (isHome) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
 
-  if (isProtected && !isValid) {
+  /* ---------- PROTECTED ROUTES ---------- */
+  if (protectedRoutes.includes(path) && !isValid) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  if (isPublic && isValid) {
+  /* ---------- ADMIN ROUTES ---------- */
+  if (adminRoutes.includes(path)) {
+    // Not logged in → admin login
+    if (!isValid) {
+      return NextResponse.redirect(new URL("/admin/auth", req.url));
+    }
+
+    // Logged in but not admin → dashboard
+    if (user?.role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+
+
+    // Admin + query already exists → allow
+    return NextResponse.next();
+  }
+
+  /* ---------- PUBLIC ROUTES ---------- */
+  if (publicRoutes.includes(path) && isValid) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-    /* ---------- ADMIN ROUTE ---------- */
-  if (path.startsWith("/admin") && user?.role !== "Admin") {
+  /* ---------- HOME ---------- */
+  if (path === "/" && isValid) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
@@ -49,5 +67,13 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/profile", "/seller", "/login", "/signup", "/", "/admin/:path*"],
+  matcher: [
+    "/dashboard",
+    "/profile",
+    "/seller",
+    "/login",
+    "/signup",
+    "/admin/:path*",
+    "/",
+  ],
 };
