@@ -21,7 +21,7 @@ export async function login(prevState: any, formData: FormData) {
   const { email, password } = result.data;
 
   const res = await fetch(
-    "http://localhost:8080/api/user/login",
+    "https://quickpark-backend.vercel.app/api/user/login",
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
