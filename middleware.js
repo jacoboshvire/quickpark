@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 // import { usePathname } from "next/navigation";
 
-const protectedRoutes = ["/dashboard", "/profile", "/seller"];
+const protectedRoutes = ["/dashboard", "/profile", "/seller", ] ;
 const publicRoutes = ["/login", "/signup", "/"];
 const homeRoutes = ["/"];
 
@@ -14,6 +14,7 @@ export async function middleware(req) {
   const isHome = homeRoutes.includes(path);
 
   let isValid = false;
+  let user = null;
 
   if (token) {
     try {
@@ -21,6 +22,7 @@ export async function middleware(req) {
         headers: { Authorization: `Bearer ${token}` },
       });
       isValid = check.ok;
+      user = await check.json();
     } catch (e) {
       console.error("Error validating token:", e);
       isValid = false;
@@ -38,9 +40,14 @@ export async function middleware(req) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
+    /* ---------- ADMIN ROUTE ---------- */
+  if (path.startsWith("/admin") && user?.role !== "Admin") {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard", "/profile", "/seller", "/login", "/signup", "/"],
+  matcher: ["/dashboard", "/profile", "/seller", "/login", "/signup", "/", "/admin/:path*"],
 };

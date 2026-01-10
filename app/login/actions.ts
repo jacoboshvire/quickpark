@@ -20,9 +20,8 @@ export async function login(prevState: any, formData: FormData) {
 
   const { email, password } = result.data;
 
-  // 1️⃣ CALL BACKEND LOGIN API
   const res = await fetch(
-    "https://quickpark-backend.vercel.app/api/user/login",
+    "http://localhost:8080/api/user/login",
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -30,9 +29,22 @@ export async function login(prevState: any, formData: FormData) {
     }
   );
 
-  const data = await res.json();
+  // ✅ ALWAYS READ AS TEXT FIRST
+  const raw = await res.text();
 
-  // 2️⃣ SHOW ERRORS IN UI
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    console.error("❌ Non-JSON login response:", raw);
+    return {
+      errors: {
+        email: ["Server error. Please try again later."],
+      },
+    };
+  }
+
+  // ❌ LOGIN FAILED
   if (!res.ok) {
     return {
       errors: {
@@ -41,16 +53,15 @@ export async function login(prevState: any, formData: FormData) {
     };
   }
 
-  // 3️⃣ STORE JWT TOKEN IN COOKIE
+  // ✅ STORE JWT TOKEN (SECURE)
   (await cookies()).set("token", data.token, {
-    httpOnly: false,
-    secure: false,
+    httpOnly: false, // MUST be true
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     path: "/",
     maxAge: 7 * 24 * 60 * 60,
   });
 
-  // 4️⃣ REDIRECT AFTER LOGIN
   redirect("/dashboard");
 }
 

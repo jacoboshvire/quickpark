@@ -32,7 +32,7 @@ export async function signup(prevState: any, formData: FormData) {
 
   try {
     const response = await fetch(
-      "https://quickpark-backend.vercel.app/api/user",
+      "http://localhost:8080/api/user",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

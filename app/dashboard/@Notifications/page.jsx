@@ -62,7 +62,7 @@ export default function Page() {
   }, []);
 
 
-    // ✅ Delete notification
+    // Delete notification
   const deleteNotification = async (id) => {
     try {
       const token = getCookie("token")

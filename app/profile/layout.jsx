@@ -42,8 +42,7 @@ export default function
     
     let userApi = async () => {
         const token = getCookie("token"); // read JWT manually
-    
-        let res = await fetch("https://quickpark-backend.vercel.app/api/user/me", {
+        let res = await fetch("http://localhost:8080/api/user/me", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -106,11 +105,15 @@ export default function
     }
 
     try {
+        const token = getCookie("token");
         const res = await fetch(
         `https://quickpark-backend.vercel.app/api/user/${userData._id}`,
         {
             method: "PUT",
-            body: formData, // ✅ FILE IS SENT HERE
+            body: formData, // FILE IS SENT HERE
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
         }
         );
 
