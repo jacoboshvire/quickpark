@@ -3,7 +3,7 @@ import "./adminpage.css";
 import Image from 'next/image'
 import Link from 'next/link';
 import userIcon from "../../Image/nav.png";
-import  NotificationIcon from '../../image/unsplash_zjptFYOvEm4.png';
+import  NotificationIcon from '../../Image/unsplash_zjptFYOvEm4.png';
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 export default function dashboard() {
