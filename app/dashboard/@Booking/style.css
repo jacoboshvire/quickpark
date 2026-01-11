@@ -129,6 +129,12 @@
     will-change: transform, opacity;
     animation: messageSlideDown 420ms cubic-bezier(0.075, 0.82, 0.165, 1) 50ms forwards;
 }
+
+.bookingPageBtu{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
 @keyframes messageSlideDown {
     from {
         transform: translateY(-20px);

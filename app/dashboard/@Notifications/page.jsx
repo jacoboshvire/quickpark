@@ -201,7 +201,7 @@ export default function Page() {
                   <div key={n._id}>
                   { n.data &&
                     (n.data.sellerId &&
-                    <div className={n.read === true ? "notificationPost" : "notificationPost read"} key={n._id}  onClick={()=>router.push(`/dashboard?id=${n.data.sellerId}`)} onMouseEnter={()=>markAsRead(n._id)}>
+                    <div className={n.read === true ? "notificationPost" : "notificationPost read"} key={n.id}  onClick={()=>router.push(`/dashboard?id=${n.data.sellerId}`)} onMouseEnter={()=>markAsRead(n._id)}>
                       <li >
                         <h3>{n.title}</h3>
                         <p className='notificationBody' >{n.body}</p>
@@ -218,8 +218,8 @@ export default function Page() {
                         </svg>                      
                       </div>
                     </div> )}
-                    <div className={n.read === true ? "notificationPost" : "notificationPost read"} key={n._id}  onClick={ 
-                      n.title === "New Booking Request" ?
+                    <div className={n.read === true ? "notificationPost" : "notificationPost read"} key={n.id}  onClick={ 
+                      n.title === "New Booking Request" || n.title === "Booking Confirmed ✅" ?
                       ()=>router.push(`/dashboard?booking=${n.data.bookingId}`) : 
                       null
                       } onMouseEnter={()=>markAsRead(n._id)}>
