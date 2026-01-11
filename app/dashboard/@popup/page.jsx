@@ -231,9 +231,13 @@ export default function popup() {
                                 <div className="contactBtn">
                                     <a href={`tel:${post.phonenumber}`}>
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M14.353 2.5C18.054 2.911 20.978 5.831 21.393 9.532"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                        <path d="M14.353 6.043C16.124 6.387 17.508 7.772 17.853 9.543" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                        <path fillRule="evenodd" clipRule="evenodd" d="M11.0315 12.4724C15.0205 16.4604 15.9254 11.8467 18.4653 14.3848C20.9138 16.8328 22.3222 17.3232 19.2188 20.4247C18.8302 20.737 16.3613 24.4943 7.68447 15.8197C-0.993406 7.144 2.76157 4.67244 3.07394 4.28395C6.18377 1.17385 6.66682 2.58938 9.11539 5.03733C11.6541 7.5765 7.04254 8.48441 11.0315 12.4724Z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <g id="Iconly/Curved/Light/Calling">
+                                        <g id="Calling">
+                                        <path id="Stroke 1" d="M14.3525 2.75011C18.0535 3.16111 20.9775 6.08111 21.3935 9.78211"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path id="Stroke 3" d="M14.3525 6.29311C16.1235 6.63711 17.5075 8.02211 17.8525 9.79311"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path id="Stroke 5" fillRule="evenodd" clipRule="evenodd" d="M7.70049 16.299C0.802504 9.40022 1.78338 6.24115 2.51055 5.22316C2.60396 5.05862 4.90647 1.61188 7.37459 3.63407C13.5008 8.67945 5.7451 7.96611 10.8894 13.1113C16.0348 18.2554 15.3203 10.5 20.3659 16.6249C22.3882 19.094 18.9413 21.3964 18.7778 21.4888C17.7598 22.217 14.5995 23.1978 7.70049 16.299Z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </g>
+                                        </g>
                                         </svg>
                                     </a>
                                 </div>
@@ -252,21 +256,17 @@ export default function popup() {
                                 </Link>
                                 <div onClick={handleCopy} className="shareLink">
                                     {copied ? 
-                                    // <div className="copyicon">
-                                    <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="10" cy="10" r="9"  strokeWidth="1.5"/>
-                                    <path d="M6 10L9 13L14 7"  strokeWidth="1.5"/>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5 14L9 17L18 6" strokeidth="2"/>
                                     </svg>
-
-                                    // </div> 
-                                    : 
-                                    // <div className="sharelink">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15 3H9C6.79086 3 5 4.79086 5 7V15" strokeWidth="1.5"/>
-                                            <path d="M13.5 7C14.696 7 15.5096 7.00158 16.1279 7.07129C16.726 7.13873 17.0169 7.25897 17.2178 7.41309C17.3564 7.51946 17.4805 7.64361 17.5869 7.78223C17.741 7.98307 17.8613 8.274 17.9287 8.87207C17.9984 9.49043 18 10.304 18 11.5V15.5C18 16.696 17.9984 17.5096 17.9287 18.1279C17.8613 18.726 17.741 19.0169 17.5869 19.2178C17.4805 19.3564 17.3564 19.4805 17.2178 19.5869C17.0169 19.741 16.726 19.8613 16.1279 19.9287C15.5096 19.9984 14.696 20 13.5 20C12.304 20 11.4904 19.9984 10.8721 19.9287C10.274 19.8613 9.98307 19.741 9.78223 19.5869C9.64361 19.4805 9.51946 19.3564 9.41309 19.2178C9.25897 19.0169 9.13873 18.726 9.07129 18.1279C9.00158 17.5096 9 16.696 9 15.5V11.5C9 10.304 9.00158 9.49043 9.07129 8.87207C9.13873 8.274 9.25897 7.98307 9.41309 7.78223C9.51946 7.6436 9.6436 7.51946 9.78223 7.41309C9.98307 7.25897 10.274 7.13873 10.8721 7.07129C11.4904 7.00158 12.304 7 13.5 7Z" strokeWidth="1.5"/>
-                                        </svg>
-                                    // </div>
-                                    }
+                                        : 
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14 7C14 6.06812 14 5.60218 13.8478 5.23463C13.6448 4.74458 13.2554 4.35523 
+                                        12.7654 4.15224C12.3978 4 11.9319 4 11 4H8C6.11438 4 5.17157 4 4.58579 4.58579C4 5.17157 
+                                        4 6.11438 4 8V11C4 11.9319 4 12.3978 4.15224 12.7654C4.35523 13.2554 4.74458 13.6448 5.23463 
+                                        13.8478C5.60218 14 6.06812 14 7 14" strokeWidth="1.5"/>
+                                        <rect x="10" y="10" width="10" height="10" rx="2" strokeWidth="1.5"/>
+                                    </svg>}
                                 </div>
                             </div>
                         </div>

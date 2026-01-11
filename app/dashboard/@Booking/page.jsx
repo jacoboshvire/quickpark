@@ -75,7 +75,7 @@ export default function page() {
     const [copied, setCopied] = useState(false);
 
     const handleCopy = async () => {
-        await navigator.clipboard.writeText(`QP${booking.slice(3, 9)}`);
+        await navigator.clipboard.writeText(`Your bookingId: QP${booking.slice(3, 9)}`);
         setCopied(true);
 
         // Hide the message after 2 seconds
@@ -146,8 +146,9 @@ export default function page() {
                         <path d="M18 6L6 18M6 6L18 18" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
-                { originalNode.status !== "CONFIRMED" &&
                 <div className="bookingContainer">
+                { originalNode.status === "PENDING" &&
+                    <>
                     <div className="bookingMessage">
                         <h2>
                             Accept Booking
@@ -179,32 +180,28 @@ export default function page() {
                             </svg>
                         </div>
                     </div>
-                </div>
-                }
-                {
-                    originalNode.status=== "CONFIRMED" &&
-                    <div className="bookingContainer">
-                        <div className="bookingPageBtu">
-                            <p>
-                                Booking Accepted <b>QP{booking.slice(3, 9)}</b>
-                            </p>
-                            <div onClick={handleCopy} className="shareLink">
-                                {copied ? 
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M5 14L9 17L18 6" strokeWidth="2"/>
-                                    </svg>
+                </> }
+                { originalNode.status=== "CONFIRMED" &&
+                    <div className="bookingPageBtu">
+                        <p>
+                            Booking Accepted <b>QP{booking.slice(3, 9)}</b>
+                        </p>
+                        <div onClick={handleCopy} className="shareLink">
+                            {copied ? 
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 14L9 17L18 6" strokeidth="2"/>
+                                </svg>
                                     : 
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M14 7C14 6.06812 14 5.60218 13.8478 5.23463C13.6448 4.74458 13.2554 4.35523 
-                                    12.7654 4.15224C12.3978 4 11.9319 4 11 4H8C6.11438 4 5.17157 4 4.58579 4.58579C4 5.17157 
-                                    4 6.11438 4 8V11C4 11.9319 4 12.3978 4.15224 12.7654C4.35523 13.2554 4.74458 13.6448 5.23463 
-                                    13.8478C5.60218 14 6.06812 14 7 14" strokeWidth="1.5"/>
-                                    <rect x="10" y="10" width="10" height="10" rx="2" strokeWidth="1.5"/>
-                                    </svg>}
-                            </div>                       
-                        </div>
-                    </div>  
-                }
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 7C14 6.06812 14 5.60218 13.8478 5.23463C13.6448 4.74458 13.2554 4.35523 
+                                12.7654 4.15224C12.3978 4 11.9319 4 11 4H8C6.11438 4 5.17157 4 4.58579 4.58579C4 5.17157 
+                                4 6.11438 4 8V11C4 11.9319 4 12.3978 4.15224 12.7654C4.35523 13.2554 4.74458 13.6448 5.23463 
+                                13.8478C5.60218 14 6.06812 14 7 14" strokeWidth="1.5"/>
+                                <rect x="10" y="10" width="10" height="10" rx="2" strokeWidth="1.5"/>
+                                </svg>}
+                        </div>                       
+                    </div> }
+                </div>
             </div>
         </div>
         ) : null
