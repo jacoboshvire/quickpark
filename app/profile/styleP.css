@@ -295,6 +295,10 @@ button{
     background-color: var(--subcolor);
 }
 
+.insideRole{
+    cursor: pointer;
+}
+
 .insideMoreInformation .personalInfo{
     width: 100%;
 }

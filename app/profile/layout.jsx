@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import "./styleP.css"
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 /* ---------------- ZOD SCHEMA ---------------- */
 const profileSchema = z.object({
@@ -21,6 +22,7 @@ export default function
     let [typebtn, setTypebtn] = useState(true);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
+    const router = useRouter()
 
     const toggleTypeBtn = () =>{
         setTypebtn((typebtn) => (!typebtn))
@@ -306,7 +308,7 @@ export default function
                             />
                         </div>
                         <div className="role">
-                            <div className="insideRole">
+                            <div className="insideRole" onClick={() => router.push('/admin/adminpage')}>
                                 <p>
                                     {userData.role}
                                 </p> 
@@ -366,7 +368,6 @@ export default function
                                 </div>
                             </div>
                             <div className="datejoined">
-                                
                                 <div className="insideDate">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M8 7V3M16 7V3M3 11H21M5 21H19C20.1046 21 21 20.1046 21 19V8C21 6.89543 20.1046 6 19 6H5C3.89543 6 3 6.89543 3 8V19C3 20.1046 3.89543 21 5 21Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
