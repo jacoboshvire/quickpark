@@ -30,7 +30,8 @@
 
 .adminnav .active{
     background-color: var(--subcolor);
-    cursor: pointer;
+    cursor: not-allowed;
+    pointer-events: none;
     border-radius: 10px;
     padding: 20px;
 }
