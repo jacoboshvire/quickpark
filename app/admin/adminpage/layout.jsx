@@ -47,10 +47,11 @@ export default function SendNotificationLayout({
         <Suspense >
             <Nav />
         </Suspense>
-        <Suspense >
+       
+        <div className="container">
+           <Suspense >
             <Dashboard/>
         </Suspense>
-        <div className="container">
             <Suspense >
                 {sendnotification && sendnotification}
             </Suspense>

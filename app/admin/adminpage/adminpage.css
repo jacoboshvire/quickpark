@@ -208,7 +208,6 @@ button:hover svg{
     padding: 20px;
     border-radius: 10px;
     width: 45%;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .userImg{
@@ -244,6 +243,68 @@ button:hover svg{
 
 .userLength div p:nth-child(2){
     font-weight: 700;
+}
+
+.mainAdminDashboards{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6%;
+}
+
+.mainAdminDashboards a{
+    width: 48%;
+    background-color: var(--subcolor);
+    padding: 30px;
+    border-radius: 10px;
+    height: 70vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.mainAdminDashboards .backToAdminPage .title{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.mainAdminDashboards .backToAdminPage .title svg{
+    stroke: var(--foreground);
+}
+
+.mainAdminDashboards .backToAdminPage .description{
+    position: absolute;
+    bottom: -320px;
+    right: -200px;
+    width: 70vh;
+    height: auto;
+}
+
+.mainAdminDashboards .backToAdminPage .description img{
+    width: 100%;
+    height: auto;
+}
+
+.mainAdminDashboards a:hover{
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    background-color: var(--foreground);
+    color: var(--background);
+}
+
+.mainAdminDashboards a:hover .backToAdminPage .title svg{
+    stroke: var(--background);
+}
+
+.mainAdminDashboards a:hover .backToAdminPage .description img{
+    transform: rotate(-15deg);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
 }
 
 @media (max-width:1300px) {

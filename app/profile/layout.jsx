@@ -1,5 +1,5 @@
 "use client"
-import {useState, useTransition, useEffect, useActionState} from 'react'
+import {useState, useTransition, useEffect, useActionState, use} from 'react'
 import { useFormStatus } from "react-dom";
 import { logout } from "./../login/actions";
 import Link from 'next/link'
@@ -169,6 +169,7 @@ export default function
                 </p>
             </div>
             }
+            {userData.role === "USER" &&
             <div className="mainselectionProfile">
                 <form onSubmit={handleSubmit} >
 
@@ -292,7 +293,95 @@ export default function
                     </div>
                 </form>
 
+            </div>}
+            {userData.role === "ADMIN" &&
+            <div className="mainselectionProfile">
+                <div className="adminMain">
+                    <div className="imgAndStatus">
+                        <div className="ImgAdmin">
+                            <Image src={userData.avatar ? userData.avatar : "https://res.cloudinary.com/dr0yyqvj6/image/upload/v1765055574/avatar_l6mc3s.png"}
+                                alt={userData.username ? userData.username : "profile"}
+                                height={"150"}
+                                width={"150"}
+                            />
+                        </div>
+                        <div className="role">
+                            <div className="insideRole">
+                                <p>
+                                    {userData.role}
+                                </p> 
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="moreInformation">
+                        <div className="insideMoreInformation">
+                            <div className="personnalDetain">
+                                <div className="info">
+                                    <p>username</p>
+                                    <div className="insideUser">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15.8571 12C15.8571 14.1302 14.1302 15.8571 12 15.8571C9.86976 15.8571 8.14286 14.1302 8.14286 12C8.14286 9.86972 9.86976 8.14282 12 8.14282C14.1302 8.14282 15.8571 9.86972 15.8571 12ZM15.8571 12L15.8571 13.2857C15.8571 14.7059 17.0084 15.8571 18.4286 15.8571C19.3408 15.8571 20.1422 15.3821 20.5986 14.6658C20.8528 14.2671 21 13.7936 21 13.2857V12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C13.9122 21 15.6851 20.4037 17.1429 19.3868" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                        <p>
+                                            {userData.username}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="info">
+                                    <p>fullname</p>
+                                    <div className="insideFullname">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16 15H8C5.79086 15 4 16.7909 4 19V21H20V19C20 16.7909 18.2091 15 16 15Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                            <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                        <p>
+                                            {userData.fullname}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="info">
+                                    <p>email</p>
+                                    <div className="insideEmailAdmin">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="emailsvg">
+                                            <path d="M3.29289 5.29289C3.47386 5.11193 3.72386 5 4 5H20C20.2761 5 20.5261 5.11193 20.7071 
+                                            5.29289M3.29289 5.29289C3.11193 5.47386 3 5.72386 3 6V18C3 18.5523 3.44772 19 4 19H20C20.5523 19 
+                                            21 18.5523 21 18V6C21 5.72386 20.8881 5.47386 20.7071 5.29289M3.29289 5.29289L10.5858 12.5857C11.3668 13.3668 12.6332 13.3668 13.4142 12.5857L20.7071 5.29289" 
+                                            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                        <p>
+                                            {userData.email}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="logoutBtn">
+                                    <div className='btnlog' onClick={() => logout()}>
+                                        <p>
+                                            {pending ? "Logging out..." : "Logout"}
+                                        </p> 
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15 4H18C19.1046 4 20 4.89543 20 6L20 18C20 19.1046 19.1046 20 18 20H15M11 16L15 12M15 12L11 8M15 12H3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="datejoined">
+                                
+                                <div className="insideDate">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 7V3M16 7V3M3 11H21M5 21H19C20.1046 21 21 20.1046 21 19V8C21 6.89543 20.1046 6 19 6H5C3.89543 6 3 6.89543 3 8V19C3 20.1046 3.89543 21 5 21Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                    <p>Date Joined</p>
+                                </div>
+                                 <p>
+                                    {new Date(userData.createdAt).toLocaleDateString()}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            }
         
         </div>
     </div>

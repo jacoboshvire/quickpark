@@ -23,7 +23,7 @@ export default function SendNotification() {
   const router = useRouter();
 
   searchParams.get("sendnotification");
-    const isActive = (path) => pathname === path;
+    
 
 
   const sendNotification = async () => {

@@ -232,6 +232,117 @@ button{
     100% { transform: rotate(360deg); }
 }
 
+.adminMain{
+    display: flex;
+    width: 70%;
+    gap: 50px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.adminMain svg{
+    stroke: var(--foreground);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.adminMain .logoutBtn svg{  
+    stroke: #EA4335;
+}
+
+.imgAndStatus{
+    width: 18%;
+}
+
+.imgAndStatus .ImgAdmin{
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.imgAndStatus .ImgAdmin img{
+    width: 100%;
+    height: auto;
+}
+
+.imgAndStatus .role{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 15px;
+    text-transform: capitalize;
+    background-color: var(--subcolor);
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.moreInformation{
+    width: 100%;
+    border-left: 1px solid var(--line);
+    padding-left: 30px;
+}
+
+.insideMoreInformation{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: var(--subcolor);
+}
+
+.insideMoreInformation .personalInfo{
+    width: 100%;
+}
+
+.insideMoreInformation .info{
+    margin-bottom: 40px;
+}
+
+.insideMoreInformation .info p{
+    font-size: 16px;
+}
+
+.insideMoreInformation .info p:nth-child(1){
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-bottom: 10px;
+}
+
+.insideMoreInformation .info div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.insideMoreInformation .info div p{
+    font-size: 17px;
+}
+
+.insideMoreInformation .info div svg{
+    width: 24px;
+    height: 24px;
+}
+
+.datejoined {
+    display: flex;
+    gap: 30px;
+    background-color: var(--line);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.datejoined .insideDate{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
 @media (max-width: 1300px) {
     .mainProfile{
         max-width: 900px;
