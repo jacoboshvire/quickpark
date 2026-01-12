@@ -12,6 +12,11 @@ export async function middleware(req) {
   let user = null;
   let isValid = false;
 
+  // 🔁 ALWAYS redirect "/" → "/login"
+  if (path === "/") {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
   // 🔐 Validate token
   if (token) {
     try {
@@ -31,35 +36,26 @@ export async function middleware(req) {
     }
   }
 
+  /* ---------- ADMIN ROUTES ---------- */
+  if (adminRoutes.includes(path)) {
+    if (!isValid) {
+      return NextResponse.redirect(new URL("/admin/auth", req.url));
+    }
+
+    if (user?.role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+
+    return NextResponse.next();
+  }
+
   /* ---------- PROTECTED ROUTES ---------- */
   if (protectedRoutes.includes(path) && !isValid) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  /* ---------- ADMIN ROUTES ---------- */
-  if (adminRoutes.includes(path)) {
-    // Not logged in → admin login
-    if (!isValid) {
-      return NextResponse.redirect(new URL("/admin/auth", req.url));
-    }
-
-    // Logged in but not admin → dashboard
-    if (user?.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
-    }
-
-
-    // Admin + query already exists → allow
-    return NextResponse.next();
-  }
-
   /* ---------- PUBLIC ROUTES ---------- */
   if (publicRoutes.includes(path) && isValid) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
-
-  /* ---------- HOME ---------- */
-  if (path === "/" && isValid) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
@@ -68,12 +64,12 @@ export async function middleware(req) {
 
 export const config = {
   matcher: [
+    "/",
     "/dashboard",
     "/profile",
     "/seller",
     "/login",
     "/signup",
     "/admin/:path*",
-    "/",
   ],
 };
