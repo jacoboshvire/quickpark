@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.string().email().trim(),
-  password: z.string().min(8).trim(),
+  password: z.string().min(6).trim(),
 });
 
 export async function login(prevState: any, formData: FormData) {
@@ -36,7 +36,7 @@ export async function login(prevState: any, formData: FormData) {
   try {
     data = JSON.parse(raw);
   } catch {
-    console.error("❌ Non-JSON login response:", raw);
+    console.error(" Non-JSON login response:", raw);
     return {
       errors: {
         email: ["Server error. Please try again later."],
